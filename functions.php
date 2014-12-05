@@ -46,7 +46,7 @@ function oomperium_setup() {
 	 *							'admin-preview-callback' => '',);
 	 */
 	$headerargs = array(
-		'default-image' => get_template_directory_uri() . '/images/oomp_logo.svgz',
+		'default-image' => get_template_directory_uri() . '/images/oomp-logo.svg',
 		'flex-width'	=> true,
 		'width'			=> 452,
 		'flex-height'	=> true,
