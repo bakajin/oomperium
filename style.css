@@ -141,7 +141,7 @@ a img {
 }
 img.header-logo {
 	background-image : url('images/oomp_logo-bg.svg');
-	background-repeat : none;
+	background-repeat : no-repeat;
 }
 
 /*--------------------------------------------------------------
@@ -437,8 +437,13 @@ a:active {
 .main-navigation {
 	clear: both;
 	display: block;
-	float: left;
-	width: 100%;
+	float: right;
+	width: 60%;
+	height : 10em;
+	background-color: #edf0f5;
+	margin-right: 5%;
+	border-top: solid 1px #d47878;
+	border-bottom: solid 1px #d47878;
 }
 
 .main-navigation ul {
@@ -459,15 +464,15 @@ a:active {
 
 .main-navigation ul ul {
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-	float: left;
+	/*float: left;*/
 	position: absolute;
 	top: 1.5em;
-	left: -999em;
+	/*left: -999em;*/
 	z-index: 99999;
 }
 
 .main-navigation ul ul ul {
-	left: -999em;
+	/*left: -999em;*/
 	top: 0;
 }
 
