@@ -139,6 +139,10 @@ a:active {
 a img {
 	border: 0;
 }
+img.header-logo {
+	background-image : url('images/oomp_logo-bg.svg');
+	background-repeat : none;
+}
 
 /*--------------------------------------------------------------
 2.0 Typography

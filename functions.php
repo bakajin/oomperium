@@ -48,9 +48,9 @@ function oomperium_setup() {
 	$headerargs = array(
 		'default-image' => get_template_directory_uri() . '/images/oomp-logo.svg',
 		'flex-width'	=> true,
-		'width'			=> 452,
+		'width'			=> 33,
 		'flex-height'	=> true,
-		'height'			=> 135,
+		'height'		=> 33,
 
 		);
 	add_theme_support( 'custom-header', $headerargs );
