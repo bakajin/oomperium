@@ -29,6 +29,31 @@ function oomperium_setup() {
 	 * to change 'oomperium' to the name of your theme in all the template files
 	 */
 	load_theme_textdomain( 'oomperium', get_template_directory() . '/languages' );
+	/*
+	 * Add a custom header image 
+	 * OOMP Edit
+	 * args : $defaults = array('default-image'          => '',
+	 *							'width'                  => 0,
+	 *							'height'                 => 0,
+	 *							'flex-height'            => false,
+	 *							'flex-width'             => false,
+	 *							'uploads'                => true,
+	 *							'random-default'         => false,
+	 *							'header-text'            => true,
+	 *							'default-text-color'     => '',
+	 *							'wp-head-callback'       => '',
+	 *							'admin-head-callback'    => '',
+	 *							'admin-preview-callback' => '',);
+	 */
+	$headerargs = array(
+		'default-image' => get_template_directory_uri() . '/images/oomp_logo.svgz',
+		'flex-width'	=> true,
+		'width'			=> 452,
+		'flex-height'	=> true,
+		'height'			=> 135,
+
+		);
+	add_theme_support( 'custom-header', $headerargs );
 
 	// Add default posts and comments RSS feed links to head.
 	add_theme_support( 'automatic-feed-links' );
