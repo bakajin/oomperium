@@ -442,8 +442,8 @@ a:active {
 	height : 10em;
 	background-color: #edf0f5;
 	margin-right: 5%;
-	border-top: solid 1px #d47878;
-	border-bottom: solid 1px #d47878;
+	border-top: solid 0.25px #d47878;
+	border-bottom: solid 0.25px #d47878;
 }
 
 .main-navigation ul {
