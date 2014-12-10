@@ -438,12 +438,14 @@ a:active {
 	clear: both;
 	display: block;
 	float: right;
+
+	position : relative;
 	width: 60%;
 	height : 10em;
 	background-color: #edf0f5;
-	margin-right: 5%;
+	margin : -26% 4%;
 	background-image: url('images/oomp-button-bg.svg');
-	background-repeat: no-repeat;
+	background-repeat: repeat-x;
 }
 
 .main-navigation ul {
@@ -458,21 +460,25 @@ a:active {
 }
 
 .main-navigation a {
+	position: relative;
+	top : -1em;
 	display: block;
 	text-transform: uppercase;
 	font-size: 1.4em;
+	line-height : 2.5em;
 	color: #9f9898;
 	text-decoration: none;
-	padding-left : 166px;
+	padding-left : 60pt;
 	background-image: url('images/oomp-button.svg');
 	background-repeat: no-repeat;
-	background-size: 166px 166px;
+	background-position: -48pt -10pt;
+	background-size: 160pt 160pt;
 }
 .main-navigation a:hover {
-	background-position: 0px 166px;
+	background-position: -48pt -63pt;
 }
 .main-navigation a:active {
-	background-size: 0px 332px;
+	background-position: -48pt -117pt;
 }
 
 .main-navigation ul ul {
