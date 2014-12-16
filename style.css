@@ -451,12 +451,13 @@ a:active {
 .main-navigation ul {
 	list-style: none;
 	margin: 0;
-	padding-left: 0;
+	padding-left: 3%;
 }
 
 .main-navigation li {
 	float: left;
 	position: relative;
+	margin-right : 13%;
 }
 
 .main-navigation a {
@@ -482,12 +483,12 @@ a:active {
 }
 
 .main-navigation ul ul {
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-	/*float: left;*/
-	position: absolute;
+	/*box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+	float: left;
 	top: 1.5em;
-	/*left: -999em;*/
-	z-index: 99999;
+	left: -999em;
+	z-index: 99999;*/
+	position: absolute;
 }
 
 .main-navigation ul ul ul {
@@ -525,6 +526,15 @@ a:active {
 .main-navigation .current_page_ancestor > a {
 }
 
+.sub-menu {
+	position: relative;
+	background-image: none;
+}
+.sub-menu a {
+	font-size: 1.33rem;
+	color: #d47878;
+	background-image: none;
+}
 /* Small menu */
 .menu-toggle {
 	display: none;
