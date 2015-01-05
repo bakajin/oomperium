@@ -11,6 +11,21 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
+		<ul class="footer-social">
+			<li>facebook</li>
+			<li>twitter</li>
+			<li>linkedin</li>
+			<li>skype</li>
+			<li>pinterest</li>
+			<li>vimeo</li>
+		</ul>
+		<ul class="footer-data">
+			<li><a href="#">&copy; 2015</a></li>
+			<li><a href="#">Olivier Oskamp Media Productions</a></li>
+			<li><a href="#">Recht Boomssloot 33B</a></li>
+			<li><a href="#">1011CS Amsterdam</a></li>
+			<li><a href="#">+316 29407864</a></li>
+		</ul>
 		<div class="site-info">
 			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'oomperium' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'oomperium' ), 'WordPress' ); ?></a>
 			<span class="sep"> | </span>

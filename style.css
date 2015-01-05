@@ -99,6 +99,12 @@ section {
 	display: block;
 }
 
+article {
+	float : left;
+	width : 30%;
+	margin : 0 1%!important;
+}
+
 ol,
 ul {
 	list-style: none;
@@ -144,6 +150,34 @@ img.header-logo {
 	background-repeat : no-repeat;
 }
 
+footer {
+
+}
+
+.site-footer {
+	background-color : #faeeee;
+
+}
+
+.site-footer ul {
+	display : inline;
+	list-style-type: none;
+}
+
+.site-footer li {
+	display : inline;
+	list-style-type: none;
+}
+
+.footer-social {
+	border-top: solid 5px #e6dcdc;
+
+}
+
+.footer-data li, .footer-data a, .footer-data a:visited {
+	color : #4ca984;
+	text-decoration : none;
+}
 /*--------------------------------------------------------------
 2.0 Typography
 --------------------------------------------------------------*/
