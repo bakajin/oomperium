@@ -155,6 +155,11 @@ footer {
 }
 
 .site-footer {
+	background-color : #ffffff;
+
+}
+
+.site-footer div {
 	background-color : #faeeee;
 
 }
@@ -169,11 +174,43 @@ footer {
 	list-style-type: none;
 }
 
-.footer-social {
+#menu-social {
+	position: relative;
+	top : -0.4em;
 	border-top: solid 5px #e6dcdc;
+	display: block!important;
+	width : 100%;
+	margin : 0 auto;
+	text-align: center;
 
 }
+#menu-social li{
+	margin : 0 5%;
+}
 
+#menu-social li a{
+	width : 5%;
+}
+#menu-social li a[title="facebook"]{
+	content: url('images/social-facebook.svg');
+}
+
+#menu-social li a[title="twitter"]{
+	content: url('images/social-twitter.svg');
+
+}
+#menu-social li a[title="skype"]{
+	content: url('images/social-skype.svg');
+
+}
+#menu-social li a[title="linkedin"]{
+	content: url('images/social-linkedin.svg');
+
+}
+#menu-social li a[title="vimeo"]{
+	content: url('images/social-vimeo.svg');
+
+}
 .footer-data li, .footer-data a, .footer-data a:visited {
 	color : #4ca984;
 	text-decoration : none;
@@ -744,6 +781,17 @@ a:active {
 	margin: 0 0 1.5em;
 }
 
+.poly-element{
+  /* four vertices (looks like triangle corner) */
+  shape-outside: polygon(0 0, 100% 0, 100% 0%, 0 100%);
+  transition: shape-outside 1s;
+  background-color: #000;
+}
+
+.poly-element:hover{
+  /* four vertices, but second and third overlap (looks like line) */
+  shape-outside: polygon(0 0, 100% 0%, 100% 0%, 0 0%);
+}
 /*--------------------------------------------------------------
 10.2 Asides
 --------------------------------------------------------------*/

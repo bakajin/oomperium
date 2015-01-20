@@ -11,14 +11,8 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
-		<ul class="footer-social">
-			<li>facebook</li>
-			<li>twitter</li>
-			<li>linkedin</li>
-			<li>skype</li>
-			<li>pinterest</li>
-			<li>vimeo</li>
-		</ul>
+	<?php wp_nav_menu( array('menu' => 'social' )); ?>
+		
 		<ul class="footer-data">
 			<li><a href="#">&copy; 2015</a></li>
 			<li><a href="#">Olivier Oskamp Media Productions</a></li>
