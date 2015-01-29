@@ -755,13 +755,17 @@ a:active {
 .rW { float: right; clear: right; height: 20px; }
 
 /* clip images posts */
-.entry-post img, .entry-post .video {
+.entry-content img, .entry-content iframe {
 	/*Chrome,Safari*/	
 	-webkit-clip-path: url(images/clip.svg);
+	/*-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
 	/* Firefox*/
+	/*clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
 	clip-path: url(images/clip.svg#svgClip);
 	/* iOS support */
- 	-webkit-mask: url(images/clip.svg);	
+	/*-webkit-mask: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
+ 	-webkit-mask: url(images/clip.svg);
+ 	margin-top: -63%
 }
 
  /*--------------------------------------------------------------
