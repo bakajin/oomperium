@@ -12,9 +12,7 @@
 			<?php oomperium_posted_on(); ?>
 		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
-
 	<div class="entry-content">
-	<div class="poly-element"></div>
 		<?php the_content(); ?>
 		<?php
 			wp_link_pages( array(

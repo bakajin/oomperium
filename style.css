@@ -749,7 +749,22 @@ a:active {
 /*--------------------------------------------------------------
 10.0 Content
 --------------------------------------------------------------*/
-/*--------------------------------------------------------------
+
+/* paragraph clipping */
+.lW { float: left; clear: left; height: 20px; }
+.rW { float: right; clear: right; height: 20px; }
+
+/* clip images posts */
+.entry-post img, .entry-post .video {
+	/*Chrome,Safari*/	
+	-webkit-clip-path: url(images/clip.svg);
+	/* Firefox*/
+	clip-path: url(images/clip.svg#svgClip);
+	/* iOS support */
+ 	-webkit-mask: url(images/clip.svg);	
+}
+
+ /*--------------------------------------------------------------
 10.1 Posts and pages
 --------------------------------------------------------------*/
 .sticky {
