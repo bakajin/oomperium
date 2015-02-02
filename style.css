@@ -754,8 +754,8 @@ a:active {
 .lW { float: left; clear: left; height: 20px; }
 .rW { float: right; clear: right; height: 20px; }
 
-/* clip images posts */
-.entry-content img, .entry-content iframe {
+/* clip images posts on main (blog) pages */
+body.blog .entry-content img, body.blog .entry-content iframe {
 	/*Chrome,Safari*/	
 	-webkit-clip-path: url(images/clip.svg);
 	/*-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
@@ -897,6 +897,18 @@ object {
 	vertical-align: top;
 	width: 100%;
 }
+
+/* on the main page (blog) show only one pic */
+body.blog .gallery-item {
+	display: none;
+}
+
+body.blog .gallery-item:first-child, body.blog .gallery-item#featured {
+	display: inline-block;
+}
+
+/* on the gallery page (after click) show one pic featured pic large and the rest as thumbs */
+/* single-format-gallery */
 
 .gallery-columns-2 .gallery-item {
 	max-width: 50%;
