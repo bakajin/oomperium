@@ -756,8 +756,8 @@ a:active {
 .lW { float: left; clear: left; height: 20px; }
 .rW { float: right; clear: right; height: 20px; }
 
-/* clip images posts on main (blog) pages */
-body.blog .entry-content img, body.blog .entry-content iframe {
+/* clip images posts on main (blog) pages, video, gallery */
+body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, body.blog .gallery, body.blog .entry-content iframe {
 	/*Chrome,Safari*/	
 	-webkit-clip-path: url(images/clip.svg);
 	/*-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
@@ -894,23 +894,29 @@ object {
 }
 
 /* define gallery on main page (blog) */
-
+body.blog .gallery {
+	overflow-y : hidden; 
+	width : 100%;
+	height: 24em;
+}
 body.blog .gallery-item {
 	display: inline-block;
-	text-align: center;
-	vertical-align: top;
+	float : left;
+	/*text-align: center;
+	vertical-align: top;*/
 	width: 100%;
 }
 
-/* on the main page (blog) show only one pic */
+/* on the main page (blog) show only one pic 
 body.blog .gallery-item {
-	display: none;
+
 }
 
 body.blog .gallery-item:first-child, body.blog .gallery-item#featured {
 	height : auto;
 	display: inline-block;
 }
+*/
 
 
 /* on the gallery page (after click) show one pic featured pic large and the rest as thumbs */
@@ -935,7 +941,7 @@ body.single-format-gallery .gallery-item:first-child img{
 }
 
 .gallery-columns-3 .gallery-item {
-	max-width: 33.33%;
+	max-width: none; /*33.33%;*/
 }
 
 .gallery-columns-4 .gallery-item {
