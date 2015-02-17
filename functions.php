@@ -11,6 +11,67 @@
 	@ini_set( 'max_execution_time', '300' );
 
 /**
+ * Add theme customizer page to the wp-admin area
+ * OOMP edit
+ * add_theme_page($page_title, $menu_title, $capability, $menu_slug, $function)
+ */
+
+function oomp_customizer_menu() {
+	add_theme_page('Customize', 'Customize', 'edit_theme_options', 'customize.php');
+}
+add_action('admin_menu', 'oomp_customizer_menu');
+
+/**
+ * Add individual custom sections to the theme customiser 
+ */
+function oomp_customizer($wp_customize) {
+	$wp_customize->add_section(
+		'site-colours',
+		array(
+			'title' => 'Site colour palet',
+			'description' => 'site colours: colours for backgrounds, foreground, interactivity, links',
+			)
+		);
+	$wp_customize->add_setting(
+		'colour_one',
+		array(
+			'default' => '#FFFFFF',
+			'sanitize_callback' => 'sanitize_hex_color',
+			)
+		);
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize,
+			'colour-one',
+			array(
+				'label' => 'background colour',
+				'section' => 'site-colours',
+				'settings' => 'colour_one',
+			)
+		)
+	);
+	$wp_customize->add_setting(
+		'colour_two',
+		array(
+			'default' => '#000000',
+			'sanitize_callback' => 'sanitize_hex_color',
+			)
+		);
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize,
+			'colour-two',
+			array(
+				'label' => 'foreground colour',
+				'section' => 'site-colours',
+				'settings' => 'colour_two',
+			)
+		)
+	);
+}
+add_action( 'customize_register', 'oomp_customizer');
+
+/**
  * Set the content width based on the theme's design and stylesheet.
  */
 if ( ! isset( $content_width ) ) {
@@ -134,6 +195,18 @@ function oomperium_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'oomperium_scripts' );
 
+/** OOMP custom scripts */
+function oomperium_custom_scripts() {
+	// script to animate svgs
+	wp_register_script('snap-svg', get_template_directory_uri() . '/js/snap.svg.js');
+	wp_enqueue_script('snap-svg');
+
+	// script to clip paragraphs
+	wp_register_script('shapewrapper', get_template_directory_uri() . '/js/shapewrapper.js');
+	wp_enqueue_script('shapewrapper');
+
+}
+add_action('wp_enqueue_scripts','oomperium_custom_scripts');
 /**
  * Implement the Custom Header feature.
  */
