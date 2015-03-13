@@ -147,45 +147,73 @@ a:active {
 a img {
 	border: 0;
 }
-img.header-logo {
+
+.site-header {
+	position : fixed;
+	width: 100%;
+	height: 100%;
 	background-image : url('images/oomp_logo-bg.svg');
 	background-repeat : no-repeat;
+	background-size : 21%;
+
+	z-index : 5;
+	clip-path : polygon(0% 0%, 100% 0%, 100% 40%, 30% 40%, 30% 100%, 0% 100%);	
+	-webkit-clip-path : polygon(0% 0%, 100% 0%, 100% 40%, 30% 40%, 30% 100%, 0% 100%);	
 }
 
-footer {
-
+img.header-logo {
+	width : 16%;
+	margin-left : 5%;
+	margin-top : 5%;
 }
 
 .site-footer {
-	background-color : #ffffff;
-
+	position: fixed;
+	bottom: 0;
 }
 
-.site-footer div {
+.site-footer hr {
+	position: relative;
+	bottom : 0.5em;
+	height : 0.25em;
+	background-color: #e6dcdc;
+	margin : 0;
+}
+
+.site-footer {
 	background-color : #faeeee;
 
 }
 
 .site-footer ul {
-	display : inline;
+	display : inline-block;
+	width : 100%;
+	text-align: center;
+	margin : 0 auto;
 	list-style-type: none;
 }
 
 .site-footer li {
 	display : inline;
 	list-style-type: none;
+	margin-right : 5%;
+}
+
+.menu-social-container {
+	height : 3rem;
 }
 
 #menu-social {
 	position: relative;
-	top : -0.4em;
-	border-top: solid 5px #e6dcdc;
+	top : -3em;
+	
 	display: block!important;
 	width : 100%;
 	margin : 0 auto;
 	text-align: center;
 
 }
+
 #menu-social li{
 	margin : 0 5%;
 }
@@ -216,6 +244,13 @@ footer {
 .footer-data li, .footer-data a, .footer-data a:visited {
 	color : #4ca984;
 	text-decoration : none;
+}
+.site-footer div.site-info, .site-footer div.site-info *  {
+	color : #ffffff;
+	text-decoration: none;
+	text-align: center;
+	font-size: 75%;
+
 }
 /*--------------------------------------------------------------
 2.0 Typography
@@ -491,17 +526,17 @@ textarea {
 5.1 Links
 --------------------------------------------------------------*/
 a {
-	color: royalblue;
+	color: #4ca984;
 }
 
 a:visited {
-	color: purple;
+	color: #4e679c;
 }
 
 a:hover,
 a:focus,
 a:active {
-	color: midnightblue;
+	color: #d78081;
 }
 
 /*--------------------------------------------------------------
@@ -516,14 +551,14 @@ a:active {
 	width: 60%;
 	height : 10em;
 	background-color: #edf0f5;
-	margin : -26% 4%;
+	margin : 4% 8%;
 	background-image: url('images/oomp-button-bg.svg');
 	background-repeat: repeat-x;
 }
 
 .main-navigation ul {
 	list-style: none;
-	margin: 0;
+	margin: -2.5% 0 0 0;
 	padding-left: 3%;
 }
 
@@ -535,24 +570,28 @@ a:active {
 
 .main-navigation a {
 	position: relative;
-	top : -1em;
+	top : -100%;
 	display: block;
 	text-transform: uppercase;
-	font-size: 1.4em;
-	line-height : 2.5em;
+	font-size: 140%;
+	line-height : 250%;
 	color: #9f9898;
 	text-decoration: none;
-	padding-left : 60pt;
+	text-shadow : 1px 1px #e4ddb7;
+
+	padding-left : 60%;
 	background-image: url('images/oomp-button.svg');
 	background-repeat: no-repeat;
-	background-position: -48pt -10pt;
-	background-size: 160pt 160pt;
+	background-position: 85% 5%;
+	background-size: 165% 350%;
 }
+
 .main-navigation a:hover {
-	background-position: -48pt -63pt;
+	background-position: 85% 50%;
 }
+
 .main-navigation a:active {
-	background-position: -48pt -117pt;
+	background-position: 85% 5%;
 }
 
 .main-navigation ul ul {
@@ -604,19 +643,42 @@ a:active {
 	background-image: none;
 }
 .sub-menu a {
-	font-size: 1.33rem;
+	font-size: 100%;
+	text-shadow : none;
+	white-space: nowrap;
 	color: #d47878;
 	background-image: none;
 }
+
+.sub-menu a:hover {
+	color: #9D4646;
+}
+
 /* Small menu */
 .menu-toggle {
 	display: none;
 }
 
 @media screen and (max-width: 600px) {
+	
+	/* use one colomn */
+	.blog article {
+		width : 95%!important;
+	}
+
 	.menu-toggle,
 	.main-navigation.toggled .nav-menu {
 		display: block;
+		/* OOMP overwrite existing button classes */
+		border : none;
+		background : none;
+		background-image: url('images/oomp-button.svg');
+		background-repeat: no-repeat;
+		background-position: -48pt -10pt;
+		background-size: 160pt 160pt;
+		box-shadow : none;
+		text-shadow : none;
+		line-height: 3em;
 	}
 
 	.main-navigation ul {
@@ -751,26 +813,56 @@ a:active {
 /*--------------------------------------------------------------
 10.0 Content
 --------------------------------------------------------------*/
+#content {
+	padding : 0% 3%;
+	top : 30rem;
+	position: relative;
+	
+}
 
 /* paragraph clipping */
 .lW { float: left; clear: left; height: 20px; }
 .rW { float: right; clear: right; height: 20px; }
 
 /* clip images posts on main (blog) pages, video, gallery */
-body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, body.blog .gallery, body.blog .entry-content iframe {
+body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, body.blog .gallery, body.blog .entry-content iframe, body.blog .slideshow-window, body.blog .tiled-gallery {
 	/*Chrome,Safari*/	
-	-webkit-clip-path: url(images/clip.svg);
+	-webkit-clip-path: url(images/clip-diagonal-left-right.svg);
 	/*-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
 	/* Firefox*/
 	/*clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
-	clip-path: url(images/clip.svg#svgClip);
+	clip-path: url(images/clip-diagonal-left-right.svg#svgClip);
 	/* iOS support */
 	/*-webkit-mask: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
- 	-webkit-mask: url(images/clip.svg);
- 	margin-top: -63%
+ 	-webkit-mask: url(images/clip-diagonal-left-right.svg);
+ 	
+}
+
+
+body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small {
+/* normal post images wordpress */
+	margin-top : -95%; 
+}
+
+body.blog .gallery, body.blog .tiled-gallery {
+/* normal galllery wordpress, jetpack tiled gallery  */
+	margin-top : -5%;
+}
+
+body.blog .slideshow-window {
+/* jetpack slideshow wordpress */
+	margin-top : 0%;
+}
+
+body.blog .entry-content iframe {
+/* vimeo player and possibly youtube and other iframe */
+	margin-top : 0%;
 }
 
  /*--------------------------------------------------------------
+}
+}
+}
 10.1 Posts and pages
 --------------------------------------------------------------*/
 .sticky {
@@ -794,7 +886,66 @@ body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, bo
 .page-content,
 .entry-content,
 .entry-summary {
-	margin: 1.5em 0 0;
+	margin: 1em 0 0;
+}
+
+.blog article:first-child {
+	margin-left: 30%!important;
+}
+
+article header .entry-meta *, article .entry-footer *{
+	color :#e6ede9;
+	text-decoration: none;
+}
+
+article header h1 a{
+	font-size: 122%;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+article header h1 a:hover {
+	text-decoration: underline;
+}
+
+
+article header h1 a:visited {
+	/*color: #61665e;*/
+}
+
+article p strong { 
+	font-size: 122%;
+	color: #4e679c;
+	font-weight: normal;
+}
+
+article p { 
+	font-size: 110%;
+	color: #b8a5a5;
+}
+
+article:nth-child(n+3) p strong, article:nth-child(n+3) header h1 a {
+	color: #4ca984;
+}
+
+article:nth-child(n+3) p {
+	color: #d4c978;
+}
+
+article:nth-child(n+6) p strong, article:nth-child(n+6) header h1 a {
+	color: #d78081;
+}
+
+article:nth-child(n+6) p {
+	color: #61665e;
+}
+
+article:nth-child(n+9) p strong, article:nth-child(n+9) header h1 a {
+	color: #d4c978;
+}
+
+article:nth-child(n+9) p {
+	color: #4e679c;
 }
 
 .page-links {
@@ -813,6 +964,18 @@ body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, bo
   /* four vertices, but second and third overlap (looks like line) */
   shape-outside: polygon(0 0, 100% 0%, 100% 0%, 0 0%);
 }
+/* Some css for bacon jQuery text wrapping */
+.line, .line_content {
+	position:absolute;
+	text-align:justify;
+}
+
+.line_content:after {
+	content: "";
+	display: inline-block;
+	width: 100%;
+}
+
 /*--------------------------------------------------------------
 10.2 Asides
 --------------------------------------------------------------*/
@@ -889,6 +1052,25 @@ object {
 /*--------------------------------------------------------------
 12.2 Galleries
 --------------------------------------------------------------*/
+/* jetpack slideshow overwrite */
+.slideshow-window {
+	background-color: transparent !important;
+	border : none !important;
+	margin-bottom: 0 !important;
+
+}
+.slideshow-controls {
+	top : 50%;
+}
+
+.slideshow-controls a:first-child {
+	float : left;
+}
+
+.slideshow-controls a:last-child {
+	float : right;
+}
+
 .gallery {
 	margin-bottom: 1.5em;
 }

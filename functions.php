@@ -128,6 +128,7 @@ function oomperium_setup() {
 	 * Enable support for Post Thumbnails on posts and pages.
 	 *
 	 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
+	 * OOMP edit feature turned on for featured images
 	 */
 	//add_theme_support( 'post-thumbnails' );
 
@@ -192,6 +193,7 @@ function oomperium_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+
 }
 add_action( 'wp_enqueue_scripts', 'oomperium_scripts' );
 
@@ -202,8 +204,11 @@ function oomperium_custom_scripts() {
 	wp_enqueue_script('snap-svg');
 
 	// script to clip paragraphs
-	wp_register_script('shapewrapper', get_template_directory_uri() . '/js/shapewrapper.js');
-	wp_enqueue_script('shapewrapper');
+	//wp_register_script('shapewrapper', get_template_directory_uri() . '/js/shapewrapper.js');
+	//wp_enqueue_script('shapewrapper');
+
+	//wp_register_script( 'bacon', get_template_directory_uri() . '/js/bacon.jquery.js');
+	//wp_enqueue_script('bacon');
 
 }
 add_action('wp_enqueue_scripts','oomperium_custom_scripts');

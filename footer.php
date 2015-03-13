@@ -11,8 +11,11 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
+	<svg id="footer">
+		<defs></defs>
+	</svg>
+	<hr/>
 	<?php wp_nav_menu( array('menu' => 'social' )); ?>
-		
 		<ul class="footer-data">
 			<li><a href="#">&copy; 2015</a></li>
 			<li><a href="#">Olivier Oskamp Media Productions</a></li>
