@@ -132,11 +132,12 @@ function oomperium_setup() {
 	 */
 	//add_theme_support( 'post-thumbnails' );
 
-	// This theme uses wp_nav_menu() in one location.
+	// This theme uses wp_nav_menu() in one location. But we will create our own MOM below
 	register_nav_menus( array(
 		'primary' => __( 'Primary Menu', 'oomperium' ),
 	) );
 
+	
 	/*
 	 * Switch default core markup for search form, comment form, and comments
 	 * to output valid HTML5.
@@ -212,6 +213,64 @@ function oomperium_custom_scripts() {
 
 }
 add_action('wp_enqueue_scripts','oomperium_custom_scripts');
+
+/* OOMP lets create our own menu MOM from scratch to introduce snap svg */
+	// custom menu example @ http://digwp.com/2011/11/html-formatting-custom-menus/
+function custom_nav_menus() {
+	$menu_name = 'primary'; // specify custom menu slug
+	if (($locations = get_nav_menu_locations()) && isset($locations[$menu_name])) {
+		$menu = wp_get_nav_menu_object($locations[$menu_name]);
+		$menu_items = wp_get_nav_menu_items($menu->term_id);
+
+		$menu_list = '<nav>' . "\n";
+		$menu_list .= "\t\t\t" . '<svg id="svg-' . $menu_name .'">' . "\n\t\t\t\t\t" . '<defs></defs>' . "\n\t\t\t" . '</svg>';
+		$menu_list .= "\t\t\t". '</nav>' ."\n";
+
+		$menu_script = '<script>';
+		$menu_script .= "\n\t\t\t";
+		$menu_script .= 'var sNav = Snap("#svg-' .  $menu_name . '");';
+		$menu_script .= 'sNav.attr({ viewBox: "0 0 695 100" });';
+		$menu_script .= "\n\t\t\t";
+		$menu_script .= 'var sButton;';
+		$menu_script .= "\n\t\t\t";
+		$menu_script .= 'Snap.load("' . get_stylesheet_directory_uri() . '/images/oomp-button.svg"' . ', function ( loadedItem ) {';
+		$menu_script .= "\n\t\t\t\t\t\t";
+		$menu_script .= 'g = loadedItem.select("#oomp-button");'; //g
+		$menu_script .= "\n\t\t\t\t\t\t";
+		$menu_script .= 'sButton = g;';//sNav.append (loadedItem); });';
+		$menu_script .= "\n\t\t\t\t\t\t";
+		$menu_script .= 'iterateMenu();';
+		$menu_script .= "\n\t\t\t\t\t\t";
+		$menu_script .= '});';
+		$menu_script .= "\n\t\t\t";
+		//$menu_script .= 'buttonClone = Snap.select("#oomp-button");';
+		$menu_script .= 'function iterateMenu(){';
+		$menu_script .= "\n\t\t\t\t\t\t";
+		foreach ((array) $menu_items as $key => $menu_item) {
+			$title = $menu_item->title;
+			$url = $menu_item->url;
+			//$menu_script .= 'buttonClone' . $key .' = buttonClone.clone();';
+			$menu_script .= 'buttonClone' . $key .' = sButton.clone();';
+			$menu_script .= "\n\t\t\t\t\t\t";
+			$menu_script .= 'buttonClone' . $key .'.node = sButton.node.cloneNode(true);';
+			$menu_script .= "\n\t\t\t\t\t\t";
+			$menu_script .= 'sNav.append(buttonClone'. $key .');';
+			$menu_script .= "\n\t\t\t\t\t\t";
+			//$menu_script .= 'buttonClone' . $key .'.transform("t240,0");';
+			//$menu_script .= "\n\t\t\t\t\t\t";
+			//$menu_script .= "\t\t\t\t\t". '<a xlink:href="'. $url .'">'. $title .'</a>' ."\n";
+		}
+		$menu_script .= "\n\t\t\t\t\t\t";
+		$menu_script .= '}';
+		$menu_script .= '</script>';
+		$menu_list .= $menu_script;
+		
+	} else {
+		// $menu_list = '<!-- no list defined -->';
+		//console.log
+	}
+	echo $menu_list;
+}
 /**
  * Implement the Custom Header feature.
  */

@@ -14,13 +14,9 @@
 		</div><!-- .entry-meta -->
 		<?php endif; ?>
 	</header><!-- .entry-header -->
-	<!-- load text wrapper -->
-	<!-- line height 
-	<script type="text/javascript">
-		shapeWrapper("post-<?php the_ID(); ?>","18","0,0,0|5,0,5|10,0,10|15,0,15|20,0,20|25,0,25|30,0,30|35,0,35|40,0,40|45,0,45|50,0,50|55,0,55|60,0,60|65,0,65|70,0,70|75,0,75|80,0,80|85,0,85|90,0,90|95,0,95|100,0,100|");
-	</script>
-	-->
+	
 	<div class="entry-content">
+	<!-- call a snap svg canvas for interactive animated svg masking -->
 	<svg id="svg-post-<?php the_ID(); ?>">
 		<defs></defs>
 	</svg>
@@ -38,6 +34,20 @@
 				'after'  => '</div>',
 			) );
 		?>
+		<script>
+		/* snap svg script */
+		/* clip the post image */
+			var sClip = Snap("#svg-post-<?php the_ID(); ?>");
+			var g = sClip.group();
+			var tux = Snap.load("<?php echo get_stylesheet_directory_uri() . '/images/clip-diagonal-left-right.svg'; ?>", function ( loadedFragment ) {
+                                                g.append( loadedFragment );
+                                                g.hover( hoverover, hoverout );
+                                                g.text(300,100, 'hover over me');
+                                        } );
+
+			var hoverover = function() { g.animate({ transform: 's2r45,150,150' }, 1000, mina.bounce ) };
+			var hoverout = function() { g.animate({ transform: 's1r0,150,150' }, 1000, mina.bounce ) };
+		</script>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">

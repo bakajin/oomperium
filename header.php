@@ -24,7 +24,6 @@
 		//select all articles and loop through each
 		$("article").each(function(){
 			// find p elements get width and height and number of lines
-				//lineNumber
 			var lineNum = 0;
 
 			var pWidth = $(this).width();
@@ -57,11 +56,7 @@
 			});
 			var str = '';
 			/*
-			console.log("article: " + $(this).attr("id"));
-			console.log("			lines: " + lineNum);
-			console.log("			width: " + pWidth);
-			console.log("			height: " + pHeight);
-			console.log("			p first char: " + conCheck);
+			console.log("article: " + $(this).attr("id")); console.log("			lines: " + lineNum); console.log("			width: " + pWidth); console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
 			*/
 
 			var factor = 0;
@@ -72,7 +67,7 @@
 				str += '<div style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
 				str += '<div style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
 				
-				console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
+				//console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
 			}
 			$(this).children("div.entry-content").first().before(str);
 			
@@ -80,6 +75,7 @@
 
 });
 </script>
+
 </head>
 
 <body <?php body_class(); ?>>
@@ -95,11 +91,93 @@
 	<svg id="site-logo">
 		<defs></defs>
 	</svg>
-	<img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>%" width="<?php echo get_custom_header()->width; ?>%" alt="logo" class="header-logo" />
-		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<button class="menu-toggle"><?php _e( 'Primary Menu', 'oomperium' ); ?></button>
+	<!-- OOMP custom nav menu code !-->
+	<svg id="svg-menu">
+		<defs></defs>
+	</svg>
+	<button class="menu-toggle"><?php _e( 'Primary Menu', 'oomperium' ); ?></button>
 			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
-		</nav><!-- #site-navigation -->
 	</header><!-- #masthead -->
+	
+	<script>
+		//snap svg for logo and its background
+		Snap.plugin( function( Snap, Element, Paper, global ) {
+        var fragmentList = new Array, fragLoadedCount = 0;
+       
+        function addLoadedFrags( list ) { // This is called once all the loaded frags are complete
+                for( var count = 0; count < list.length; count++ ) {
+                        s.append( fragmentList[ count ] );
+                        console.log("header load: " + count);
+                        switch(count) {
+                        	case 0:
+                        			//logoGroup.append(fragmentList[ count ]);
+                        	break;
+                        	case 1:
+                        			//bgGroup.append(fragmentList[ count ]);
+                        			//bgGroup.transform('s3,0,0');
+                        			buildLayout();
+                        	break;
+                        	default:
+                        		//do nothing
+                        	break;
+                        	
+                        }
+                }
+        }
+
+        Paper.prototype.loadFilesDisplayOrdered = function( list ) {
+                var image, fragLoadedCount = 0, listLength = list.length;
+
+                        for( var count = 0; count < listLength; count++ ) {
+                                (function() {
+                                        var whichEl = count;
+                                        image = Snap.load( list[ whichEl ], function ( loadedFragment ) {
+                                                                       fragLoadedCount++;
+                                                                        fragmentList[ whichEl ] = loadedFragment;
+                                                                        if( fragLoadedCount >= listLength ) {
+                                                                                addLoadedFrags( fragmentList );
+                                                                        }
+                                                                } );
+                                })();
+
+                        }
+
+        };
+
+
+});
+
+	var s = Snap("#site-logo");
+		// setting the viewbox for responsive love
+		s.attr({ viewBox: "0 0 240 480" });
+		var logoGroup = s.group();
+     	var bgGroup = s.group();
+	var myLoadList = [ "<?php header_image(); ?>", "<?php echo get_stylesheet_directory_uri() . '/images/oomp_logo-bg.svg'; ?>" ];
+        s.loadFilesDisplayOrdered( myLoadList );
+
+        function buildLayout() {
+       			var logo = Snap.select('#oomp-logo');
+        		var background = Snap.select('#bg-elem');
+        			background.transform('s2'); 	
+        }
+       
+       	function rebuildMenu(elem) {
+       		//select the menu ul
+       		//getElementById("menu");
+
+       		//loop the menu children
+
+       		//replace options with svg clones
+
+       		// set text of options 
+
+       		// loop the submenu children
+       		// set tekst of submenu options
+
+       		//if there is a button tag rewrite for mobile
+
+       		// hide the original menu
+       	}
+    </script>
 
 	<div id="content" class="site-content">
