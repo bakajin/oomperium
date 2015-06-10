@@ -170,13 +170,18 @@ img.header-logo {
 
 #site-logo {
 	width : 16%;
-	margin-left : 5%;
-	margin-top : 5%;
 } 
 
 .site-footer {
 	position: fixed;
 	bottom: 0;
+	background-color : #faeeee;
+	height : 8rem;
+	width : 100%;
+	z-index : 99;
+}
+.site-footer:hover {
+	height : 28rem;
 }
 
 .site-footer hr {
@@ -185,11 +190,6 @@ img.header-logo {
 	height : 0.25em;
 	background-color: #e6dcdc;
 	margin : 0;
-}
-
-.site-footer {
-	background-color : #faeeee;
-
 }
 
 .site-footer ul {
@@ -206,48 +206,6 @@ img.header-logo {
 	margin-right : 5%;
 }
 
-.menu-social-container {
-	height : 3rem;
-}
-
-#menu-social {
-	position: relative;
-	top : -3em;
-	
-	display: block!important;
-	width : 100%;
-	margin : 0 auto;
-	text-align: center;
-
-}
-
-#menu-social li{
-	margin : 0 5%;
-}
-
-#menu-social li a{
-	width : 5%;
-}
-#menu-social li a[title="facebook"]{
-	content: url('images/social-facebook.svg');
-}
-
-#menu-social li a[title="twitter"]{
-	content: url('images/social-twitter.svg');
-
-}
-#menu-social li a[title="skype"]{
-	content: url('images/social-skype.svg');
-
-}
-#menu-social li a[title="linkedin"]{
-	content: url('images/social-linkedin.svg');
-
-}
-#menu-social li a[title="vimeo"]{
-	content: url('images/social-vimeo.svg');
-
-}
 .footer-data li, .footer-data a, .footer-data a:visited {
 	color : #4ca984;
 	text-decoration : none;
@@ -258,6 +216,13 @@ img.header-logo {
 	text-align: center;
 	font-size: 75%;
 
+}
+#svg-social-menu {
+	position: relative;
+	top : -1.1em;
+	width : 100%;
+	display : block;
+	margin : auto;
 }
 /*--------------------------------------------------------------
 2.0 Typography
@@ -549,6 +514,7 @@ a:active {
 /*--------------------------------------------------------------
 5.2 Menus
 --------------------------------------------------------------*/
+
 .main-navigation {
 	clear: both;
 	display: block;
@@ -557,16 +523,27 @@ a:active {
 	position : relative;
 	width: 60%;
 	height : 10em;
-	background-color: #edf0f5;
-	margin : 4% 8%;
+	/*background-color: #edf0f5;*/
+	margin : 4% 9.2%;
+	/*
 	background-image: url('images/oomp-button-bg.svg');
 	background-repeat: repeat-x;
+	*/
+}
+
+#svg-menu {
+	position: relative;
+	width : 100%;
+	display : block;
+	margin : auto;
 }
 
 .main-navigation ul {
+	/* deprecated */
 	list-style: none;
 	margin: -2.5% 0 0 0;
 	padding-left: 3%;
+	display: none;
 }
 
 .main-navigation li {
@@ -587,10 +564,12 @@ a:active {
 	text-shadow : 1px 1px #e4ddb7;
 
 	padding-left : 60%;
+	/*
 	background-image: url('images/oomp-button.svg');
 	background-repeat: no-repeat;
 	background-position: 85% 5%;
 	background-size: 165% 350%;
+	*/
 }
 
 .main-navigation a:hover {
@@ -833,6 +812,8 @@ a:active {
 
 /* clip images posts on main (blog) pages, video, gallery */
 body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, body.blog .gallery, body.blog .entry-content iframe, body.blog .slideshow-window, body.blog .tiled-gallery {
+	/* add border to mask and z index image over the top to fake the text wrap */
+	top : -8em;
 	/*Chrome,Safari*/	
 	-webkit-clip-path: url(images/clip-diagonal-left-right.svg);
 	/*-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/

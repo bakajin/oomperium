@@ -14,12 +14,53 @@
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+<!-- Set the path to the theme base dir -->
+<script>
+	var themePath = "<?php echo get_stylesheet_directory_uri() . '/images/'; ?>"; 
+</script>
 <!-- Type kit definition of fonts -->
 <script src="//use.typekit.net/qbz6cuj.js"></script>
 <script>try{Typekit.load();}catch(e){}</script>
 <?php wp_head(); ?>
+<!-- OOMP custom nav menu code !-->
+<!-- send vars to external javascript files -->
 <script>
-	//shapeWrapper jQuery refactor
+	<?php 
+	//lets send the navigation array to javascript
+	// Get the nav menu based on $menu_name (same as 'theme_location' or 'menu' arg to wp_nav_menu)
+    // This code based on wp_nav_menu's code to get Menu ID from menu slug
+
+    $menu_name = 'primary';
+
+    if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ $menu_name ] ) ) {
+	$menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
+
+	$menu_items = wp_get_nav_menu_items($menu->term_id);
+		//print_r($menu_items);
+		
+		$menuJsVars = "var menuItems = [";
+		foreach($menu_items as $menu_item){
+
+			// the items for javascript var
+					//print_r($menu_item->title);
+					//this value is 0 for main top level menu items
+					//print_r($menu_item->menu_item_parent);
+					//print_r($menu_item->url);
+					//print_r($menu_item->guid);
+					$menuJsVars .= '{title: "' . $menu_item->title . '", parent: "' . $menu_item->menu_item_parent . '", url: "'. $menu_item->url .'", guid:"'. $menu_item->guid .'"}, ';
+		}
+	
+    } else {
+		// fail
+	}
+	$menuJsVars .= '{end: ""}];';
+	echo $menuJsVars;
+	/* send the post ids array obejct to the post-snap */ 
+
+	?>
+
+
+	//shapeWrapper jQuery refactor *deprecated*
 	jQuery(function($){
 		//select all articles and loop through each
 		$("article").each(function(){
@@ -64,12 +105,13 @@
 			for (var l = 0; l < len; l++) {
 				// write divs left right to wrap text
 				factor = Math.floor(100/len)*l;
-				str += '<div style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
-				str += '<div style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
+				// oomp turned it off
+				//str += '<div style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
+				//str += '<div style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
 				
 				//console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
 			}
-			$(this).children("div.entry-content").first().before(str);
+			//$(this).children("div.entry-content").first().before(str);
 			
 	});
 
@@ -91,12 +133,14 @@
 	<svg id="site-logo">
 		<defs></defs>
 	</svg>
-	<!-- OOMP custom nav menu code !-->
-	<svg id="svg-menu">
-		<defs></defs>
-	</svg>
-	<button class="menu-toggle"><?php _e( 'Primary Menu', 'oomperium' ); ?></button>
-			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
+
+	<div class="main-navigation" id="menu">
+		<button class="menu-toggle"></button>
+		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false ) ); ?>
+		<svg id="svg-menu">
+			<defs></defs>
+		</svg>
+	</div>	
 	</header><!-- #masthead -->
 	
 	<script>
@@ -152,7 +196,7 @@
 		s.attr({ viewBox: "0 0 240 480" });
 		var logoGroup = s.group();
      	var bgGroup = s.group();
-	var myLoadList = [ "<?php header_image(); ?>", "<?php echo get_stylesheet_directory_uri() . '/images/oomp_logo-bg.svg'; ?>" ];
+	var myLoadList = [ "<?php echo get_stylesheet_directory_uri() . '/images/oomp_logo-bg.svg'; ?>", "<?php header_image(); ?>" ];
         s.loadFilesDisplayOrdered( myLoadList );
 
         function buildLayout() {
@@ -160,24 +204,6 @@
         		var background = Snap.select('#bg-elem');
         			background.transform('s2'); 	
         }
-       
-       	function rebuildMenu(elem) {
-       		//select the menu ul
-       		//getElementById("menu");
-
-       		//loop the menu children
-
-       		//replace options with svg clones
-
-       		// set text of options 
-
-       		// loop the submenu children
-       		// set tekst of submenu options
-
-       		//if there is a button tag rewrite for mobile
-
-       		// hide the original menu
-       	}
     </script>
 
 	<div id="content" class="site-content">
