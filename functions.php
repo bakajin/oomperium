@@ -208,6 +208,10 @@ function oomperium_custom_scripts() {
 	wp_register_script('main-menu-snap', get_template_directory_uri() . '/js/main-menu-snap.js');
 	wp_enqueue_script('main-menu-snap');
 
+	// snap svg post snap
+	wp_register_script('post-snap', get_template_directory_uri() . '/js/post-snap.js');
+	wp_enqueue_script('post-snap');
+
 	// snap svg social snap footer menu
 	wp_register_script('social-menu-snap', get_template_directory_uri() . '/js/social-menu-snap.js');
 	wp_enqueue_script('social-menu-snap');

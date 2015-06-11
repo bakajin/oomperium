@@ -55,12 +55,12 @@
 	}
 	$menuJsVars .= '{end: ""}];';
 	echo $menuJsVars;
-	/* send the post ids array obejct to the post-snap */ 
-
 	?>
+	/* send the post ids array object to the post-snap in content.php */ 
+	var postIDs = new Array();
 
-
-	//shapeWrapper jQuery refactor *deprecated*
+	//shapeWrapper jQuery refactor *deprecate*
+/* 
 	jQuery(function($){
 		//select all articles and loop through each
 		$("article").each(function(){
@@ -96,10 +96,12 @@
 								
 			});
 			var str = '';
+*/
+
 			/*
 			console.log("article: " + $(this).attr("id")); console.log("			lines: " + lineNum); console.log("			width: " + pWidth); console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
 			*/
-
+/*
 			var factor = 0;
 			var len = lineNum; // + (lineNum/2);
 			for (var l = 0; l < len; l++) {
@@ -116,6 +118,7 @@
 	});
 
 });
+*/
 </script>
 
 </head>

@@ -658,10 +658,12 @@ a:active {
 		/* OOMP overwrite existing button classes */
 		border : none;
 		background : none;
+		/*
 		background-image: url('images/oomp-button.svg');
 		background-repeat: no-repeat;
 		background-position: -48pt -10pt;
 		background-size: 160pt 160pt;
+		*/
 		box-shadow : none;
 		text-shadow : none;
 		line-height: 3em;
@@ -815,14 +817,14 @@ body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, bo
 	/* add border to mask and z index image over the top to fake the text wrap */
 	top : -8em;
 	/*Chrome,Safari*/	
-	-webkit-clip-path: url(images/clip-diagonal-left-right.svg);
+	/* -webkit-clip-path: url(images/clip-diagonal-left-right.svg); */
 	/*-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
 	/* Firefox*/
 	/*clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
-	clip-path: url(images/clip-diagonal-left-right.svg#svgClip);
+	/* clip-path: url(images/clip-diagonal-left-right.svg#svgClip);*/
 	/* iOS support */
 	/*-webkit-mask: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
- 	-webkit-mask: url(images/clip-diagonal-left-right.svg);
+ 	/* -webkit-mask: url(images/clip-diagonal-left-right.svg);*/
  	
 }
 
