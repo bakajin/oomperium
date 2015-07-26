@@ -48,9 +48,57 @@ jQuery(document).ready(function(){
 							g.transform(transMatrix);
 
 						//console.log("item: " + iterate + " : " + transFactor + " scaleFactor: " + scaleFactor);
+					g.addClass("social-menu-button");
+
+					g.click(socialMenuHandle);
+					g.mouseover(socialMenuHandle);
+					g.mouseout(socialMenuHandle);
+
 					s.append(g);
 
 					iterate++;											
+		}
+
+		function socialMenuHandle(event) {
+			
+			var elem;
+
+				switch(event.type) {
+							case "mouseover":
+									console.log("over ", event);
+									elem = s.select("#" + event.target.nearestViewportElement.id);
+									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].childNodes[5].id);
+									//elem.transform('t0 0 r0');
+						
+							break;
+
+							case "mouseout":
+									console.log("out ", this.parent.id);
+									elem = s.select("#" + event.target.nearestViewportElement.id);
+									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].childNodes[5].id);
+									//elem.transform('t0 0 r0');
+
+							break;
+
+							case "touchstart":
+									console.log("touch ", event.type);
+							break;
+
+							case "touchend":
+									console.log("touch ", event.type);
+							break;
+
+							case "click":
+									console.log("click ", event.type);
+									jQuery("a:contains(" + event.target.firstChild.data	 + ")")[0].click();
+							break;
+
+							default:
+									console.log("default ", event);
+							break;
+
+
+						}
 		}
 		// may be not on the page load?
 		loadAssets(loadList, baseShape);

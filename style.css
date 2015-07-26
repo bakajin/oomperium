@@ -104,7 +104,8 @@ section {
 body.blog article {
 	float : left;
 	width : 30%;
-	margin : 0 1%!important;
+	margin : 0 0 2% 3%!important;
+	
 }
 
 ol,
@@ -150,15 +151,12 @@ a img {
 
 .site-header {
 	position : fixed;
+	z-index : 10;
 	width: 100%;
 	height: 100%;
-	/*background-image : url('images/oomp_logo-bg.svg');
-	background-repeat : no-repeat;
-	background-size : 21%;
 
-	z-index : 5;*/
-	clip-path : polygon(0% 0%, 100% 0%, 100% 40%, 30% 40%, 30% 100%, 0% 100%);	
-	-webkit-clip-path : polygon(0% 0%, 100% 0%, 100% 40%, 30% 40%, 30% 100%, 0% 100%);	
+	clip-path : polygon(0% 0%, 100% 0%, 100% 25%, 30% 25%, 30% 50%, 0% 50%);
+	-webkit-clip-path : polygon(0% 0%, 100% 0%, 100% 25%, 30% 25%, 30% 50%, 0% 50%);	
 }
 
 img.header-logo {
@@ -169,7 +167,7 @@ img.header-logo {
 }
 
 #site-logo {
-	width : 16%;
+	width : 30%;
 } 
 
 .site-footer {
@@ -178,10 +176,19 @@ img.header-logo {
 	background-color : #faeeee;
 	height : 8rem;
 	width : 100%;
-	z-index : 99;
+	z-index : 97;
+}
+
+@keyframes footer-over {
+	from { height : 8rem; }
+	to { height : 28rem; }
 }
 .site-footer:hover {
-	height : 28rem;
+	animation-name: footer-over;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+   
 }
 
 .site-footer hr {
@@ -221,6 +228,7 @@ img.header-logo {
 	position: relative;
 	top : -1.1em;
 	width : 100%;
+	height : 2em;
 	display : block;
 	margin : auto;
 }
@@ -521,10 +529,11 @@ a:active {
 	float: right;
 
 	position : relative;
+	z-index : 98;
 	width: 60%;
 	height : 10em;
 	/*background-color: #edf0f5;*/
-	margin : 4% 9.2%;
+	margin : 2% 9.2% 0 0;
 	/*
 	background-image: url('images/oomp-button-bg.svg');
 	background-repeat: repeat-x;
@@ -536,6 +545,11 @@ a:active {
 	width : 100%;
 	display : block;
 	margin : auto;
+	z-index: 99;
+}
+
+.main-menu-button, .main-menu-sub, .social-menu-button{
+	cursor: pointer;
 }
 
 .main-navigation ul {
@@ -802,10 +816,9 @@ a:active {
 10.0 Content
 --------------------------------------------------------------*/
 #content {
-	padding : 0% 3%;
-	top : 30rem;
+	padding : 0% 3% 0% 0%;
+	top : 26rem;
 	position: relative;
-	
 }
 
 /* paragraph clipping */
@@ -815,35 +828,44 @@ a:active {
 /* clip images posts on main (blog) pages, video, gallery */
 body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, body.blog .gallery, body.blog .entry-content iframe, body.blog .slideshow-window, body.blog .tiled-gallery {
 	/* add border to mask and z index image over the top to fake the text wrap */
-	top : -8em;
-	/*Chrome,Safari*/	
-	/* -webkit-clip-path: url(images/clip-diagonal-left-right.svg); */
-	/*-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
+	position: relative;
+	z-index : 5;
+	/*Chrome,Safari
+	-webkit-clip-path: url(images/clip-diagonal-left-right.svg);
+	-webkit-clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);
+	*/
 	/* Firefox*/
 	/*clip-path: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
 	/* clip-path: url(images/clip-diagonal-left-right.svg#svgClip);*/
 	/* iOS support */
 	/*-webkit-mask: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
  	/* -webkit-mask: url(images/clip-diagonal-left-right.svg);*/
- 	
+ 	width : 100%;
 }
 
-
-body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small {
-/* normal post images wordpress */
-	margin-top : -95%; 
-}
-
-body.blog .gallery, body.blog .tiled-gallery {
-/* normal galllery wordpress, jetpack tiled gallery  */
-	margin-top : -5%;
-}
-
-body.blog .slideshow-window {
-/* jetpack slideshow wordpress */
+body.blog div.jetpack-slideshow {
 	margin-top : 0%;
+	width : 100%!important;
+}
+div.slideshow-slide {
+	width : 100%!important;
+	height : auto!important;
+}
+div.slideshow-controls {
+	display : none!important;
+}
+div.slideshow-window:hover, .entry-content iframe:hover, div.tiled-gallery:hover, body.blog img.size-full:hover {
+	-webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
 }
 
+.svg-gallery-controls {
+	display : none;
+	position: relative;
+	z-index: 9;
+	top : -51rem;
+	width : 120%;
+	left : -10%;
+}
 body.blog .entry-content iframe {
 /* vimeo player and possibly youtube and other iframe */
 	margin-top : 0%;
@@ -966,6 +988,15 @@ article:nth-child(n+9) p {
 	width: 100%;
 }
 
+.svg-post {
+	width : 100%;
+	position: relative;
+	z-index: 0;
+	top : -42em;
+	height : 45rem;
+	/* padding is not used anymore, mask is */
+	display : none;s 
+}
 /*--------------------------------------------------------------
 10.2 Asides
 --------------------------------------------------------------*/
@@ -1048,17 +1079,6 @@ object {
 	border : none !important;
 	margin-bottom: 0 !important;
 
-}
-.slideshow-controls {
-	top : 50%;
-}
-
-.slideshow-controls a:first-child {
-	float : left;
-}
-
-.slideshow-controls a:last-child {
-	float : right;
 }
 
 .gallery {

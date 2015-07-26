@@ -14,9 +14,29 @@
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+<!-- google maps api for footer -->
+<style type="text/css">
+      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDenmsexxZoYPEwOpdIp1zCMl3mLo60J5U">
+    </script>
+    <script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: { lat: 52.3728883, lng: 4.9024593}, 
+          zoom: 17
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 <!-- Set the path to the theme base dir -->
 <script>
 	var themePath = "<?php echo get_stylesheet_directory_uri() . '/images/'; ?>"; 
+	var headerImg = "<?php header_image(); ?>";
+	var logoImg;
 </script>
 <!-- Type kit definition of fonts -->
 <script src="//use.typekit.net/qbz6cuj.js"></script>
@@ -60,7 +80,7 @@
 	var postIDs = new Array();
 
 	//shapeWrapper jQuery refactor *deprecate*
-/* 
+
 	jQuery(function($){
 		//select all articles and loop through each
 		$("article").each(function(){
@@ -96,29 +116,34 @@
 								
 			});
 			var str = '';
-*/
 
-			/*
-			console.log("article: " + $(this).attr("id")); console.log("			lines: " + lineNum); console.log("			width: " + pWidth); console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
-			*/
-/*
+			
+			console.log("article: " + $(this).attr("id")); 
+			console.log("			lines: " + lineNum); console.log("			width: " + pWidth); 
+			console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
+			
+
 			var factor = 0;
-			var len = lineNum; // + (lineNum/2);
+			var len = 14;//lineNum; // + (lineNum/2);
 			for (var l = 0; l < len; l++) {
 				// write divs left right to wrap text
-				factor = Math.floor(100/len)*l;
-				// oomp turned it off
-				//str += '<div style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
-				//str += '<div style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
+				factor = Math.floor(100/10)*l;
+
+				if(l < 4) {
+					factor = 0;
+					//console.log("one two three");
+				}
+				str += '<div style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
+				str += '<div style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
 				
 				//console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
 			}
-			//$(this).children("div.entry-content").first().before(str);
+			$(this).children("div.entry-content").first().before(str);
 			
 	});
 
 });
-*/
+
 </script>
 
 </head>
@@ -145,68 +170,5 @@
 		</svg>
 	</div>	
 	</header><!-- #masthead -->
-	
-	<script>
-		//snap svg for logo and its background
-		Snap.plugin( function( Snap, Element, Paper, global ) {
-        var fragmentList = new Array, fragLoadedCount = 0;
-       
-        function addLoadedFrags( list ) { // This is called once all the loaded frags are complete
-                for( var count = 0; count < list.length; count++ ) {
-                        s.append( fragmentList[ count ] );
-                        console.log("header load: " + count);
-                        switch(count) {
-                        	case 0:
-                        			//logoGroup.append(fragmentList[ count ]);
-                        	break;
-                        	case 1:
-                        			//bgGroup.append(fragmentList[ count ]);
-                        			//bgGroup.transform('s3,0,0');
-                        			buildLayout();
-                        	break;
-                        	default:
-                        		//do nothing
-                        	break;
-                        	
-                        }
-                }
-        }
-
-        Paper.prototype.loadFilesDisplayOrdered = function( list ) {
-                var image, fragLoadedCount = 0, listLength = list.length;
-
-                        for( var count = 0; count < listLength; count++ ) {
-                                (function() {
-                                        var whichEl = count;
-                                        image = Snap.load( list[ whichEl ], function ( loadedFragment ) {
-                                                                       fragLoadedCount++;
-                                                                        fragmentList[ whichEl ] = loadedFragment;
-                                                                        if( fragLoadedCount >= listLength ) {
-                                                                                addLoadedFrags( fragmentList );
-                                                                        }
-                                                                } );
-                                })();
-
-                        }
-
-        };
-
-
-});
-
-	var s = Snap("#site-logo");
-		// setting the viewbox for responsive love
-		s.attr({ viewBox: "0 0 240 480" });
-		var logoGroup = s.group();
-     	var bgGroup = s.group();
-	var myLoadList = [ "<?php echo get_stylesheet_directory_uri() . '/images/oomp_logo-bg.svg'; ?>", "<?php header_image(); ?>" ];
-        s.loadFilesDisplayOrdered( myLoadList );
-
-        function buildLayout() {
-       			var logo = Snap.select('#oomp-logo');
-        		var background = Snap.select('#bg-elem');
-        			background.transform('s2'); 	
-        }
-    </script>
 
 	<div id="content" class="site-content">

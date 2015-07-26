@@ -75,7 +75,7 @@ add_action( 'customize_register', 'oomp_customizer');
  * Set the content width based on the theme's design and stylesheet.
  */
 if ( ! isset( $content_width ) ) {
-	$content_width = 640; /* pixels */
+	$content_width = 1280; /* 640 pixels */
 }
 
 if ( ! function_exists( 'oomperium_setup' ) ) :
@@ -112,7 +112,7 @@ function oomperium_setup() {
 	 *							'admin-preview-callback' => '',);
 	 */
 	$headerargs = array(
-		'default-image' => get_template_directory_uri() . '/images/oomp-logo.svg',
+		'default-image' => get_template_directory_uri() . '/images/logo-oomp-2.0.svg',
 		'flex-width'	=> true,
 		'width'			=> 33,
 		'flex-height'	=> true,
@@ -200,10 +200,18 @@ add_action( 'wp_enqueue_scripts', 'oomperium_scripts' );
 
 /** OOMP custom scripts */
 function oomperium_custom_scripts() {
-	// script to animate svgs
+	//modernizr
+	wp_register_script('modernizr', get_template_directory_uri() . '/js/modernizr.custom.19667.js');
+	wp_enqueue_script('modernizr');
+
+	// snap library script to animate svgs
 	wp_register_script('snap-svg', get_template_directory_uri() . '/js/snap.svg.js');
 	wp_enqueue_script('snap-svg');
 	
+	// header snap svg	
+	wp_register_script('header-logo-snap', get_template_directory_uri() . '/js/header-logo-snap.js');
+	wp_enqueue_script('header-logo-snap');
+
 	// snap svg main menu header menu
 	wp_register_script('main-menu-snap', get_template_directory_uri() . '/js/main-menu-snap.js');
 	wp_enqueue_script('main-menu-snap');

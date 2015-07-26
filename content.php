@@ -19,7 +19,6 @@
 	</header><!-- .entry-header -->
 	
 	<div class="entry-content">
-	<!-- call a snap svg canvas for interactive animated svg masking -->
 		<?php
 			/* translators: %s: Name of current post */
 			the_content( sprintf(
@@ -34,10 +33,13 @@
 				'after'  => '</div>',
 			) );
 		?>
-		<svg id="svg-post-<?php the_ID(); ?>">
+		<!-- call a snap svg canvas for interactive animated svg masking -->
+		<svg class="svg-post" id="svg-post-<?php the_ID(); ?>">
 			<defs></defs>
 		</svg>
-	
+		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
+			<defs></defs>
+		</svg>
 		<script>
 		/* snap svg script */
 		/* clip the post image */

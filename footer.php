@@ -14,6 +14,7 @@
 	<svg id="svg-social-menu">
 		<defs></defs>
 	</svg>
+	<div id="map-canvas"></div>
 	<hr/>
 	<?php wp_nav_menu( array('menu' => 'social', 'container' => false )); ?>
 		<ul class="footer-data">
