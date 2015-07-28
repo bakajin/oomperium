@@ -57,7 +57,44 @@ jQuery(document).ready(function(){
 	function loopArticles() {
 		for(var pNum = 0; pNum < postIDs.length; pNum++) {
 				drawMask(postIDs[pNum]);
+				setPostHeight(postIDs[pNum]);
 			}
+	}
+
+	function setPostHeight(idx) {
+		//set height entry content
+			//check image top or div top y + height
+			var elem;
+			
+
+			if(jQuery('article#post-' + idx + " .entry-content p a img").length) {
+						elem = jQuery('article#post-' + idx + " .entry-content p a img").height();
+						elem = parseInt(elem, 10);
+						
+						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content p a img").height() );
+			}
+			if(jQuery('article#post-' + idx + " .entry-content div.slideshow-window").length) {
+						elem = jQuery('article#post-' + idx + " .entry-content div.slideshow-window").height();
+						elem = parseInt(elem, 10);
+						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content div.slideshow-window").height() );
+			}
+			if(jQuery('article#post-' + idx + " .entry-content div.tiled-gallery").length) {
+						elem = jQuery('article#post-' + idx + " .entry-content div.tiled-gallery").height();
+						elem = parseInt(elem, 10);
+						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content div.tiled-gallery").height() );
+			}
+			if(jQuery('article#post-' + idx + " .entry-content p iframe").length) {
+						elem = jQuery('article#post-' + idx + " .entry-content p iframe").height();
+						elem = parseInt(elem, 10);
+						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content p iframe").height() );
+			}
+			elem += 250;
+			jQuery('article#post-' + idx + ' .entry-content').height(elem);
+			//elem = elem.first('');
+
+		var heightValue;
+
+
 	}
 
 	function buildGalleryControls() {

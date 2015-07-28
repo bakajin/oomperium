@@ -84,7 +84,7 @@ jQuery(document).ready(function(){
 									stroke : "#D47878",
 									strokeWidth : 0.25
 								})
-								console.log("bg: " + g.attr('id') + " : " + jQuery("#svg-menu").height() );
+								//console.log("bg: " + g.attr('id') + " : " + jQuery("#svg-menu").height() );
 								var bg = s.group(bgRect, lineTop, lineBottom);
 								//g.select("g").transform(transMatrix);
 								//append menu bg
@@ -153,7 +153,7 @@ jQuery(document).ready(function(){
 										if(menuItems[b].parent != undefined) {
 											
 											var localViewBox = g.attr('viewBox');
-											console.log(menuItems[b].title + " : iter : " + mainMenuIterate + " : " );
+											//console.log(menuItems[b].title + " : iter : " + mainMenuIterate + " : " );
 											//set a string for the text
 											
 											//translate and scale buttons each iteration (scaling static)
