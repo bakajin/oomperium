@@ -220,10 +220,13 @@ jQuery(document).ready(function(){
 
 						var elem;
 
+//unmouseover on omouseover add event on mouseout
 						switch(event.type) {
 							case "mouseover":
 									console.log("over ", event.target.nearestViewportElement.id);
 									elem = s.select("#" + event.target.nearestViewportElement.id);
+									elem.unmouseover(onMainMenu);
+
 									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
 									elem.animate({
 											"stroke-width" : "11"
@@ -235,6 +238,8 @@ jQuery(document).ready(function(){
 							case "mouseout":
 									console.log("out ", event.target.nearestViewportElement.id);
 									elem = s.select("#" + event.target.nearestViewportElement.id);
+									elem.mouseover(onMainMenu);
+									
 									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
 									elem.animate({
 											"stroke-width" : "0.25"

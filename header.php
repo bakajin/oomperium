@@ -79,7 +79,7 @@
 	/* send the post ids array object to the post-snap in content.php */ 
 	var postIDs = new Array();
 
-	//shapeWrapper jQuery refactor *deprecate*
+	//shapeWrapper jQuery refactor 
 
 	jQuery(function($){
 		//select all articles and loop through each
@@ -118,9 +118,9 @@
 			var str = '';
 
 			
-			console.log("article: " + $(this).attr("id")); 
-			console.log("			lines: " + lineNum); console.log("			width: " + pWidth); 
-			console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
+			//console.log("article: " + $(this).attr("id")); 
+			//console.log("			lines: " + lineNum); console.log("			width: " + pWidth); 
+			//console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
 			
 
 			var factor = 0;
@@ -133,8 +133,8 @@
 					factor = 0;
 					//console.log("one two three");
 				}
-				str += '<div style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
-				str += '<div style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
+				str += '<div class="text-wrap" style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
+				str += '<div class="text-wrap" style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
 				
 				//console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
 			}

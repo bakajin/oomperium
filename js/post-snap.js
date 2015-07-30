@@ -172,7 +172,7 @@ jQuery(document).ready(function(){
 		
 		maskPolygon = s.polyline(mPoints);
 		maskPolygon.attr({
-			fill : "#fff"
+			fill : "none"
 		});
 		
 		s.attr({
@@ -227,9 +227,12 @@ jQuery(document).ready(function(){
 									"top" : topPos
 								});//"-webkit-clip-path" : "polygon(" + mPoints[0] + "px " + mPoints[1] + "px, " + mPoints[2] + "px " + mPoints[3] + "px, " + mPoints[4] + "px " + mPoints[5] + "px, " + mPoints[6] + "px " + mPoints[7] + "px)"
 				if(articleMedia.hasClass("jetpack-slideshow") == true) {
-					console.log("make controls ");
+					//console.log("make controls ");
 					loadAssets(loadGalleryControls);
 
+				}
+				if("firefox") {
+					//unhide the clippath property
 				}
 			}
 			

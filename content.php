@@ -33,27 +33,14 @@
 				'after'  => '</div>',
 			) );
 		?>
+		<!-- Some custom gallery controls from snap -->
+		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
+			<defs></defs>
+		</svg>
 		<!-- call a snap svg canvas for interactive animated svg masking -->
 		<svg class="svg-post" id="svg-post-<?php the_ID(); ?>">
 			<defs></defs>
 		</svg>
-		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
-			<defs></defs>
-		</svg>
-		<script>
-		/* snap svg script */
-		/* clip the post image */
-			//var sClip = Snap("#svg-post-<?php the_ID(); ?>");
-			//var g = sClip.group();
-			//var tux = Snap.load("<?php echo get_stylesheet_directory_uri() . '/images/clip-diagonal-left-right.svg'; ?>", function ( loadedFragment ) {
-              //                                  g.append( loadedFragment );
-                //                                g.hover( hoverover, hoverout );
-                  //                              g.text(300,100, 'hover over me');
-                    //                    } );
-
-			//var hoverover = function() { g.animate({ transform: 's2r45,150,150' }, 1000, mina.bounce ) };
-			//var hoverout = function() { g.animate({ transform: 's1r0,150,150' }, 1000, mina.bounce ) };
-		</script>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
