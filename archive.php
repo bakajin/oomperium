@@ -24,46 +24,46 @@ get_header(); ?>
 							single_tag_title();
 
 						elseif ( is_author() ) :
-							printf( __( 'Author: %s', 'oomperium' ), '<span class="vcard">' . get_the_author() . '</span>' );
+							printf( __( 'Author: %s', 'oomperidev' ), '<span class="vcard">' . get_the_author() . '</span>' );
 
 						elseif ( is_day() ) :
-							printf( __( 'Day: %s', 'oomperium' ), '<span>' . get_the_date() . '</span>' );
+							printf( __( 'Day: %s', 'oomperidev' ), '<span>' . get_the_date() . '</span>' );
 
 						elseif ( is_month() ) :
-							printf( __( 'Month: %s', 'oomperium' ), '<span>' . get_the_date( _x( 'F Y', 'monthly archives date format', 'oomperium' ) ) . '</span>' );
+							printf( __( 'Month: %s', 'oomperidev' ), '<span>' . get_the_date( _x( 'F Y', 'monthly archives date format', 'oomperidev' ) ) . '</span>' );
 
 						elseif ( is_year() ) :
-							printf( __( 'Year: %s', 'oomperium' ), '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'oomperium' ) ) . '</span>' );
+							printf( __( 'Year: %s', 'oomperidev' ), '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'oomperidev' ) ) . '</span>' );
 
 						elseif ( is_tax( 'post_format', 'post-format-aside' ) ) :
-							_e( 'Asides', 'oomperium' );
+							_e( 'Asides', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) :
-							_e( 'Galleries', 'oomperium' );
+							_e( 'Galleries', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-image' ) ) :
-							_e( 'Images', 'oomperium' );
+							_e( 'Images', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-video' ) ) :
-							_e( 'Videos', 'oomperium' );
+							_e( 'Videos', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-quote' ) ) :
-							_e( 'Quotes', 'oomperium' );
+							_e( 'Quotes', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-link' ) ) :
-							_e( 'Links', 'oomperium' );
+							_e( 'Links', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-status' ) ) :
-							_e( 'Statuses', 'oomperium' );
+							_e( 'Statuses', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-audio' ) ) :
-							_e( 'Audios', 'oomperium' );
+							_e( 'Audios', 'oomperidev' );
 
 						elseif ( is_tax( 'post_format', 'post-format-chat' ) ) :
-							_e( 'Chats', 'oomperium' );
+							_e( 'Chats', 'oomperidev' );
 
 						else :
-							_e( 'Archives', 'oomperium' );
+							_e( 'Archives', 'oomperidev' );
 
 						endif;
 					?>
@@ -90,7 +90,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php oomperium_paging_nav(); ?>
+			<?php oomperidev_paging_nav(); ?>
 
 		<?php else : ?>
 

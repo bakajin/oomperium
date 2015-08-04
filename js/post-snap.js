@@ -109,7 +109,7 @@ jQuery(document).ready(function(){
 					var controls = Snap('#svg-gallery-controls-'+ postIDs[gNum]);
 						jQuery("#svg-gallery-controls-" + postIDs[gNum]).css({
 							"display" : "inline-block",
-							"top" : "-65rem"
+							"top" : "-113rem"
 						});
 				// lets see if there is a gallery and render its controls
 				//console.log("found jetpack gallery ", jQuery("[id^=gallery-" + postIDs[gNum] + "]").length);
