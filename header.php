@@ -15,28 +15,79 @@
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 <!-- google maps api for footer -->
-<style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+	<style type="text/css">
+    	html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
     </style>
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDenmsexxZoYPEwOpdIp1zCMl3mLo60J5U">
     </script>
     <script type="text/javascript">
       function initialize() {
+      	jQuery("#map-canvas").css({ 
+      		"width" : (window.innerWidth + "px"),
+      		"height" : "600px"
+      })
+      	var mapstyle = [
+  				{
+    				featureType: 'landscape.man_made',
+    				elementType: 'geometry.fill',
+    				stylers: [
+      					{ color: '#faeeee' }
+    				]
+  				},{
+    				featureType: 'water',
+    				elementType: 'geometry.fill',
+    				stylers: [
+      					{ color: '#edf0f5' }
+    				]
+  				},{
+    				featureType: 'road.local',
+    				stylers: [
+      					{ color: '#ffffff' }
+    				]
+  				},{
+    				featureType: 'transit.line',
+    				stylers: [
+      					{ color: '#D4C978' },
+      					{ lightness: 56 }
+    				]
+  				},{
+    				featureType: 'poi.park',
+    				elementType: 'geometry.fill',
+    				stylers: [
+      					{ color: '#4ca984' },
+      					{ lightness: 56 }
+    				]	
+  				}
+			];
+
         var mapOptions = {
           center: { lat: 52.3728883, lng: 4.9024593}, 
-          zoom: 17
+          zoom: 17,
+          styles : mapstyle,
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
+
+        var marker = new google.maps.Marker({
+  			position: { lat: 52.3728883, lng: 4.9024593},
+  			map: map,
+			}); //icon: iconBase + 'schools_maps.png'
+      
       }
+      	
       google.maps.event.addDomListener(window, 'load', initialize);
+
     </script>
 <!-- Set the path to the theme base dir -->
 <script>
 	var themePath = "<?php echo get_stylesheet_directory_uri() . '/images/'; ?>"; 
 	var headerImg = "<?php header_image(); ?>";
 	var logoImg;
+
+	// lets find out which browser is being used 
+		// object name, version, engine
+	var browser = {name : "", version : "", engine : ""};
 </script>
 <!-- Type kit definition of fonts -->
 <script src="//use.typekit.net/qbz6cuj.js"></script>
@@ -51,6 +102,7 @@
     // This code based on wp_nav_menu's code to get Menu ID from menu slug
 
     $menu_name = 'primary';
+    $menuJsVars = "var menuItems = [";
 
     if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ $menu_name ] ) ) {
 	$menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
@@ -58,7 +110,7 @@
 	$menu_items = wp_get_nav_menu_items($menu->term_id);
 		//print_r($menu_items);
 		
-		$menuJsVars = "var menuItems = [";
+		
 		foreach($menu_items as $menu_item){
 
 			// the items for javascript var
@@ -72,6 +124,7 @@
 	
     } else {
 		// fail
+		$menuJsVars .= '{fail: "' . $menu_name . '"}, ';
 	}
 	$menuJsVars .= '{end: ""}];';
 	echo $menuJsVars;

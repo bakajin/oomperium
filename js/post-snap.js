@@ -98,26 +98,31 @@ jQuery(document).ready(function(){
 	}
 
 	function buildGalleryControls() {
-			var transMatrix = new Snap.Matrix();
-				//transMatrix.scale(scaleFactor);
-				
-				
+			// lets see if there is a gallery and render its controls
+					
 			for(var gNum = 0; gNum < postIDs.length; gNum++) {
 					var transFactor = { x : -5, y : 0 };
 					var transl = {x : "0%", y : "10%"};
-
-					var controls = Snap('#svg-gallery-controls-'+ postIDs[gNum]);
-						jQuery("#svg-gallery-controls-" + postIDs[gNum]).css({
-							"display" : "inline-block",
-							"top" : "-113rem"
-						});
-				// lets see if there is a gallery and render its controls
-				//console.log("found jetpack gallery ", jQuery("[id^=gallery-" + postIDs[gNum] + "]").length);
-
 					var galleryCheck = jQuery("[id^=gallery-" + postIDs[gNum] + "]").length;
 				
 					if(galleryCheck > 0) {
 						//build controls
+
+						//unhide container
+						var controls = Snap('#svg-gallery-controls-'+ postIDs[gNum]);
+
+						//var galleryPos = jQuery("[id^=gallery-" + postIDs[gNum] + "]").position();
+						//var galleryPos = jQuery("[id^=gallery-" + postIDs[gNum] + "]").position();
+							//galleryPos = galleryPos.top * -1;
+						var	galleryPos = (jQuery("[id^=gallery-" + postIDs[gNum] + "]").height() * -1.45);
+						console.log("gallery positioning: ", galleryPos);
+						
+						jQuery("#svg-gallery-controls-" + postIDs[gNum]).css({
+							"position" : "relative",
+							"display" : "inline-block",
+							"top" : (galleryPos + "px")
+						});
+
 
 						for (var ctrl = 0; ctrl < controlsGroup.length; ctrl++) {
 								console.log("ctrl ", controlsGroup[ctrl].id, jQuery('#svg-gallery-controls-'+ postIDs[gNum]).innerWidth(), ctrl);
@@ -140,7 +145,7 @@ jQuery(document).ready(function(){
 										//transFactor.y += jQuery("[id^=gallery-" + postIDs[gNum] + "]").innerHeight() / 5;
 										transl = {x : "37%", y : "55%"};
 								
-										console.log("win " + jQuery("[id^=gallery-" + postIDs[gNum] + "]").innerHeight() );
+										//console.log("win " + jQuery("[id^=gallery-" + postIDs[gNum] + "]").innerHeight() );
 									break;
 									case 1:
 										transl = {x : "80%", y : "10%"};
@@ -217,6 +222,7 @@ jQuery(document).ready(function(){
 				topPos = "-60rem";
 				console.log("found tiled", articleMedia.outerHeight());
 			}
+
 			if(articleMedia.length > 0) {
 				//draw poly
 				console.log(idx + "artgal: ");
@@ -231,9 +237,7 @@ jQuery(document).ready(function(){
 					loadAssets(loadGalleryControls);
 
 				}
-				if("firefox") {
-					//unhide the clippath property
-				}
+				
 			}
 			
 		// draw a mask and padding polygon

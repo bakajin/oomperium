@@ -54,9 +54,8 @@ jQuery(document).ready(function(){
 
 					switch(g.attr('id')) {
 						case "oomp-menu-bg":
-								//viewBox = g.attr("viewBox");
-								//viewBox = 
-
+								//draw a background rectangle and colour it.
+									// add two hairlines top and bottom
 								jQuery("#svg-menu").height(viewBox.height);
 								
 								/*var pWidth = jQuery("#svg-menu").width();
@@ -64,22 +63,24 @@ jQuery(document).ready(function(){
 */
 								var pWidth = "100%";
 								var pHeight = jQuery("#svg-menu").height() -1;
+								var pX = "10%";
+								var pY = "23%";
 
 								//scale loaded to 100% of the svg canvas
-								scaleFactor = 0.5;//(drawingSurface.innerWidth() /  viewBox.width); // make a factor based on window width and list length
-								transMatrix = new Snap.Matrix();
-								transMatrix.scale(scaleFactor);
-								transMatrix.translate(0, ((viewBox.y / 4) * -1));//
+								//scaleFactor = 0.5;//(drawingSurface.innerWidth() /  viewBox.width); // make a factor based on window width and list length
+								//transMatrix = new Snap.Matrix();
+								//transMatrix.scale(scaleFactor);
+								//transMatrix.translate(0, ((viewBox.y / 4) * -1));//
 
-								bgRect = s.paper.rect(0,33,pWidth,pHeight).attr({
+								bgRect = s.paper.rect(pX,pY,pWidth,pHeight).attr({
 									fill : "#EDF0F5"
 								});
-								lineTop = s.paper.line(0,33, pWidth,33).attr({
+								lineTop = s.paper.line(pX,pY, pWidth,pY).attr({
 									fill : "none",
 									stroke : "#D47878",
 									strokeWidth : 0.25
 								});
-								lineBottom = s.paper.line(0,pHeight, pWidth,pHeight).attr({
+								lineBottom = s.paper.line(pX,pHeight, pWidth,pHeight).attr({
 									fill : "none",
 									stroke : "#D47878",
 									strokeWidth : 0.25
@@ -98,20 +99,34 @@ jQuery(document).ready(function(){
 
 								for(b = 0; b < menuItems.length; b++) {
 									str = menuItems[b].title;
-								
 									if(menuItems[b].parent > 0) {
 										//submenu item, write text, iterate and space
-
+										console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
+									
 										var xSpacer;
 										
 										switch(menuItems[b].parent) {
-											case "23":
-													xSpacer = "17.5%";//108;
+											case "110":
+													xSpacer = "27.5%";//108;
 													//subCount = 0;
 													
 											break;
+											case "23":
+													xSpacer = "27.5%";//108;
+													//subCount = 0;
+													
+											break;
+											case "114":
+													xSpacer = "55.5%";//350;
+													if(menuItems[b].parent == 114 & subSwitch == false) {
+														subCount = 0;
+														subSwitch = true;
+													}
+													
+													//console.log(b,"29", subCount);
+											break;
 											case "29":
-													xSpacer = "45.5%";//350;
+													xSpacer = "55.5%";//350;
 													if(menuItems[b].parent == 29 & subSwitch == false) {
 														subCount = 0;
 														subSwitch = true;
@@ -120,7 +135,7 @@ jQuery(document).ready(function(){
 													//console.log(b,"29", subCount);
 											break;
 											case "33":
-													xSpacer = "73.5%";//590;
+													xSpacer = "83.5%";//590;
 													if(menuItems[b].parent == 33 & subSwitch == true) {
 														subCount = 0;
 														subSwitch = false;
@@ -157,22 +172,22 @@ jQuery(document).ready(function(){
 											//set a string for the text
 											
 											//translate and scale buttons each iteration (scaling static)
-											transMatrix = new Snap.Matrix();
-											scaleFactor = ( drawingSurface.innerWidth() / viewBox.width )/ 3.21; // make a factor based on window width and list length
+											//transMatrix = new Snap.Matrix();
+											//scaleFactor = ( drawingSurface.innerWidth() / viewBox.width )/ 3.21; // make a factor based on window width and list length
 											
 											// translate before scale
 											//transMatrix.translate( ((drawingSurface.innerWidth() / 3) * mainMenuIterate), localViewBox.y - (localViewBox.height / 2.65));//(viewBox.y * -1)
-											var transXVal = 28 * mainMenuIterate + 5;
+											var transXVal = 28 * mainMenuIterate + 15;
 												transXVal = transXVal + "%";
 											g.attr({ 
 													x : transXVal,
-													y : "-5.7em",
+													y : "-5.5em",
 													width : "22%"
 												});
 											//transMatrix.translate( transXVal, localViewBox.y - (localViewBox.height / 2.65));
 											//transMatrix.scale(scaleFactor);
 											
-											g.select("g").transform(transMatrix);
+											//g.select("g").transform(transMatrix);
 											
 											
 											//main menu item add button write text

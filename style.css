@@ -171,6 +171,9 @@ img.header-logo {
 	width : 30%;
 } 
 
+#secondary {
+	display : none;
+}
 .site-footer {
 	position: fixed;
 	bottom: 0;
@@ -546,7 +549,7 @@ a:active {
 
 #svg-menu {
 	position: relative;
-	width : 100%;
+	width : 107%; /* 100% */
 	display : block;
 	margin : auto;
 	z-index: 99;
