@@ -23,7 +23,7 @@ If you want to keep it simple, head over to http://underscores.me and generate y
 
 If you want to set things up manually, download `_s` from GitHub. The first thing you want to do is copy the `_s` directory and change the name to something else (like, say, `megatherium`), and then you'll need to do a five-step find and replace on the name in all the templates.
 
-1. Search for `'oomperidev'` (inside single quotations) to capture the text domain.
+1. Search for `'oomperium'` (inside single quotations) to capture the text domain.
 2. Search for `oomperidev_` to capture all the function names.
 3. Search for `Text Domain: oomperium` in style.css.
 *. Search for `Theme Name: oomperidev` in style.css.
