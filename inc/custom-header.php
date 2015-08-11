@@ -18,31 +18,31 @@
 /**
  * Set up the WordPress core custom header feature.
  *
- * @uses oomperidev_header_style()
- * @uses oomperidev_admin_header_style()
- * @uses oomperidev_admin_header_image()
+ * @uses oomperium_header_style()
+ * @uses oomperium_admin_header_style()
+ * @uses oomperium_admin_header_image()
  */
-function oomperidev_custom_header_setup() {
-	add_theme_support( 'custom-header', apply_filters( 'oomperidev_custom_header_args', array(
+function oomperium_custom_header_setup() {
+	add_theme_support( 'custom-header', apply_filters( 'oomperium_custom_header_args', array(
 		'default-image'          => '',
 		'default-text-color'     => '000000',
 		'width'                  => 1000,
 		'height'                 => 250,
 		'flex-height'            => true,
-		'wp-head-callback'       => 'oomperidev_header_style',
-		'admin-head-callback'    => 'oomperidev_admin_header_style',
-		'admin-preview-callback' => 'oomperidev_admin_header_image',
+		'wp-head-callback'       => 'oomperium_header_style',
+		'admin-head-callback'    => 'oomperium_admin_header_style',
+		'admin-preview-callback' => 'oomperium_admin_header_image',
 	) ) );
 }
-add_action( 'after_setup_theme', 'oomperidev_custom_header_setup' );
+add_action( 'after_setup_theme', 'oomperium_custom_header_setup' );
 
-if ( ! function_exists( 'oomperidev_header_style' ) ) :
+if ( ! function_exists( 'oomperium_header_style' ) ) :
 /**
  * Styles the header image and text displayed on the blog
  *
- * @see oomperidev_custom_header_setup().
+ * @see oomperium_custom_header_setup().
  */
-function oomperidev_header_style() {
+function oomperium_header_style() {
 	$header_text_color = get_header_textcolor();
 
 	// If no custom options for text are set, let's bail
@@ -75,15 +75,15 @@ function oomperidev_header_style() {
 	</style>
 	<?php
 }
-endif; // oomperidev_header_style
+endif; // oomperium_header_style
 
-if ( ! function_exists( 'oomperidev_admin_header_style' ) ) :
+if ( ! function_exists( 'oomperium_admin_header_style' ) ) :
 /**
  * Styles the header image displayed on the Appearance > Header admin panel.
  *
- * @see oomperidev_custom_header_setup().
+ * @see oomperium_custom_header_setup().
  */
-function oomperidev_admin_header_style() {
+function oomperium_admin_header_style() {
 ?>
 	<style type="text/css">
 		.appearance_page_custom-header #headimg {
@@ -103,15 +103,15 @@ function oomperidev_admin_header_style() {
 	</style>
 <?php
 }
-endif; // oomperidev_admin_header_style
+endif; // oomperium_admin_header_style
 
-if ( ! function_exists( 'oomperidev_admin_header_image' ) ) :
+if ( ! function_exists( 'oomperium_admin_header_image' ) ) :
 /**
  * Custom header image markup displayed on the Appearance > Header admin panel.
  *
- * @see oomperidev_custom_header_setup().
+ * @see oomperium_custom_header_setup().
  */
-function oomperidev_admin_header_image() {
+function oomperium_admin_header_image() {
 	$style = sprintf( ' style="color:#%s;"', get_header_textcolor() );
 ?>
 	<div id="headimg">
@@ -123,4 +123,4 @@ function oomperidev_admin_header_image() {
 	</div>
 <?php
 }
-endif; // oomperidev_admin_header_image
+endif; // oomperium_admin_header_image

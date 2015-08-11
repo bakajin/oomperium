@@ -31,7 +31,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php oomperidev_paging_nav(); ?>
+			<?php oomperium_paging_nav(); ?>
 
 		<?php else : ?>
 

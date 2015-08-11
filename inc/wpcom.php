@@ -12,7 +12,7 @@
  *
  * @global array $themecolors
  */
-function oomperidev_wpcom_setup() {
+function oomperium_wpcom_setup() {
 	global $themecolors;
 
 	// Set theme colors for third party services.
@@ -26,4 +26,4 @@ function oomperidev_wpcom_setup() {
 		);
 	}
 }
-add_action( 'after_setup_theme', 'oomperidev_wpcom_setup' );
+add_action( 'after_setup_theme', 'oomperium_wpcom_setup' );
