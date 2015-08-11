@@ -184,7 +184,7 @@
 
 				if(l < 4) {
 					factor = 0;
-					//console.log("one two three");
+					//consooe.log("one two three");
 				}
 				str += '<div class="text-wrap" style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
 				str += '<div class="text-wrap" style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
