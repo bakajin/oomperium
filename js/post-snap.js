@@ -10,6 +10,7 @@ var maskPolygon;
 var paddingPolygon;
 
 var controlsGroup = new Array();
+var controlsCheck = false;
 var loadCount = 0;
 
 jQuery(document).ready(function(){
@@ -114,7 +115,7 @@ jQuery(document).ready(function(){
 						//var galleryPos = jQuery("[id^=gallery-" + postIDs[gNum] + "]").position();
 						//var galleryPos = jQuery("[id^=gallery-" + postIDs[gNum] + "]").position();
 							//galleryPos = galleryPos.top * -1;
-						var	galleryPos = (jQuery("[id^=gallery-" + postIDs[gNum] + "]").height() * -1.45);
+						var	galleryPos = (jQuery("[id^=gallery-" + postIDs[gNum] + "]").height() * -1.86);
 						console.log("gallery positioning: ", galleryPos);
 						
 						jQuery("#svg-gallery-controls-" + postIDs[gNum]).css({
@@ -125,7 +126,7 @@ jQuery(document).ready(function(){
 
 
 						for (var ctrl = 0; ctrl < controlsGroup.length; ctrl++) {
-								console.log("ctrl ", controlsGroup[ctrl].id, jQuery('#svg-gallery-controls-'+ postIDs[gNum]).innerWidth(), ctrl);
+								console.log("ctrl ", controlsGroup[ctrl].select("svg").id, jQuery('#svg-gallery-controls-'+ postIDs[gNum]).innerWidth(), ctrl);
 								//transMatrix.translate(transFactor.x, transFactor.y);
 							
 								/*
@@ -136,6 +137,12 @@ jQuery(document).ready(function(){
 																		x : transl.x, 
 																		y : transl.y
 																	});
+								
+								controlsGroup[ctrl].select("svg").mouseover(onGallery);
+								controlsGroup[ctrl].select("svg").mouseout(onGallery);
+								controlsGroup[ctrl].select("svg").mousedown(onGallery);
+								controlsGroup[ctrl].select("svg").mouseup(onGallery);
+
 								controls.append(controlsGroup[ctrl].select("svg").node.cloneNode(true));
 							
 								//transFactor.x += (jQuery('#svg-gallery-controls-'+ postIDs[gNum]).innerWidth() / controlsGroup.length);
@@ -184,43 +191,47 @@ jQuery(document).ready(function(){
 			clipPath : maskPolygon.clone(),
 			mask : maskPolygon.clone()
 		});
-/*
-		paddingPolygon = s.paper.polyline(pPoints);
+
+		paddingPolygon = s.paper.rect(0,0,"100%","55%");
 		paddingPolygon.attr({fill : "#fff", id : ("padding-" + idx)	});
-*/
+
 		// build check for content height and write to entry content.
 		// how many exerpt lines, plus media height, make rest of text white
 
 			//lets check for a gallery to clip
 			var polyPoints;
 			var topPos;
+
 			if(articleContent.find("p a img").length > 0) {
 				
 				articleMedia = articleContent.find("p a img");
 				polyPoints = "0% 33%, 100% 0%, 100% 100%, 0 100%";
 				topPos = "-56rem";
-				console.log("found img ", articleMedia.outerHeight());
+				//console.log("found img ", articleMedia.outerHeight());
+				controlsCheck =false;
 			}
 			if(articleContent.find("p iframe").length > 0) {
 				articleMedia = articleContent.find("p iframe");
 				polyPoints = "0% 50%, 100% 0%, 100% 200%, 0 200%";
 				topPos = "-58rem";
-				console.log("found iframe ", articleMedia.outerHeight());
-				
+				//console.log("found iframe ", articleMedia.outerHeight());
+				controlsCheck = true;	
 			}
 			if(articleContent.children(".jetpack-slideshow").length > 0) {
 				
 				articleMedia = articleContent.children(".jetpack-slideshow");	
 				polyPoints = "0% 38%, 100% 5%, 100% 200%, 0 200%";
 				topPos = "-46rem";
-				console.log("found jetpack", articleMedia.outerHeight());
+				controlsCheck = true;
+				//console.log("found jetpack", articleMedia.outerHeight());
 			}
 			if(articleContent.children(".tiled-gallery").length > 0) {
 				
 				articleMedia = articleContent.children(".tiled-gallery");
 				polyPoints = "0% 50%, 100% 0%, 100% 200%, 0 200%";	
 				topPos = "-60rem";
-				console.log("found tiled", articleMedia.outerHeight());
+				controlsCheck = false;
+				//console.log("found tiled", articleMedia.outerHeight());
 			}
 
 			if(articleMedia.length > 0) {
@@ -232,7 +243,7 @@ jQuery(document).ready(function(){
 									"-webkit-clip-path" : "polygon(" + polyPoints + ")",
 									"top" : topPos
 								});//"-webkit-clip-path" : "polygon(" + mPoints[0] + "px " + mPoints[1] + "px, " + mPoints[2] + "px " + mPoints[3] + "px, " + mPoints[4] + "px " + mPoints[5] + "px, " + mPoints[6] + "px " + mPoints[7] + "px)"
-				if(articleMedia.hasClass("jetpack-slideshow") == true) {
+				if(controlsCheck == true) {
 					//console.log("make controls ");
 					loadAssets(loadGalleryControls);
 
@@ -250,5 +261,9 @@ jQuery(document).ready(function(){
 			loopArticles();
 			//loadAssets(loadClip);
 		}
+ 	function onGallery(event) {
+ 			console.log("gallery " + event.type);
+ 			console.log(event.target.nearestViewportElement.id);
+ 	}
 });
 

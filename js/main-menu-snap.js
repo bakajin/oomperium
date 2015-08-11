@@ -101,7 +101,7 @@ jQuery(document).ready(function(){
 									str = menuItems[b].title;
 									if(menuItems[b].parent > 0) {
 										//submenu item, write text, iterate and space
-										console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
+										//console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
 									
 										var xSpacer;
 										
@@ -155,7 +155,7 @@ jQuery(document).ready(function(){
 											subMenuItem.addClass("main-menu-sub");
 											
 											
-											console.log("loaded ", s.select(".main-menu-sub").children());
+											//console.log("loaded ", s.select(".main-menu-sub").children());
 										
 											s.select( "#sub-" + b ).click(onSubMenu);
 											s.select( "#sub-" + b ).mouseover(onSubMenu);
