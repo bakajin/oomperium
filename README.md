@@ -32,7 +32,7 @@ If you want to set things up manually, download `_s` from GitHub. The first thin
 
 OR
 
-* Search for: `'oomperidev'` and replace with: `'oomperium'`
+* Search for: `'oomperium'` and replace with: `'oomperium'`
 * Search for: `oomperidev_` and replace with: `oomperium_`
 * Search for: `Text Domain: _s` and replace with: `Text Domain: oomperium` in style.css.
 * Search for `Theme Name: oomperidev` and replace with `Theme Name: oomperium in style.css.
