@@ -1,5 +1,5 @@
-/* render the main menu using snap svgs */ 
-window.onload = function(){
+/* render the gallery controls on selected galleries */ 
 
-	var loadList;
-}
+jQuery(document).ready(function(){
+
+});

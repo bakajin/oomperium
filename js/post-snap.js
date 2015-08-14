@@ -13,6 +13,8 @@ var controlsGroup = new Array();
 var controlsCheck = false;
 var loadCount = 0;
 
+var assetsLoaded = false;
+
 jQuery(document).ready(function(){
 	// set the theme path to the path
 	console.log("post ids", postIDs);
@@ -45,6 +47,17 @@ jQuery(document).ready(function(){
 				break;
 				
 			}
+			
+			g = asset.select("svg");
+			
+
+			g.mouseover(onGallery);
+			g.mouseout(onGallery);
+			g.mousedown(onGallery);
+			g.mouseup(onGallery);
+
+			g.addClass("gallery-button");
+
 			controlsGroup[count] = asset;
 			console.log("loaded", asset.select("svg").attr("id"), controlsGroup.length, count, loadCount);
 			loadCount++;
@@ -138,11 +151,12 @@ jQuery(document).ready(function(){
 																		y : transl.y
 																	});
 								
+								/*
 								controlsGroup[ctrl].select("svg").mouseover(onGallery);
 								controlsGroup[ctrl].select("svg").mouseout(onGallery);
 								controlsGroup[ctrl].select("svg").mousedown(onGallery);
 								controlsGroup[ctrl].select("svg").mouseup(onGallery);
-
+*/
 								controls.append(controlsGroup[ctrl].select("svg").node.cloneNode(true));
 							
 								//transFactor.x += (jQuery('#svg-gallery-controls-'+ postIDs[gNum]).innerWidth() / controlsGroup.length);
@@ -244,9 +258,16 @@ jQuery(document).ready(function(){
 									"top" : topPos
 								});//"-webkit-clip-path" : "polygon(" + mPoints[0] + "px " + mPoints[1] + "px, " + mPoints[2] + "px " + mPoints[3] + "px, " + mPoints[4] + "px " + mPoints[5] + "px, " + mPoints[6] + "px " + mPoints[7] + "px)"
 				if(controlsCheck == true) {
-					//console.log("make controls ");
-					loadAssets(loadGalleryControls);
-
+					if(assetsLoaded == false) {
+						loadAssets(loadGalleryControls);	
+						assetsLoaded = true;
+					}
+					else{
+						buildGalleryControls();
+					}
+					console.log("		**************						make controls ");
+					
+					
 				}
 				
 			}
@@ -261,6 +282,7 @@ jQuery(document).ready(function(){
 			loopArticles();
 			//loadAssets(loadClip);
 		}
+
  	function onGallery(event) {
  			console.log("gallery " + event.type);
  			console.log(event.target.nearestViewportElement.id);

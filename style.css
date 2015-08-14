@@ -557,7 +557,7 @@ a:active {
 	z-index: 99;
 }
 
-.main-menu-button, .main-menu-sub, .social-menu-button{
+.main-menu-button, .main-menu-sub, .social-menu-button, .gallery-button{
 	cursor: pointer;
 }
 
