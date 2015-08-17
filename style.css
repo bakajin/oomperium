@@ -879,6 +879,12 @@ div.slideshow-window:hover, .entry-content iframe:hover, div.tiled-gallery:hover
 	top : -51rem;
 	width : 120%;
 	left : -10%;
+	opacity: 0;
+	transition : opacity 1s;
+	-webkit-transition : opacity 1s;
+}
+.svg-gallery-controls:hover {
+	opacity: 1;
 }
 body.blog .entry-content iframe {
 /* vimeo player and possibly youtube and other iframe */

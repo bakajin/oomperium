@@ -102,20 +102,22 @@ jQuery(document).ready(function(){
 				var	galleryPos;
 				if(jQuery("article#post-" + postIDs[pNum] + " div.entry-content div.jetpack-slideshow").length > 0) {
 					//console.log("hasSlideshow ", postIDs[pNum])
-					galleryPos = (jQuery("article#post-" + postIDs[pNum] + " div.entry-content div.jetpack-slideshow").height() * -1.6);
+					galleryPos = (jQuery("article#post-" + postIDs[pNum] + " div.entry-content div.jetpack-slideshow").height() * -2);
 					jQuery("#svg-gallery-controls-" + postIDs[pNum]).css({
 							"position" : "relative",
 							"display" : "block",
+							"height" : (jQuery("article#post-" + postIDs[pNum] + " div.entry-content div.jetpack-slideshow").height() + "px"),
 							"top" : (galleryPos + "px")
 						});
 
 				}
 				if (jQuery("article#post-" + postIDs[pNum] + " div.entry-content p iframe").length > 0) {
 					//console.log("hasIframe ", postIDs[pNum])
-					galleryPos = (jQuery("article#post-" + postIDs[pNum] + " div.entry-content p iframe").height() * -2.8);
+					galleryPos = (jQuery("article#post-" + postIDs[pNum] + " div.entry-content p iframe").height() * -3);
 					jQuery("#svg-gallery-controls-" + postIDs[pNum]).css({
 							"position" : "relative",
 							"display" : "block",
+							"height" : (jQuery("article#post-" + postIDs[pNum] + " div.entry-content p iframe").height() + "px"),
 							"top" : (galleryPos + "px")
 						});
 
@@ -131,7 +133,7 @@ jQuery(document).ready(function(){
 			// there is a gallery now and render its controls
 
 					var transFactor = { x : -5, y : 0 };
-					var transl = {x : "0%", y : "10%"};
+					var transl = {x : "0%", y : "33%"};
 
 						//build controls
 
@@ -155,11 +157,11 @@ jQuery(document).ready(function(){
 								
 									break;
 									case 1:
-										transl = {x : "80%", y : "10%"};
+										transl = {x : "80%", y : "33%"};
 
 									break;
 									case 2:
-										transl = {x : "0%", y : "10%"};
+										transl = {x : "0%", y : "33%"};
 
 									break;
 								}
