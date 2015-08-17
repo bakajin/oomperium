@@ -850,7 +850,7 @@ body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, bo
 	/*-webkit-mask: polygon(0% 66%, 100% 0%, 100% 100%, 0% 100%);*/
  	/* -webkit-mask: url(images/clip-diagonal-left-right.svg);*/
  	width : 100%;
-	padding : 5em 0;
+	padding : 0 0 4em 0;
 	background-color: #fff!important;
 }
 

@@ -201,9 +201,10 @@ add_action( 'wp_enqueue_scripts', 'oomperidev_scripts' );
 /** OOMP custom scripts */
 function oomperidev_custom_scripts() {
 	//modernizr
+/*
 	wp_register_script('modernizr', get_template_directory_uri() . '/js/modernizr.custom.19667.js');
 	wp_enqueue_script('modernizr');
-
+*/
 	// snap library script to animate svgs
 	wp_register_script('snap-svg', get_template_directory_uri() . '/js/snap.svg.js');
 	wp_enqueue_script('snap-svg');
@@ -219,6 +220,10 @@ function oomperidev_custom_scripts() {
 	// snap svg post snap
 	wp_register_script('post-snap', get_template_directory_uri() . '/js/post-snap.js');
 	wp_enqueue_script('post-snap');
+
+	// snap svg gallery controls snap
+	wp_register_script('gallery-controls', get_template_directory_uri() . '/js/gallery-controls.js');
+	wp_enqueue_script('gallery-controls');
 
 	// snap svg social snap footer menu
 	wp_register_script('social-menu-snap', get_template_directory_uri() . '/js/social-menu-snap.js');
