@@ -59,7 +59,50 @@ function onSVGLoaded(asset) {
 
 function onGallery(event) {
  			console.log("gallery " + event.type);
- 			console.log(event.target.nearestViewportElement.id);
+ 			console.log(event.target);
+ 			console.log(event);
+ 			var button = event.target.nearestViewportElement.id; //get the button that is clicked : previous, next or play
+ 			var postID = event.target.farthestViewportElement.id; //get the last number that reveals the post 
+
+ 			var strPos = postID.lastIndexOf("-");
+ 				postID = postID.substr(strPos + 1);
+
+ 				strPos = button.lastIndexOf("-");
+ 				button = button.substr(0, strPos);
+
+ 			var buttonNum = 0;
+ 			switch(button) {
+ 				case "previous":
+ 						buttonNum = 1;
+ 				break;
+ 				case "play":
+ 						buttonNum = 2;
+ 				break;
+ 				case "next":
+ 						buttonNum = 3;
+ 				break;
+ 			}
+ 			console.log("button postid " + button + " : " + postID);
+ 			switch(event.type) {
+ 				case "mouseover":
+
+ 				break;
+ 				case "mouseout":
+
+ 				break;
+ 				case "mousedown":
+
+ 				break;
+ 				case "mouseup":
+ 						jQuery("article#post-" + postID + " div.entry-content div.jetpack-slideshow div.slideshow-controls a:nth-child(" + buttonNum + ")")[0].click();
+ 				break;
+ 				case "touchstart":
+
+ 				break;
+ 				case "touchend":
+
+ 				break;
+ 			}
  	}
 
 loadAssets(loadGalleryControls);
@@ -146,8 +189,6 @@ jQuery(document).ready(function(){
 																		x : transl.x, 
 																		y : transl.y
 																	});
-								
-								
 								
 								controls.append(controlsGroup[ctrl].node.cloneNode(true));
 							
