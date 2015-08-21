@@ -1,6 +1,6 @@
 /* render the main menu using snap svgs */ 
 //the list to preload
-//<?php echo get_stylesheet_directory_uri() . '/images/social-facebook.svg'; ?>
+
 var menuOptions;
 var path = "images/";
 
@@ -93,6 +93,7 @@ jQuery(document).ready(function(){
 								//s.prepend(g);
 						break;
 						default:
+							/* submenu */
 								//iterate submenu
 								var subCount = 0;
 								var subSwitch = false;
@@ -101,7 +102,7 @@ jQuery(document).ready(function(){
 									str = menuItems[b].title;
 									if(menuItems[b].parent > 0) {
 										//submenu item, write text, iterate and space
-										//console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
+										console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
 									
 										var xSpacer;
 										
@@ -165,6 +166,7 @@ jQuery(document).ready(function(){
 											//console.log(loaded);
 
 									} else {
+										/* Main Menu buttons */
 										if(menuItems[b].parent != undefined) {
 											
 											var localViewBox = g.attr('viewBox');
@@ -184,6 +186,10 @@ jQuery(document).ready(function(){
 													y : "-5.5em",
 													width : "22%"
 												});
+											g.mouseover(onMainMenu);
+											g.mouseout(onMainMenu);
+											g.mousedown(onMainMenu);
+											g.mouseup(onMainMenu);
 											//transMatrix.translate( transXVal, localViewBox.y - (localViewBox.height / 2.65));
 											//transMatrix.scale(scaleFactor);
 											
@@ -200,11 +206,11 @@ jQuery(document).ready(function(){
 											buttons[mainMenuIterate].select("#text-back").attr({ text : str });
 											buttons[mainMenuIterate].select("#text-front").attr({ text : str });
 											//buttons[mainMenuIterate].select("#button").click(onMainMenu);
-											buttons[mainMenuIterate].select("#button").mousedown(onMainMenu);
-											buttons[mainMenuIterate].select("#button").mouseup(onMainMenu);
+											//buttons[mainMenuIterate].select("svg").mousedown(onMainMenu);
+											//buttons[mainMenuIterate].select("svg").mouseup(onMainMenu);
 											
-											buttons[mainMenuIterate].select("#button").mouseover(onMainMenu);
-											buttons[mainMenuIterate].select("#button").mouseout(onMainMenu);
+											//buttons[mainMenuIterate].select("svg").mouseover(onMainMenu);
+											//buttons[mainMenuIterate].select("svg").mouseout(onMainMenu);
 											buttons[mainMenuIterate].addClass("main-menu-button");
 											s.append(buttons[mainMenuIterate]);
 
@@ -235,7 +241,6 @@ jQuery(document).ready(function(){
 
 						var elem;
 
-//unmouseover on omouseover add event on mouseout
 						switch(event.type) {
 							case "mouseover":
 									console.log("over ", event.target.nearestViewportElement.id);

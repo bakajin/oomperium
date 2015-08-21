@@ -32,12 +32,12 @@ If you want to set things up manually, download `_s` from GitHub. The first thin
 
 OR
 
-* Search for: `'oomperium'` and replace with: `'oomperium'`
-* Search for: `oomperium_` and replace with: `oomperium_`
-* Search for: `Text Domain: oomperium` and replace with: `Text Domain: oomperium` in style.css.
-* Search for `Theme Name: oomperium` and replace with `Theme Name: oomperium in style.css.
-* Search for: <code>&nbsp;oomperium</code> and replace with: <code>&nbsp;oomperium</code>
-* Search for: `oomperium-` and replace with: `oomperium-`
+* Search for: `'oomperium'` and replace with: `'oomperidev'`
+* Search for: `oomperium_` and replace with: `oomperidev_`
+* Search for: `Text Domain: oomperium` and replace with: `Text Domain: oomperidev` in style.css.
+* Search for `Theme Name: oomperium` and replace with `Theme Name: oomperidev in style.css.
+* Search for: <code>&nbsp;oomperium</code> and replace with: <code>&nbsp;oomperidev</code>
+* Search for: `oomperium-` and replace with: `oomperidev-`
 
 Then, update the stylesheet header in `style.css` and the links in `footer.php` with your own information. Next, update or delete this readme.
 

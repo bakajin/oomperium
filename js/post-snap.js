@@ -1,16 +1,12 @@
 /* render the posts using snap svgs masks */ 
-var path = "images/";
-var loadClip = ["post-clip"];
 
-var loadGalleryControls = ["next-button", "play-button", "previous-button"];
+var loadClip = ["post-clip"];
 
 var postClip;
 
 var maskPolygon;
 var paddingPolygon;
 
-var controlsGroup = new Array();
-var controlsCheck = false;
 var loadCount = 0;
 
 jQuery(document).ready(function(){
@@ -19,42 +15,7 @@ jQuery(document).ready(function(){
 	if(themePath) {
 				path = themePath;
 			}
-	
-	function loadAssets(assetList) {
-			for(var aNum = 0; aNum < assetList.length; aNum++) {
-						Snap.load((path + assetList[aNum] + ".svg"), onSVGLoaded);
-						console.log("load ",aNum);
-					}
-		}
 
-	function onSVGLoaded(asset) {
-			
-			var count;														
-							
-			switch(asset.select("svg").attr("id")) {
-				case "previous-button":
-						count = 0;
-				break;
-
-				case "next-button":
-						count = 2;
-				break;
-				
-				case "play-button":
-						count = 1;
-				break;
-				
-			}
-			controlsGroup[count] = asset;
-			console.log("loaded", asset.select("svg").attr("id"), controlsGroup.length, count, loadCount);
-			loadCount++;
-			if(loadCount == loadGalleryControls.length * 2) {
-					console.log("list complete");
-					loadCount = 0;
-					buildGalleryControls();
-			}
-	
-	}
 	function loopArticles() {
 		for(var pNum = 0; pNum < postIDs.length; pNum++) {
 				drawMask(postIDs[pNum]);
@@ -67,7 +28,6 @@ jQuery(document).ready(function(){
 			//check image top or div top y + height
 			var elem;
 			
-
 			if(jQuery('article#post-' + idx + " .entry-content p a img").length) {
 						elem = jQuery('article#post-' + idx + " .entry-content p a img").height();
 						elem = parseInt(elem, 10);
@@ -98,78 +58,7 @@ jQuery(document).ready(function(){
 
 	}
 
-	function buildGalleryControls() {
-			// lets see if there is a gallery and render its controls
-					
-			for(var gNum = 0; gNum < postIDs.length; gNum++) {
-					var transFactor = { x : -5, y : 0 };
-					var transl = {x : "0%", y : "10%"};
-					var galleryCheck = jQuery("[id^=gallery-" + postIDs[gNum] + "]").length;
-				
-					if(galleryCheck > 0) {
-						//build controls
-
-						//unhide container
-						var controls = Snap('#svg-gallery-controls-'+ postIDs[gNum]);
-
-						//var galleryPos = jQuery("[id^=gallery-" + postIDs[gNum] + "]").position();
-						//var galleryPos = jQuery("[id^=gallery-" + postIDs[gNum] + "]").position();
-							//galleryPos = galleryPos.top * -1;
-						var	galleryPos = (jQuery("[id^=gallery-" + postIDs[gNum] + "]").height() * -1.86);
-						console.log("gallery positioning: ", galleryPos);
-						
-						jQuery("#svg-gallery-controls-" + postIDs[gNum]).css({
-							"position" : "relative",
-							"display" : "inline-block",
-							"top" : (galleryPos + "px")
-						});
-
-
-						for (var ctrl = 0; ctrl < controlsGroup.length; ctrl++) {
-								console.log("ctrl ", controlsGroup[ctrl].select("svg").id, jQuery('#svg-gallery-controls-'+ postIDs[gNum]).innerWidth(), ctrl);
-								//transMatrix.translate(transFactor.x, transFactor.y);
-							
-								/*
-								controlsGroup[ctrl].select("#button").transform(transMatrix);
-								controls.append(controlsGroup[ctrl].select("#button").node.cloneNode(true));
-								*/
-								controlsGroup[ctrl].select("svg").attr({
-																		x : transl.x, 
-																		y : transl.y
-																	});
-								
-								controlsGroup[ctrl].select("svg").mouseover(onGallery);
-								controlsGroup[ctrl].select("svg").mouseout(onGallery);
-								controlsGroup[ctrl].select("svg").mousedown(onGallery);
-								controlsGroup[ctrl].select("svg").mouseup(onGallery);
-
-								controls.append(controlsGroup[ctrl].select("svg").node.cloneNode(true));
-							
-								//transFactor.x += (jQuery('#svg-gallery-controls-'+ postIDs[gNum]).innerWidth() / controlsGroup.length);
-								switch(ctrl) {
-									case 0:
-										//transFactor.x += 10;
-										//transFactor.y += jQuery("[id^=gallery-" + postIDs[gNum] + "]").innerHeight() / 5;
-										transl = {x : "37%", y : "55%"};
-								
-										//console.log("win " + jQuery("[id^=gallery-" + postIDs[gNum] + "]").innerHeight() );
-									break;
-									case 1:
-										transl = {x : "80%", y : "10%"};
-										//transFactor.x += jQuery("[id^=gallery-" + postIDs[gNum] + "]").innerWidth() - 20;
-										//transFactor.y -= jQuery("[id^=gallery-" + postIDs[gNum] + "]").innerHeight() -15;
-									break;
-									case 2:
-										transl = {x : "0%", y : "10%"};
-										//transFactor.x = 0;
-										//transFactor.y = 0; 
-									break;
-								}
-						}
-					}
-			
-			}
-	}
+	
 
 	function drawMask(idx) {
 		//var art = 
@@ -236,34 +125,24 @@ jQuery(document).ready(function(){
 
 			if(articleMedia.length > 0) {
 				//draw poly
-				console.log(idx + "artgal: ");
+				//console.log(idx + "artgal: ");
 				articleMedia.css({
 									"clip-path" : s.attr('clipPath'),
 									"transition" : "0.4s cubic-bezier(1, -1, 0, 2)",
 									"-webkit-clip-path" : "polygon(" + polyPoints + ")",
 									"top" : topPos
 								});//"-webkit-clip-path" : "polygon(" + mPoints[0] + "px " + mPoints[1] + "px, " + mPoints[2] + "px " + mPoints[3] + "px, " + mPoints[4] + "px " + mPoints[5] + "px, " + mPoints[6] + "px " + mPoints[7] + "px)"
-				if(controlsCheck == true) {
-					//console.log("make controls ");
-					loadAssets(loadGalleryControls);
-
-				}
 				
 			}
 			
 		// draw a mask and padding polygon
 			//this way we can find the media in the post, 
-			//z-index it over the top of it to overlap the text in a way that it looks wrapped.
-			//this makes it easier to very what content gets masked and to animate the position of the media (to favour the text or the media.)
-		
+			
 	}
 	if(postIDs.length) {
 			loopArticles();
 			//loadAssets(loadClip);
 		}
- 	function onGallery(event) {
- 			console.log("gallery " + event.type);
- 			console.log(event.target.nearestViewportElement.id);
- 	}
+
 });
 

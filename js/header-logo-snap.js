@@ -5,7 +5,7 @@ jQuery(document).ready(function(){
         function addLoadedFrags( list ) { // This is called once all the loaded frags are complete
                 for( var count = 0; count < list.length; count++ ) {
                         s.append( fragmentList[ count ] );//.select("g") );
-                        console.log("header load: " + count);
+                        //console.log("header load: " + count);
                         switch(count) {
                         	case 0:
                         			//logoGroup.append(fragmentList[ count ]);
@@ -57,7 +57,7 @@ jQuery(document).ready(function(){
             });
 		var logoGroup = s.group();
      	var bgGroup = s.group();
-	var myLoadList = [ headerImg, (path + 'oomp_logo-bg.svg') ];
+	   var myLoadList = [ headerImg, (path + 'oomp_logo-bg.svg') ];
         s.loadFilesDisplayOrdered( myLoadList );
 
         function buildLayout() {
