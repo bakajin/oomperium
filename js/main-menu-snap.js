@@ -1,6 +1,6 @@
 /* render the main menu using snap svgs */ 
 //the list to preload
-//<?php echo get_stylesheet_directory_uri() . '/images/social-facebook.svg'; ?>
+
 var menuOptions;
 var path = "images/";
 
@@ -102,7 +102,7 @@ jQuery(document).ready(function(){
 									str = menuItems[b].title;
 									if(menuItems[b].parent > 0) {
 										//submenu item, write text, iterate and space
-										//console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
+										console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
 									
 										var xSpacer;
 										
@@ -241,7 +241,6 @@ jQuery(document).ready(function(){
 
 						var elem;
 
-//unmouseover on omouseover add event on mouseout
 						switch(event.type) {
 							case "mouseover":
 									console.log("over ", event.target.nearestViewportElement.id);
