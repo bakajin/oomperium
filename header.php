@@ -101,24 +101,18 @@
 	// Get the nav menu based on $menu_name (same as 'theme_location' or 'menu' arg to wp_nav_menu)
     // This code based on wp_nav_menu's code to get Menu ID from menu slug
 
+    //$menu_name = 'main-navigation';
     $menu_name = 'primary';
     $menuJsVars = "var menuItems = [";
-
     if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ $menu_name ] ) ) {
-	$menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
-
-	$menu_items = wp_get_nav_menu_items($menu->term_id);
-		//print_r($menu_items);
-		
+		$menu = wp_get_nav_menu_object( $locations[ $menu_name ] );
+		//print_r(count($menu));
+		$menu_items = wp_get_nav_menu_items($menu->term_id);
 		
 		foreach($menu_items as $menu_item){
-
 			// the items for javascript var
-					//print_r($menu_item->title);
 					//this value is 0 for main top level menu items
-					//print_r($menu_item->menu_item_parent);
-					//print_r($menu_item->url);
-					//print_r($menu_item->guid);
+					//print_r($menu_item->menu_item_parent); //print_r($menu_item->url); //print_r($menu_item->guid);
 					$menuJsVars .= '{title: "' . $menu_item->title . '", parent: "' . $menu_item->menu_item_parent . '", url: "'. $menu_item->url .'", guid:"'. $menu_item->guid .'"}, ';
 		}
 	
@@ -133,17 +127,19 @@
 	var postIDs = new Array();
 
 	//shapeWrapper jQuery refactor 
-
 	jQuery(function($){
 		//select all articles and loop through each
-		$("article").each(function(){
-			// find p elements get width and height and number of lines
-			var lineNum = 0;
+		//console.log($("body").hasClass("blog"));
+		if($("body").hasClass("blog")) {
+			
+			$("article").each(function(){
+				// find p elements get width and height and number of lines
+				var lineNum = 0;
 
-			var pWidth = $(this).width();
-			var pHeight = 0;
-				//check the first character in the p element to see what is in there. 
-			var conCheck = '';
+				var pWidth = $(this).width();
+				var pHeight = 0;
+					//check the first character in the p element to see what is in there. 
+				var conCheck = '';
 
 			$(this).children("div.entry-content").children("p").each(function(){
 				//console.log("p-height: " + $(this).height());
@@ -164,18 +160,16 @@
 							//console.log("p-content:" + conCheck);
 							lineNum += Math.floor($(this).height() / parseInt($(this).css("line-height").replace('px','')));
 							pHeight += $(this).height(); 
-						break;
+					break;
 				}
 								
 			});
 			var str = '';
 
-			
 			//console.log("article: " + $(this).attr("id")); 
 			//console.log("			lines: " + lineNum); console.log("			width: " + pWidth); 
 			//console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
 			
-
 			var factor = 0;
 			var len = 14;//lineNum; // + (lineNum/2);
 			for (var l = 0; l < len; l++) {
@@ -193,15 +187,56 @@
 			}
 			$(this).children("div.entry-content").first().before(str);
 			
-	});
+		});
+	}
 
-});
+	/* Fluid embedded videos hold the letterboxing */
+	/* reference link: https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php */
+	// Find all YouTube videos
+
+	var $allVideos = $("iframe[src^='//player.vimeo.com'], iframe[src^='//www.youtube.com']"),
+
+    // The element that is fluid width
+    	$fluidEl = $("#content");
+
+		// Figure out and save aspect ratio for each video
+		$allVideos.each(function() {
+			console.log("am i firing");
+  			$(this)
+    			.data('aspectRatio', this.height / this.width)
+
+    	// and remove the hard coded width/height
+    			.removeAttr('height')
+   				 .removeAttr('width');
+   				 console.log("videoresized ", this.height);
+
+		});
+
+		// When the window is resized
+		$(window).resize(function() {
+
+  			var newWidth = $fluidEl.width();
+
+  		// Resize all videos according to their own aspect ratio
+  			$allVideos.each(function() {
+
+    			var $el = $(this);
+    				$el
+      					.width(newWidth)
+      					.height(newWidth * $el.data('aspectRatio'));
+
+  			});
+
+		// Kick off one resize to fix all videos on page load
+		}).resize();
+	});
 
 </script>
 
 </head>
 
 <body <?php body_class(); ?>>
+<!-- header.php-->
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'oomperium' ); ?></a>
 

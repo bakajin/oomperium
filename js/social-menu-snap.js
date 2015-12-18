@@ -8,15 +8,18 @@ var baseShape = ""; //["social-menu-button.svg"];
 
 var backgroundShape;
 
+
+
 jQuery(document).ready(function(){
+	var button;
+	var iterate = 0;
+	
 	if(themePath) {
 				path = themePath;
 			}
 
 	//console.log("snap social menu");
 	var s = Snap('#svg-social-menu');
-	var button;
-	var iterate = 0;
 
 		//s.attr({ viewBox: "0 0 695 100" });
 		function loadAssets(assetList, base) {
@@ -27,8 +30,7 @@ jQuery(document).ready(function(){
 					}
 
 					for(a = 0; a < assetList.length; a++) {	
-						Snap.load((path + "social-" + assetList[a] + ".svg"), onSVGLoaded);
-
+						Snap.load((path + "social-" + assetList[a] + "-n.svg"), onSVGLoaded);
 					}
 
 		}
@@ -48,6 +50,7 @@ jQuery(document).ready(function(){
 					//append file to the snap svg
 					//g = loaded.select("g");
 					g = loaded.select("svg");
+
 					//now put everything in place
 						//set the buttons right and iterate them on screen
 						//var transMatrix = new Snap.Matrix();
@@ -57,13 +60,17 @@ jQuery(document).ready(function(){
 							//g.transform(transMatrix);
 
 						//console.log("item: " + iterate + " : " + transFactor + " scaleFactor: " + scaleFactor);
+				/*
 					g.attr({
 						x : transFactor + "%",
 						y : "-15%",
 						width : scaleFactor + "%",
 						height : scaleFactor + "%"
 						
-					})//viewBox : "0 0 10 10"
+					})
+*/
+					//viewBox : "0 0 10 10"
+					
 					g.addClass("social-menu-button");
 
 					g.mousedown(socialMenuHandle);

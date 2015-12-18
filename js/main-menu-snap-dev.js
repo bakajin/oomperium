@@ -99,8 +99,6 @@ jQuery(document).ready(function(){
 								var subSwitch = false;
 
 								for(b = 0; b < menuItems.length; b++) {
-									//console.log(menuItems[b].title + " : iter : " + b + " : " );
-
 									str = menuItems[b].title;
 									if(menuItems[b].parent > 0) {
 										//submenu item, write text, iterate and space
@@ -109,7 +107,7 @@ jQuery(document).ready(function(){
 										var xSpacer;
 										
 										switch(menuItems[b].parent) {
-											case "286":
+											case "110":
 													xSpacer = "27.5%";//108;
 													//subCount = 0;
 													
@@ -139,9 +137,12 @@ jQuery(document).ready(function(){
 														subCount = 0;
 														subSwitch = true;
 													}
+													
+													//console.log(b,"29", subCount);
+											break;
 											case "42":
 													xSpacer = "55.5%";//350;
-													if(menuItems[b].parent == 42 & subSwitch == false) {
+													if(menuItems[b].parent == 29 & subSwitch == false) {
 														subCount = 0;
 														subSwitch = true;
 													}
@@ -158,14 +159,14 @@ jQuery(document).ready(function(){
 											break;
 											case "39":
 													xSpacer = "83.5%";//590;
-													if(menuItems[b].parent == 39 & subSwitch == true) {
+													if(menuItems[b].parent == 33 & subSwitch == true) {
 														subCount = 0;
 														subSwitch = false;
 													}
 													//console.log(b,"33",subCount);
 											break; 
 										}
-										//console.log("submenuItem: ", str, menuItems[b].parent);
+										console.log("submenuCount: ", subCount, str, b);
 										//iterate, jump right every 3
 											subMenuItem = s.paper.text(xSpacer, (88 + (22 * subCount)), str);
 											subMenuItem.attr({
@@ -176,6 +177,9 @@ jQuery(document).ready(function(){
 											});
 											subMenuItem.addClass("main-menu-sub");
 											
+											
+											//console.log("loaded ", s.select(".main-menu-sub").children());
+										
 											s.select( "#sub-" + b ).click(onSubMenu);
 											s.select( "#sub-" + b ).mouseover(onSubMenu);
 											s.select( "#sub-" + b ).mouseout(onSubMenu);
@@ -204,6 +208,15 @@ jQuery(document).ready(function(){
 													y : "-5.5em",
 													width : "22%"
 												});
+											g.mouseover(onMainMenu);
+											g.mouseout(onMainMenu);
+											g.mousedown(onMainMenu);
+											g.mouseup(onMainMenu);
+											//transMatrix.translate( transXVal, localViewBox.y - (localViewBox.height / 2.65));
+											//transMatrix.scale(scaleFactor);
+											
+											//g.select("g").transform(transMatrix);
+											
 											
 											//main menu item add button write text
 											
@@ -214,11 +227,9 @@ jQuery(document).ready(function(){
 											buttons[mainMenuIterate].attr({ id : "oomp-button-" + mainMenuIterate });
 											buttons[mainMenuIterate].select("#text-back").attr({ text : str });
 											buttons[mainMenuIterate].select("#text-front").attr({ text : str });
-											
 											buttons[mainMenuIterate].addClass("main-menu-button");
 											s.append(buttons[mainMenuIterate]);
-											
-											//find the button and add event listeners
+
 											s.select("#oomp-button-" + mainMenuIterate + " #button #hit").mousedown(onMainMenu);
 											s.select("#oomp-button-" + mainMenuIterate + " #button #hit").mouseup(onMainMenu);
 											
@@ -229,11 +240,14 @@ jQuery(document).ready(function(){
 										}
 									}
 								}
+								//button = button.clone();
+								//button.node = button.node.cloneNode(true);
 								
 						break;
 
 					}
-				
+					//s.append(g);
+
 					iterate++;											
 		}
 		// may be not on the page load?
@@ -243,7 +257,7 @@ jQuery(document).ready(function(){
 		// event handlers
 
 		function onMainMenu(event) {
-						console.log("ja");
+
 						var parentId = event.target.nearestViewportElement.id;
 						var parent = s.select("#" + parentId);
 
@@ -251,7 +265,7 @@ jQuery(document).ready(function(){
 
 						switch(event.type) {
 							case "mouseover":
-									console.log("over ", event.target.nearestViewportElement.id);
+									//console.log("over ", event);
 									elem = s.select("#" + event.target.nearestViewportElement.id);
 									elem.unmouseover(onMainMenu);
 
@@ -264,7 +278,7 @@ jQuery(document).ready(function(){
 							break;
 
 							case "mouseout":
-									console.log("out ", event.target.nearestViewportElement.id);
+									//console.log("out ", event.target.nearestViewportElement.id);
 									elem = s.select("#" + event.target.nearestViewportElement.id);
 									elem.mouseover(onMainMenu);
 									
@@ -277,13 +291,13 @@ jQuery(document).ready(function(){
 							break;
 
 							case "mousedown":
-									console.log("down ", event.type);
+									//console.log("down ", event.type);
 									elem = s.select("#" + event.target.nearestViewportElement.id);
 									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
 									elem.transform('t-5 -5 r180');
 							break;
 							case "mouseup":
-									console.log("up ", event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
+									console.log("up ", event);
 									elem = s.select("#" + event.target.nearestViewportElement.id);
 									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
 									elem.transform('t0 0 r0');
@@ -293,10 +307,18 @@ jQuery(document).ready(function(){
 
 							case "touchstart":
 									console.log("touch ", event.type);
+									elem = s.select("#" + event.target.nearestViewportElement.id);
+									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									elem.transform('t-5 -5 r180');
 							break;
 
 							case "touchend":
 									console.log("touch ", event.type);
+									elem = s.select("#" + event.target.nearestViewportElement.id);
+									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									elem.transform('t0 0 r0');
+
+									jQuery("a:contains(" + parent.select("#text-front").node.firstChild.data + ")")[0].click();
 							break;
 
 							case "click":
@@ -351,8 +373,8 @@ jQuery(document).ready(function(){
 
 						}
 		}
-	function animComplete(event) {
-				console.log("anim: ", event)
+	function animComplete() {
+				console.log("anim: ")
 	}
 
 });

@@ -6,10 +6,11 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
+	<!-- content.php -->
 		<script>
 			postIDs.push(<?php the_ID(); ?>);
 		</script>
-		<?php the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h1>' ); ?>
+		<?php the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="ibase_blob_open(link_identifier, blob_id)okmark">', esc_url( get_permalink() ) ), '</a></h1>' ); ?>
 
 		<?php if ( 'post' == get_post_type() ) : ?>
 		<div class="entry-meta">
@@ -28,7 +29,7 @@
 			));
 */
 			the_content( sprintf(
-				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'oomperium' ), 
+				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperium' ), 
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			) );
 		?>

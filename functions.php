@@ -154,6 +154,19 @@ function oomperium_setup() {
 		'aside', 'image', 'video', 'quote', 'link', 'gallery',
 	) );
 
+	/* add support for swf files */
+	/* OOMP */
+	function demo($mimes) {
+	if ( function_exists( 'current_user_can' ) )
+		$unfiltered = $user ? user_can( $user, 'unfiltered_html' ) : current_user_can( 'unfiltered_html' );
+	if ( !empty( $unfiltered ) ) {
+		$mimes['swf'] = 'application/x-shockwave-flash';
+		}
+	return $mimes;
+	}
+	add_filter('upload_mimes','demo');
+	/* end swf support */
+	
 	// Set up the WordPress core custom background feature.
 	add_theme_support( 'custom-background', apply_filters( 'oomperium_custom_background_args', array(
 		'default-color' => 'ffffff',
@@ -222,8 +235,8 @@ function oomperium_custom_scripts() {
 	wp_enqueue_script('post-snap');
 
 	// snap svg gallery controls snap
-	wp_register_script('gallery-controls', get_template_directory_uri() . '/js/gallery-controls.js');
-	wp_enqueue_script('gallery-controls');
+	//wp_register_script('gallery-controls', get_template_directory_uri() . '/js/gallery-controls.js');
+	//wp_enqueue_script('gallery-controls');
 
 	// snap svg social snap footer menu
 	wp_register_script('social-menu-snap', get_template_directory_uri() . '/js/social-menu-snap.js');
