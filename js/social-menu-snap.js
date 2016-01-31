@@ -14,14 +14,16 @@ jQuery(document).ready(function(){
 	var button;
 	var iterate = 0;
 	
+	var transFactor = ( (window.innerWidth/2) * (loadList.length+2) ) * -1;
+
 	if(themePath) {
 				path = themePath;
 			}
 
 	//console.log("snap social menu");
 	var s = Snap('#svg-social-menu');
-
-		//s.attr({ viewBox: "0 0 695 100" });
+		s.attr({ viewBox: "0 0 100 100" }); //" + window.innerWidth + "
+		
 		function loadAssets(assetList, base) {
 					if(base.length > 0) {
 						Snap.load(path + base, function(b) {
@@ -36,39 +38,46 @@ jQuery(document).ready(function(){
 		}
 
 		function onSVGLoaded(loaded) {
-					var transFactor = (iterate * 13) - 60;
-					var scaleFactor = Math.floor((window.innerWidth / loadList.length ) / 25) * 20; // make a factor based on window width and list length
+					transFactor += (window.innerWidth / loadList.length) * (loadList.length + 1);//= (window.innerWidth * iterate) - (window.innerWidth*2);// (iterate * 13) - 60;
+					var scaleFactor = ((window.innerWidth / loadList.length ) / 500); // Math.floor make a factor based on window width and list length
 
 					if(iterate == 0) {
 						
-						var bgRect = s.paper.rect(0,"65%","100%","5%").attr({
+						var bgRect = s.paper.rect( (window.innerWidth * -2),50,(window.innerWidth * 4),5).attr({
 									fill : "#e6dcdc",
 									id : "background-line"
 								});
+						
+						var coverRect = s.paper.rect( (window.innerWidth * -2),0,(window.innerWidth * 4),130).attr({
+							fill : "#ffffff",
+							opacity : "0",
+							id : "background-cover"
+						});
+
 
 					}
 					//append file to the snap svg
-					//g = loaded.select("g");
-					g = loaded.select("svg");
+					g = loaded.select("g");
+					//g = loaded.select("svg");
 
 					//now put everything in place
 						//set the buttons right and iterate them on screen
-						//var transMatrix = new Snap.Matrix();
-							//transMatrix.scale(scaleFactor);
-							//transMatrix.translate(transFactor, -50);
+						var transMatrix = new Snap.Matrix();
+							transMatrix.scale(scaleFactor);
+							transMatrix.translate(transFactor, 0);
 																	
-							//g.transform(transMatrix);
+							g.transform(transMatrix);
 
 						//console.log("item: " + iterate + " : " + transFactor + " scaleFactor: " + scaleFactor);
-				/*
-					g.attr({
+				
+					/*g.attr({
 						x : transFactor + "%",
 						y : "-15%",
 						width : scaleFactor + "%",
 						height : scaleFactor + "%"
 						
 					})
-*/
+					*/
 					//viewBox : "0 0 10 10"
 					
 					g.addClass("social-menu-button");
@@ -89,18 +98,18 @@ jQuery(document).ready(function(){
 
 				switch(event.type) {
 							case "mouseover":
-									console.log("over ", event.target.nearestViewportElement.id, event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
-									elem = s.select("#" + event.target.nearestViewportElement.id);
-									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
-									elem.transform('s1.161');
+									//console.log("over ", event.target.nearestViewportElement.id, event.target.parentElement.id, event);
+									elem = s.select(event.target.parentElement.id);
+									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
+									//elem.transform('s1.161');
 						
 							break;
 
 							case "mouseout":
-									console.log("out ", event.target.nearestViewportElement.id);
-									elem = s.select("#" + event.target.nearestViewportElement.id);
-									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
-									elem.transform('s1');
+									//console.log("out ", event.target.parentElement.id);
+									elem = s.select(event.target.parentElement.id);
+								//	elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
+									//elem.transform('s1');
 						
 							break;
 
@@ -112,9 +121,11 @@ jQuery(document).ready(function(){
 									console.log("touch ", event.type);
 							break;
 
-							case "click":
-									console.log("click ", event.type);
-									jQuery("a:contains(" + event.target.firstChild.data	 + ")")[0].click();
+							case "mouseup":
+									console.log("click ", event.path[2].id);
+									jQuery("a[title='" + event.path[2].id + "']")[0].click();
+									//jQuery("#menu-social li a[title='facebook']")[0].click();
+									//jQuery("a:contains(" + parent.select("#text-front").node.firstChild.data + ")")[0].click();
 							break;
 
 							default:

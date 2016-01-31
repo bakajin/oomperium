@@ -62,8 +62,8 @@
 			];
 
         var mapOptions = {
-          center: { lat: 52.3728883, lng: 4.9024593}, 
-          zoom: 17,
+          center: { lat: 52.3670513, lng: 4.9024593}, 
+          zoom: 15,
           styles : mapstyle,
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'),

@@ -15,7 +15,6 @@
 		<defs></defs>
 	</svg>
 	<div id="map-canvas"></div>
-	<hr/>
 	<?php wp_nav_menu( array('menu' => 'social', 'container' => false )); ?>
 		<ul class="footer-data">
 			<li><a href="#">&copy; 2015</a></li>

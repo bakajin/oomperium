@@ -175,8 +175,10 @@ jQuery(document).ready(function(){
 	}
 
 	function buildGalleryControls(idx) {
-			// there is a gallery now and render its controls
+			// there is a gallery now render its controls
 
+			//lets render a white background to cover up things.
+			
 					var transFactor = { x : -5, y : 0 };
 					var transl = {x : "0%", y : "33%"};
 
@@ -184,7 +186,15 @@ jQuery(document).ready(function(){
 
 						//unhide container
 						var controls = Snap('#svg-gallery-controls-'+ idx);
-
+						
+						//first lets make a rectangle which covers any text popping out the bottsom
+						var coverBottom = s.paper.rect(0,100,100,33);
+							coverBottom.attr({
+										fill : "#ffffff",
+							});
+						
+						s.append(coverBottom);
+		
 						for (var ctrl = 0; ctrl < controlsGroup.length; ctrl++) {
 								console.log("ctrl ", controlsGroup[ctrl].id, jQuery('#svg-gallery-controls-'+ idx).innerWidth(), ctrl);
 								controlsGroup[ctrl].attr({

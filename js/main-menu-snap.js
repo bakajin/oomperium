@@ -104,7 +104,8 @@ jQuery(document).ready(function(){
 									str = menuItems[b].title;
 									if(menuItems[b].parent > 0) {
 										//submenu item, write text, iterate and space
-										console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
+										//
+										//console.log("submenu chk: " + menuItems.length + str + menuItems[b].parent);
 									
 										var xSpacer;
 										
@@ -222,9 +223,6 @@ jQuery(document).ready(function(){
 											s.select("#oomp-button-" + mainMenuIterate + " #button #hit").mousedown(onMainMenu);
 											s.select("#oomp-button-" + mainMenuIterate + " #button #hit").mouseup(onMainMenu);
 											
-											s.select("#oomp-button-" + mainMenuIterate + " #button #hit").mouseover(onMainMenu);
-											s.select("#oomp-button-" + mainMenuIterate + " #button #hit").mouseout(onMainMenu);
-											
 											mainMenuIterate++;
 										}
 									}
@@ -243,7 +241,7 @@ jQuery(document).ready(function(){
 		// event handlers
 
 		function onMainMenu(event) {
-						console.log("ja");
+
 						var parentId = event.target.nearestViewportElement.id;
 						var parent = s.select("#" + parentId);
 

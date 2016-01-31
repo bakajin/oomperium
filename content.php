@@ -40,12 +40,12 @@
 				'after'  => '</div>',
 			) );
 		?>
-		<!-- Some custom gallery controls from snap -->
-		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
-			<defs></defs>
-		</svg>
 		<!-- call a snap svg canvas for interactive animated svg masking -->
 		<svg class="svg-post" id="svg-post-<?php the_ID(); ?>">
+			<defs></defs>
+		</svg>
+		<!-- Some custom gallery controls from snap -->
+		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
 			<defs></defs>
 		</svg>
 	</div><!-- .entry-content -->

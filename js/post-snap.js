@@ -9,7 +9,89 @@ var paddingPolygon;
 
 var loadCount = 0;
 
-jQuery(document).ready(function(){
+function postLayout(idx) {
+
+	// get some globals
+		// *** warning *** using outerheight seems to not ensure the margin is added
+	var firstElemHeight = 0;//parseInt( jQuery("#post-" + idx + " .entry-content p:first-child").outerHeight() );
+	var mediaHeight = 0;
+	var lastElemHeight = 0;
+	
+	// var for positioning content
+	var offset = 4 * 27;
+
+	/* reset the position of div.slideshow-window 
+			- p.outerheight,
+			
+	*/
+	if(jQuery("#post-" + idx + " .entry-content div.slideshow-window").length) {
+			firstElemHeight = (14 * 27) - (4 * 27); //num wrap lines
+			console.log("slideshow detected p-h: " + firstElemHeight );
+			jQuery("#post-" + idx + " .entry-content div.slideshow-window").css({
+				"top" : ( firstElemHeight * -1 ) + "px"
+			});
+		// the jetpack slideshow makes a window height out of padding	
+		//for some reasone it calculates all over the place and needs offset values
+		mediaHeight = (jQuery("#post-" + idx + " .entry-content div.slideshow-window").outerHeight() * 1.63); // * 1.63
+	}
+	/* reset the position of div.videowrapper (iframe) 
+			- p.outerheight,
+			
+	*/
+	if(jQuery("#post-" + idx + " .entry-content div iframe").length) {
+			firstElemHeight = parseInt( jQuery("#post-" + idx + " .entry-content p:first-child").outerHeight() );
+			console.log("video detected p-h: " + firstElemHeight);
+			jQuery("#post-" + idx + " .entry-content div.video-wrap").css({
+				"top" : ( firstElemHeight * -1 + offset ) + "px"
+			});
+
+		mediaHeight = jQuery("#post-" + idx + " .entry-content div.video-wrap").outerHeight();
+	}
+	
+	/* reset the position of .svg-post
+			- p.outerheight,
+			- div.slideshow-window.outerheight
+			- div.videowrapper.outerheight (iframe) 
+			- p a.more-link,
+	*/
+
+	//	compensating for more-link
+	if(jQuery("#post-" + idx + " .entry-content p .more-link").length) {
+			lastElemHeight += parseInt( jQuery("#post-" + idx + " .entry-content p .more-link").outerHeight() );
+
+	}
+
+	jQuery("#svg-post-" + idx).css({
+				"top" : (( firstElemHeight + mediaHeight + lastElemHeight ) * -1 ) + "px"
+			});
+
+	/* reset the position of .svg-gallery-controls
+			- p.outerheight,
+			- div.slideshow-window.outerheight
+			- div.videowrapper.outerheight (iframe) 
+			- p a.more-link,
+			- .svgpost.outerheight
+	*/
+
+	/* to the content (div.slideshow-window, div.videowrapper) add numlines (8 or text.wrap >= 80%) multiplied by lineheight (27px) */	
+	//	compensating for more-link and svg-post
+	console.log("firstElemHeight " + firstElemHeight + " mediaHeight " + mediaHeight + " lastElemHeight " + lastElemHeight);
+	
+	lastElemHeight += parseInt( jQuery("#svg-post-" + idx).outerHeight() );
+
+	if(jQuery("#post-" + idx + " .entry-content div.slideshow-window").length) {
+		mediaHeight *= 1.83; //1.85
+	}
+	if(jQuery("#post-" + idx + " .entry-content div iframe").length) {
+		mediaHeight *= 2.2;
+	}
+	jQuery("#svg-gallery-controls-" + idx).css({
+				"top" : (( firstElemHeight + mediaHeight + lastElemHeight ) * -1 ) + "px",
+			});
+
+}
+
+jQuery(window).load(function(){
 	// set the theme path to the path
 	console.log("post ids", postIDs);
 	if(themePath) {
@@ -19,76 +101,32 @@ jQuery(document).ready(function(){
 	function loopArticles() {
 		for(var pNum = 0; pNum < postIDs.length; pNum++) {
 				drawMask(postIDs[pNum]);
-				setPostHeight(postIDs[pNum]);
+				//setPostHeight(postIDs[pNum]);
 			}
-	}
-
-	function setPostHeight(idx) {
-		//set height entry content
-			//check image top or div top y + height
-			var elem;
-			
-			if(jQuery('article#post-' + idx + " .entry-content p a img").length) {
-						elem = jQuery('article#post-' + idx + " .entry-content p a img").height();
-						elem = parseInt(elem, 10);
-						
-						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content p a img").height() );
-			}
-			if(jQuery('article#post-' + idx + " .entry-content div.slideshow-window").length) {
-						elem = jQuery('article#post-' + idx + " .entry-content div.slideshow-window").height();
-						elem = parseInt(elem, 10);
-						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content div.slideshow-window").height() );
-			}
-			if(jQuery('article#post-' + idx + " .entry-content div.tiled-gallery").length) {
-						elem = jQuery('article#post-' + idx + " .entry-content div.tiled-gallery").height();
-						elem = parseInt(elem, 10);
-						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content div.tiled-gallery").height() );
-			}
-			if(jQuery('article#post-' + idx + " .entry-content p iframe").length) {
-						elem = jQuery('article#post-' + idx + " .entry-content p iframe").height();
-						elem = parseInt(elem, 10);
-						elem -= 100;
-						console.log("entry height calc " + elem + " : " +  jQuery('article#post-' + idx + " .entry-content p iframe").height() );
-			}
-			elem += 250;
-			jQuery('article#post-' + idx + ' .entry-content').height(elem);
-			//elem = elem.first('');
-
-		var heightValue;
-
-
 	}
 
 	function drawMask(idx) {
 		/* dont worry we're just faking it */
 		
 		//select the content
-		var articleContent = jQuery("#post-" + idx + " .entry-content");
-
+		
+		// draw a mask polygon
+			
 		// select the svg object
 		var s = Snap('#svg-post-'+ idx);
 			s.attr({
 				"viewBox" : "0 0 100 100"
 			});
-		//var s = Snap('#clip-'+ idx);
-			//jQuery('#svg-post-'+ idx).height(articleContent.height());
-		
+
 		//draw some points
-		//x,y 
-		//var mPoints = [0,(articleContent.width()/2), (articleContent.width()),0, (articleContent.width()),(articleContent.width()), 0,(articleContent.width())];//[0,(articleContent.width()/2),100,0,articleContent.width(),100,0,100];
-		// <polygon points="0 0 0 561.8 749.07 228.47 749.07 0 0 0"/>
-		//var mPoints = [0,0, 0,articleContent.height(), (articleContent.width()),(articleContent.height()/2), articleContent.width(),0,0,0];
-		var mPoints = [0,0, 0,100, 100,50, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
-		//var pPoints = [0,(articleContent.width()/2 - 20), (articleContent.width()),-20, (articleContent.width()),(articleContent.width()), 0,(articleContent.width())];//[0,(articleContent.width()/2),100,0,articleContent.width(),100,0,100];
+		var mPoints = [0,0, 0,80, 100,20, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
 		
-		//maskPolygon = s.polyline(mPoints);
-			maskPolygon = s.paper.polygon(mPoints);
-		
-											
-		//maskPolygon.mouseover(maskHandle);
-		//maskPolygon.mouseout(maskHandle);
-		//maskPolygon.touchstart(maskHandle);
-		//maskPolygon.touchend(maskHandle);
+			maskPolygon = s.paper.polygon(mPoints);								
+			maskPolygon.mouseover(maskHandle);
+			maskPolygon.mouseout(maskHandle);
+			maskPolygon.mouseup(maskHandle);
+			maskPolygon.touchstart(maskHandle);
+			maskPolygon.touchend(maskHandle);
 											
 		maskPolygon.attr({
 			fill : "#fff",
@@ -96,105 +134,209 @@ jQuery(document).ready(function(){
 		});
 
 		s.append(maskPolygon);
-		//clipPath : maskPolygon.clone()
-		/*		
-		var clipPathId = s.select("#clips-" + idx).attr("clip-path");
-		var pos = clipPathId.indexOf("#");
-			clipPathId = clipPathId.substr(pos);
 
-			pos = clipPathId.length - 2;
-			clipPathId = clipPathId.substr(0, pos);			 
-
-			if(s.select(clipPathId) != null) {
-					s.select(clipPathId).mouseover(maskHandle);
-					s.select(clipPathId).mouseout(maskHandle);
-				}
-				*/
-
-			//Snap(clipPathId).select("polygon").mouseover(maskHandle);
-			//Snap(clipPathId).select("polygon").mouseout(maskHandle);
-			
-		//console.log( "::::  	clippath id " + clipPathId );
-		/*
-		s.attr({
-			clipPath : maskPolygon.clone()
+		//now lets draw a transparent overlay for the event listener and to cover modes of interaction
+			//mPoints = [0,80, 0,100, 100,100, 100,20];
+			mPoints = [0,0, 0,100, 100,100, 100,0];
+			paddingPolygon = s.paper.polygon(mPoints);
+			paddingPolygon.mouseover(maskHandle);
+			paddingPolygon.mouseout(maskHandle);
+			maskPolygon.mouseup(maskHandle);
+			paddingPolygon.touchstart(maskHandle);
+			paddingPolygon.touchend(maskHandle);
+		
+		paddingPolygon.attr({
+			fill : "#000",
+			id : "overlays-" + idx,
+			opacity : "0",
 		});
-		*/
-		//	mask : maskPolygon.clone()
-		
-		/*
-			paddingPolygon = s.paper.rect(0,0,"100%","55%");
-			paddingPolygon.attr({fill : "#fff", id : ("padding-" + idx)	});
-		*/
 
-		// build check for content height and write to entry content.
-		// how many exerpt lines, plus media height, make rest of text white
-
-			//lets check for a gallery to clip
-			var polyPoints;
-			var topPos;
-
-			var articleMedia = -1;
-			/* set up a clip-path for chrome, safari and opera */
-			if(articleContent.find("p a img").length > 0) {
-				
-				articleMedia = articleContent.find("p a img");
-				polyPoints = "0% 33%, 100% 0%, 100% 100%, 0 100%";
-				topPos = "-28rem";
-				//console.log("found img ", articleMedia.outerHeight());
-				controlsCheck =false;
-			}
-			if(articleContent.find("p iframe").length > 0) {
-				articleMedia = articleContent.find("p iframe");
-				polyPoints = "0% 50%, 100% 0%, 100% 200%, 0 200%";
-				topPos = "-28rem";
-				//console.log("found iframe ", articleMedia.outerHeight());
-				controlsCheck = true;	
-			}
-			if(articleContent.children(".jetpack-slideshow").length > 0) {
-				
-				articleMedia = articleContent.children(".jetpack-slideshow");	
-				polyPoints = "0% 38%, 100% 5%, 100% 200%, 0 200%";
-				topPos = "-24rem";
-				controlsCheck = true;
-				//console.log("found jetpack", articleMedia.outerHeight());
-			}
-			if(articleContent.children(".tiled-gallery").length > 0) {
-				
-				articleMedia = articleContent.children(".tiled-gallery");
-				polyPoints = "0% 50%, 100% 0%, 100% 200%, 0 200%";	
-				topPos = "-24rem";
-				controlsCheck = false;
-				//console.log("found tiled", articleMedia.outerHeight());
-			}
-
-			if(articleMedia.length > 0) {
-				//draw poly
-				console.log(idx + "artgal: " + maskPolygon.attr('clipPath') );
-				/*articleMedia.css({
-									"clip-path" :  maskPolygon.attr('clipPath'),
-									"transition" : "0.4s cubic-bezier(1, -1, 0, 2)",
-									"-webkit-transition" : "-webkit-clip-path 0.4s cubic-bezier(1, -1, 0, 2)",
-									"-webkit-clip-path" : "polygon(" + polyPoints + ")",
-									"top" : topPos
-								});*/
-
-								//"clip-path" : s.attr('clipPath'), //"-webkit-clip-path" : "polygon(" + mPoints[0] + "px " + mPoints[1] + "px, " + mPoints[2] + "px " + mPoints[3] + "px, " + mPoints[4] + "px " + mPoints[5] + "px, " + mPoints[6] + "px " + mPoints[7] + "px)"
-				
-			} else {
-				console.log("no articel media", idx);
-				/*jQuery( "#svg-post-" + idx ).css({
-													"display" : "none"
-				 	 							});*/
-			}
-			
-		// draw a mask and padding polygon
-			//this way we can find the media in the post, 
-			
+		s.append(paddingPolygon);
+		//reposition elements in the post
+		drawPostControls(idx)
+		//postLayout(idx);
 	}
+	
+	function drawPostControls(idx) {
+		/* set up */
+
+		// paragraph heights + div height + svgpost
+		var posY = 0;	//756;
+			jQuery("#post-" + idx + " .entry-content p").each(function(index) {
+				posY -= jQuery("#post-" + idx + " .entry-content p").outerHeight();
+				//console.log(index + " par num ", jQuery("#post-" + idx + " .entry-content p").outerHeight());
+			});
+			
+			if(jQuery("#post-" + idx + " .entry-content div iframe")) {
+				posY -= jQuery("#post-" + idx + " .entry-content div iframe").outerHeight();	
+			}
+			if(jQuery("#post-" + idx + " .entry-content div.jetpack-slideshow")) {
+				posY -= jQuery("#post-" + idx + " .entry-content div.jetpack-slideshow div:first-child").outerHeight();	
+				//console.log("a slideshow :: ", jQuery("#post-" + idx + " .entry-content div.jetpack-slideshow div:first-child").outerHeight());	
+			}
+			//posY += jQuery("#post-" + idx + " .entry-content .svg-post").outerHeight();
+			
+		console.log("pos:" + posY);
+
+		var s = Snap('#svg-gallery-controls-'+ idx);
+			/*s.attr({
+				"viewBox" : "0 0 100 100"
+			});*/
+
+		jQuery("#svg-gallery-controls-" + idx).css({
+				"height" : "56rem" 
+				
+			});//"height" : (posY * -1.5) + "px" 
+			//"top" : posY + "px" //"height" : jQuery("#post-" + idx + " .entry-content").innerHeight()
+
+		var coverRect = s.paper.rect( "0%","0%","100%","66%").attr({
+							fill : "#ffffff",
+							opacity : "0",
+							id : "post-cover"
+						});
+
+			coverRect.mouseover(postHandle);
+			coverRect.mouseout(postHandle);
+			coverRect.mousedown(postHandle);
+			coverRect.mouseup(postHandle);
+			coverRect.touchstart(postHandle);
+			coverRect.touchend(postHandle);
 		
+		var bgRect = s.paper.rect( "0%","66%","100%","20%").attr({
+							fill : "#ffffff",
+							id : "post-bg"
+						});
+		/* draw transparent hotspot overlay trigger post link */
+		/* draw white bottom rect */
+		/* if more make more button */
+		/* if slideshow make paginator and next previous buttons */
+		/* if video make play button*/
+	}
+
+	function postHandle(event) {
+		/* 
+				the handler for the post cover :: svg-gallery-controls 
+
+		*/ 
+		
+		/* control text clipping wrap? */
+		
+		var idx = event.target.farthestViewportElement.id;
+		//concat the last idx string from the id
+			idx = idx.substr(idx.lastIndexOf("-")+1);
+
+			//console.log("ev: ", idx, event.target.farthestViewportElement.id);
+			var mask = Snap("#clips-" + idx);	
+
+		switch(event.type) {
+			case "mouseover":
+					/* animate to off :: clipping mask */
+					mask.animate(
+  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					100, mina.easeout);
+  					
+					/* animate to off :: text-wrap divs */
+
+					/* animate to visible :: post control buttons */
+			break;
+			case "mouseout":
+
+					/* animate to on :: clipping mask */
+					mask.animate(
+  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					200, mina.easein);
+  					
+					/* animate to on :: text-wrap divs */
+
+					/* animate to invisible :: post control buttons */
+			break;
+			case "mouseup":
+					/* 
+						click() the link in ::
+							article > header.entry-header > h1.entry-title > a
+			
+					*/
+					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
+					console.log("the post cover: ", event);
+			break;
+			case "touchstart":
+					mask.animate(
+  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					100, mina.easeout);
+  					
+					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
+			break;
+			
+			case "touchend":
+					/* 
+						click() the link in ::
+							article > header.entry-header > h1.entry-title > a
+			
+					*/
+					mask.animate(
+  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					200, mina.easein);
+					
+					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
+					
+			break;
+			default:
+
+			break;
+		}
+	}
+
 	function maskHandle(event) {
-						console.log("mask: ", event);
+		
+		
+		var ida = event.target.farthestViewportElement.id;
+			ida = ida.substr(ida.lastIndexOf("-")+1);
+		
+		console.log("ev: " + ida);
+		var mask = Snap("#clips-" + ida);	
+		var over = Snap("#overlays-" + ida);	
+		//animate the points on rollover or touchstart
+		switch(event.type) {
+			case "mouseover":
+					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
+					mask.animate(
+  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					100, mina.easeout);
+  					
+			break;
+			case "mouseout":
+					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
+					mask.animate(
+  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					200, mina.easein);
+  					
+			break;
+			
+			case "mouseup":
+					
+					console.log(ida + " mask click: ", event.target.id);
+					jQuery( "article#post-" + ida + " header.entry-header h1.entry-title a").trigger( "click" );
+  					
+			break;
+			
+			case "touchstart":
+					mask.animate(
+  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					100, mina.easeout);
+  					
+					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
+			break;
+			case "touchend":
+					mask.animate(
+  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					200, mina.easein);
+					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
+			break;
+			
+			case "default":
+					console.log("mask default: ", event);
+			break;
+		}
 	}
 
 	if(postIDs.length) {
@@ -207,4 +349,22 @@ jQuery(document).ready(function(){
 
 
 });
+
+jQuery(window).resize(function(){
+	/*
+		one resize is fired on load by the fluid video fix in header.php
+	*/	
+	
+	if(postIDs.length) {
+		//console.log("blog? ", jQuery("body").hasClass("blog"));
+		if(jQuery("body").hasClass("blog")) {
+				for(var pNum = 0; pNum < postIDs.length; pNum++) {
+					//fix the post layouts				
+					postLayout(postIDs[pNum]);
+				}
+			}
+			//loadAssets(loadClip);
+		}
+
+	});
 
