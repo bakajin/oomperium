@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="oomp-button" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="675px" height="244.5px" viewBox="-142 158.5 800 244.5" enable-background="new -142 158.5 800 244.5"
+	 xml:space="preserve">
+<g id="button">
+	<path id="button-bottom-bg" fill="#FFFFFF" stroke="#D47878" stroke-width="0.25" stroke-miterlimit="10" d="M152.6,280.7
+		c0,64.1-51.9,116.1-116.1,116.1s-116-51.9-116-116.1H152.6L152.6,280.7z"/>
+	<path id="button-top-bg" fill="#FFFFFF" d="M-87.1,288.8c0-68.5,55.5-124.1,124.1-124.1s123.9,55.5,123.9,124.1H-87.1z"/>
+	<g id="button-group">
+		<circle id="button-shade-whole-circle" fill="#9F9898" cx="38.3" cy="282.1" r="76.3"/>
+		<path id="button-shade-half-circle" fill="#DFD4D4" d="M92.2,228.3c29.8,29.8,29.8,78,0,107.9c-29.8,29.9-78,29.8-107.9,0
+			L92.2,228.3z"/>
+		
+			<radialGradient id="button-gradient_1_" cx="-525.3867" cy="397.4992" r="15.5058" gradientTransform="matrix(9.3576 0 0 9.3576 4975.1777 -3411.5208)" gradientUnits="userSpaceOnUse">
+			<stop  offset="0" style="stop-color:#F0E6E6"/>
+			<stop  offset="0.3756" style="stop-color:#EAE1CD"/>
+			<stop  offset="0.7283" style="stop-color:#E5DEBD"/>
+			<stop  offset="1" style="stop-color:#E4DDB7"/>
+		</radialGradient>
+		<circle id="button-gradient" fill="url(#button-gradient_1_)" cx="38.3" cy="282.1" r="74.4"/>
+	</g>
+	<g id="text">
+		<text id="text-back" transform="matrix(1 0 0 1 242.7136 310.1012)" fill="#E4DDB7" font-family="cronos-pro" font-size="80.784">ABOUT</text>
+		<text id="text-front" transform="matrix(1 0 0 1 238.6765 306.0622)" fill="#9F9898" font-family="cronos-pro" font-size="80.784">ABOUT</text>
+	</g>
+	<path id="hit" opacity="0" fill="#FF0000" d="M490,313.9c0,0-334.2-3-335.1,0c-14.7,51.2-61.9,88.6-117.7,88.6
+		c-67.7,0-122.5-54.8-122.5-122.5s54.8-122.5,122.5-122.5c55.8,0,102.9,37.3,117.7,88.3c0.8,2.6,335.2,0,335.2,0V313.9z"/>
+</g>
+</svg>

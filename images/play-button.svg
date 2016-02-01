@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="play-button" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="135.7px" height="65.5px" viewBox="0 0 135.7 65.5" enable-background="new 0 0 135.7 65.5" xml:space="preserve">
+<g id="button">
+	<polygon id="bottom-triangle_1_" opacity="0.5" fill="#D47878" points="24.5,42.1 67.3,4.1 105.3,42.1 "/>
+	<polygon id="bottom-triangle_2_" opacity="0.5" fill="#D47878" points="67.3,42.1 67.3,4.1 105.3,42.1 "/>
+	<g>
+		<path id="circle-shade" fill="#DFD4D4" d="M47.4,41c0,11,9,20,20,20s20-9,20-20H47.4z"/>
+		<radialGradient id="sphere_1_" cx="72.7346" cy="47.7529" r="38.0497" gradientUnits="userSpaceOnUse">
+			<stop  offset="0" style="stop-color:#A4DDC9"/>
+			<stop  offset="1" style="stop-color:#74A196"/>
+		</radialGradient>
+		<circle id="sphere" fill="url(#sphere_1_)" cx="67.4" cy="40.9" r="19.5"/>
+	</g>
+	<polygon id="play" fill="#575353" stroke="#575353" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+	67,45.1 67,37.1 71,41.1 "/>
+	<g id="text-right">
+		<text transform="matrix(1 0 0 1 5.1662 60.0901)" fill="#4E679C" font-family="'cronos-pro'" font-size="10">00:00:00</text>
+	</g>
+	<g id="text-left">
+		<text transform="matrix(1 0 0 1 95.1662 60.0901)" fill="#4E679C" font-family="'cronos-pro'" font-size="10">00:00:00</text>
+	</g>
+</g>
+</svg>

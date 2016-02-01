@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="oomp-button" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="675px" height="244.5px" viewBox="0 274.5 675 244.5" enable-background="new 0 274.5 675 244.5"
+	 xml:space="preserve">
+<g id="button">
+	<g>
+		<g>
+			<path id="button-bg_3_" fill="#FFFFFF" d="M259.3,396c0,64.1-51.9,116.1-116.1,116.1s-116-51.9-116-116.1L259.3,396L259.3,396z"
+				/>
+			<path fill="#D47878" d="M143.2,512.2c-31.1,0-60.3-12.1-82.2-34c-21.9-21.9-34-51.1-34-82.2v-0.1h232.3v0.1
+				c0,15.7-3.1,30.9-9.1,45.2c-5.8,13.8-14.2,26.3-24.9,36.9c-10.7,10.7-23.1,19.1-36.9,24.9C174.1,509.1,158.9,512.2,143.2,512.2z
+				 M27.3,396.1c0,31,12.1,60.1,33.9,81.9c21.9,21.9,51,33.9,82,33.9c15.7,0,30.9-3.1,45.2-9.1c13.8-5.8,26.2-14.2,36.9-24.9
+				c10.6-10.7,19-23.1,24.8-36.9c6-14.3,9.1-29.4,9.1-45H27.3z"/>
+		</g>
+		<path id="button-bg_2_" fill="#FFFFFF" d="M27.3,397.4c0-64.1,51.9-116.1,116.1-116.1s116,51.9,116,116.1H27.3z"/>
+		<g id="button_x5F_g">
+			<radialGradient id="SVGID_1_" cx="-6.6886" cy="410.1413" r="15.5058" gradientTransform="matrix(9.3576 0 0 9.3576 228.0607 -3414.5208)" gradientUnits="userSpaceOnUse">
+				<stop  offset="0" style="stop-color:#F0E6E6"/>
+				<stop  offset="0.3756" style="stop-color:#EAE1CD"/>
+				<stop  offset="0.7283" style="stop-color:#E5DEBD"/>
+				<stop  offset="1" style="stop-color:#E4DDB7"/>
+			</radialGradient>
+			<circle fill="#9F9898" cx="145" cy="397.4" r="76.3"/>
+			<path fill="#DFD4D4" d="M198.9,343.6c29.8,29.8,29.8,78,0,107.9s-78,29.8-107.9,0L198.9,343.6z"/>
+			
+			<circle fill="url(#SVGID_1_)" cx="145" cy="397.4" r="74.4"/>
+		</g>
+	</g>
+	<g id="text">
+		<text id="text-back" transform="matrix(1 0 0 1 349.3652 425.4012)" fill="#E4DDB7" font-family="'Calibri'" font-size="80.784">ABOUT</text>
+		<text id="text-front" transform="matrix(1 0 0 1 345.3282 421.3622)" fill="#9F9898" font-family="'Calibri'" font-size="80.784">ABOUT</text>
+	</g>
+</g>
+</svg>

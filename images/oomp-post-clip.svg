@@ -1,0 +1,11 @@
+<svg id="post-clip" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: red;
+      }
+    </style>
+  </defs>
+  <title>oomp-post-clip</title>
+  <polygon id="path-clip" class="cls-1" points="0 45 100 0 100 100 0 100 0 45"/>
+</svg>
