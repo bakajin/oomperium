@@ -92,9 +92,9 @@ function oomperium_setup() {
 	 * Make theme available for translation.
 	 * Translations can be filed in the /languages/ directory.
 	 * If you're building a theme based on oomperium, use a find and replace
-	 * to change 'oomperium' to the name of your theme in all the template files
+	 * to change 'oomperidev' to the name of your theme in all the template files
 	 */
-	load_theme_textdomain( 'oomperium', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'oomperidev', get_template_directory() . '/languages' );
 	/*
 	 * Add a custom header image 
 	 * OOMP Edit
@@ -134,7 +134,7 @@ function oomperium_setup() {
 
 	// This theme uses wp_nav_menu() in one location. But we will create our own MOM below
 	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'oomperium' ),
+		'primary' => __( 'Primary Menu', 'oomperidev' ),
 	) );
 
 	
@@ -183,7 +183,7 @@ add_action( 'after_setup_theme', 'oomperium_setup' );
  */
 function oomperium_widgets_init() {
 	register_sidebar( array(
-		'name'          => __( 'Sidebar', 'oomperium' ),
+		'name'          => __( 'Sidebar', 'oomperidev' ),
 		'id'            => 'sidebar-1',
 		'description'   => '',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',

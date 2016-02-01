@@ -23,21 +23,23 @@ If you want to keep it simple, head over to http://underscores.me and generate y
 
 If you want to set things up manually, download `_s` from GitHub. The first thing you want to do is copy the `_s` directory and change the name to something else (like, say, `megatherium`), and then you'll need to do a five-step find and replace on the name in all the templates.
 
-1. Search for `'oomperium'` (inside single quotations) to capture the text domain.
-2. Search for `oomperium_` to capture all the function names.
+1. Search for `'oomperidev'` (inside single quotations) to capture the text domain.
+2. Search for `oomperidev_` to capture all the function names.
 3. Search for `Text Domain: oomperium` in style.css.
 *. Search for `Theme Name: oomperium` in style.css.
 4. Search for <code>&nbsp;oomperium</code> (with a space before it) to capture DocBlocks.
-5. Search for `oomperium-` to capture prefixed handles.
+5. Search for `oomperidev-` to capture prefixed handles.
 
 OR
 
-* Search for: `'oomperium'` and replace with: `'oomperidev'`
-* Search for: `oomperium_` and replace with: `oomperidev_`
-* Search for: `Text Domain: oomperium` and replace with: `Text Domain: oomperidev` in style.css.
-* Search for `Theme Name: oomperium` and replace with `Theme Name: oomperidev in style.css.
-* Search for: <code>&nbsp;oomperium</code> and replace with: <code>&nbsp;oomperidev</code>
-* Search for: `oomperium-` and replace with: `oomperidev-`
+* Search for: `'oomperidev'` and replace with: `'oomperium'`
+* Search for: `oomperidev_` and replace with: `oomperium_`
+* Search for: `Text Domain: oomperidev` and replace with: `Text Domain: oomperium` in style.css.
+* Search for `Theme Name: oomperidev` and replace with `Theme Name: oomperium in style.css.
+* Search for: <code>&nbsp;oomperidev/code> and replace with: <code>&nbsp;oomperium</code>
+* Search for: `oomperidev-` and replace with: `oomperium`
+
+But setting these values back to oomperium should not be needed due to git branching
 
 Then, update the stylesheet header in `style.css` and the links in `footer.php` with your own information. Next, update or delete this readme.
 
