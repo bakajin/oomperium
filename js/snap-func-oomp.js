@@ -674,6 +674,70 @@ function postLayout(idx) {
 		/* if video make play button*/
 	}
 
+	function wrapTextShape(idx) {
+		//console.log(jQuery("body").hasClass("blog"));
+		if(jQuery("body").hasClass("blog")) {
+			
+			//jQuery("article").each(function(){
+				// find p elements get width and height and number of lines
+				var lineNum = 0;
+
+				var pWidth = $(this).width();
+				var pHeight = 0;
+					//check the first character in the p element to see what is in there. 
+				var conCheck = '';
+
+			jQuery(this).children("div.entry-content").children("p").each(function(){
+				//console.log("p-height: " + $(this).height());
+				conCheck = jQuery(this).html(); //str.charAt(0)
+				conCheck = conCheck.charAt(0);
+				switch(conCheck) {
+					case '<':
+							// do nothing when imagetag or non tekst html is found
+							//console.log("found <");
+							conCheck = '';
+						break;
+					case '&':
+							// do nothing when non breaking space is found
+							//console.log("found &");
+							conCheck = '';
+						break;
+					default:
+							//console.log("p-content:" + conCheck);
+							lineNum += Math.floor(jQuery(this).height() / parseInt(jQuery(this).css("line-height").replace('px','')));
+							pHeight += jQuery(this).height(); 
+					break;
+				}
+								
+			});
+			var str = '';
+
+			//console.log("article: " + $(this).attr("id")); 
+			//console.log("			lines: " + lineNum); console.log("			width: " + pWidth); 
+			//console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
+			
+			var factor = 0;
+			var len = 14;//lineNum; // + (lineNum/2);
+			for (var l = 0; l < len; l++) {
+				// write divs left right to wrap text
+				factor = Math.floor(100/10)*l;
+
+				if(l < 4) {
+					factor = 0;
+					//console.log("one two three");
+				}
+				str += '<div class="text-wrap" style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
+				str += '<div class="text-wrap" style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
+				
+				//console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
+			}
+			//stuff goes wrong here
+			//$(this).children("div.entry-content").first().before(str);
+			jQuery(this).children("div.entry-content p").first().before(str);
+			
+		}
+	});
+
 	function postHandle(event) {
 		/* 
 				the handler for the post cover :: svg-gallery-controls 

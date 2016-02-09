@@ -889,6 +889,28 @@ a.more-link {
 10.0 Content
 --------------------------------------------------------------*/
 /* don' t show textwrapper on single or category pages */
+article header.entry-header .entry-title {
+	display: none;
+
+}
+
+h1 {
+	color : #4e679c;
+	font-size: 122%;
+}
+h1 strong {
+	font-size: 133%;
+	font-weight: normal;
+}
+
+h2, h3 {
+	color : #4ca984;
+	font-size: 122%;
+}
+
+p.p2, p.p3 {
+	color: #61665E!important;
+}
 
 body.single .entry-content, body.category .entry-content {
 	/*height : 100%!important;*/
@@ -1126,11 +1148,99 @@ article:nth-child(n+9) p {
 	left : -0.5%;
 	
 }
-/* CV styling */
-h2[content="Position"] {
-	font-size: 136%;
-	color: #d78081;
+/*--------------------------------------------------------------
+10.11 CV styling
+--------------------------------------------------------------*/
+div#cv h1, div#cv h2 {
+	font-size : 163%;
+	font-weight : 400;
+	color : #4E679C;
+	line-height: 4em;
+	background-image : url('images/header-bg-triangle.svg');
+	background-repeat : no-repeat;
+	background-position-y : 0.2em;
+	background-size : 5%;
+	padding-left : 0.25em;
+	
 }
+
+div#cv h2:first-of-type {
+	color : #D78081;
+	background-image : url('images/header-bg-triangle-1.svg');
+}
+
+div#cv h2:last-of-type {
+	color : #D78081;
+	background-image : url('images/header-bg-triangle-3.svg');
+}
+
+div#cv h2:nth-last-of-type(2) {
+	color : #4CA984;
+	background-image : url('images/header-bg-triangle-2.svg');
+}
+
+div#cv ul{
+	clear : both;
+	list-style: none;
+	margin: 1.5em 0 5em 0em;
+}
+
+div#cv ul li{
+	font-size: 121%;
+	color : #D78081;
+	float : left;
+	margin-right: 16%;
+	
+}
+div#cv h3{
+	clear : none;
+	font-size: 121%;
+	color : #D4C978;
+	float : left;
+	margin-right: 16%;
+	
+}
+
+div#cv h4{
+	clear : none;
+	font-size: 121%;
+	color : #D78081;
+	float : left;
+	margin-right: 16%;
+	
+}
+div#cv h4:nth-of-type(2){
+	clear : left;
+	
+}
+div#cv h5 {
+	font-size: 93%;
+	color : #D4C978;	
+}
+
+div#cv ul:first-of-type li{
+	color : #D4C978;
+	font-size: 121%;
+
+}
+
+div#cv p {
+	font-size : 113%;
+	clear : both;
+}
+
+ul#cv-legend li {
+	color : #4CA984!important;
+	line-height: 3em;
+	background-image : url('images/bg-triangle-down.svg');
+	background-repeat : no-repeat;
+	background-position : 30% 0.75em;
+	background-size : 5em;
+	margin-bottom: 1.3em;
+	
+}
+
+
 /*--------------------------------------------------------------
 10.2 Asides
 --------------------------------------------------------------*/
