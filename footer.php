@@ -24,9 +24,9 @@
 			<li><a href="#">+316 29407864</a></li>
 		</ul>
 		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'oomperidev' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'oomperidev' ), 'WordPress' ); ?></a>
+			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'oomperium' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'oomperium' ), 'WordPress' ); ?></a>
 			<span class="sep"> | </span>
-			<?php printf( __( 'Theme: %1$s by %2$s.', 'oomperidev' ), 'oomperidev', '<a href="http://oomp.nl/" rel="designer">OOMP</a>' ); ?>
+			<?php printf( __( 'Theme: %1$s by %2$s.', 'oomperium' ), 'oomperium', '<a href="http://oomp.nl/" rel="designer">OOMP</a>' ); ?>
 		</div><!-- .site-info -->
 		
 	</footer><!-- #colophon -->
