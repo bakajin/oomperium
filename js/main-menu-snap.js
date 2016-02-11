@@ -63,7 +63,7 @@ jQuery(document).ready(function(){
 */
 								var pWidth = "100%";
 								var pHeight = jQuery("#svg-menu").height() -1;
-								var pX = "10%";
+								var pX = "0%"; //10%
 								var pY = "23%";
 
 								//scale loaded to 100% of the svg canvas
@@ -111,22 +111,22 @@ jQuery(document).ready(function(){
 										
 										switch(menuItems[b].parent) {
 											case "286":
-													xSpacer = "27.5%";//108;
+													xSpacer = "17.5%";//27.5%//108;
 													//subCount = 0;
 													
 											break;
 											case "23":
-													xSpacer = "27.5%";//108;
+													xSpacer = "17.5%";//108;
 													//subCount = 0;
 													
 											break;
 											case "35":
-													xSpacer = "27.5%";//108;
+													xSpacer = "17.5%";//108;
 													//subCount = 0;
 													
 											break;
 											case "114":
-													xSpacer = "55.5%";//350;
+													xSpacer = "45.5%";//55.5%//350;
 													if(menuItems[b].parent == 114 & subSwitch == false) {
 														subCount = 0;
 														subSwitch = true;
@@ -135,13 +135,13 @@ jQuery(document).ready(function(){
 													//console.log(b,"29", subCount);
 											break;
 											case "29":
-													xSpacer = "55.5%";//350;
+													xSpacer = "45.5%";//350;
 													if(menuItems[b].parent == 29 & subSwitch == false) {
 														subCount = 0;
 														subSwitch = true;
 													}
 											case "42":
-													xSpacer = "55.5%";//350;
+													xSpacer = "45.5%";//350;
 													if(menuItems[b].parent == 42 & subSwitch == false) {
 														subCount = 0;
 														subSwitch = true;
@@ -150,7 +150,7 @@ jQuery(document).ready(function(){
 													//console.log(b,"29", subCount);
 											break;
 											case "33":
-													xSpacer = "83.5%";//590;
+													xSpacer = "73.5%";//83.5%//590;
 													if(menuItems[b].parent == 33 & subSwitch == true) {
 														subCount = 0;
 														subSwitch = false;
@@ -158,7 +158,7 @@ jQuery(document).ready(function(){
 													//console.log(b,"33",subCount);
 											break;
 											case "39":
-													xSpacer = "83.5%";//590;
+													xSpacer = "73.5%";//590;
 													if(menuItems[b].parent == 39 & subSwitch == true) {
 														subCount = 0;
 														subSwitch = false;
@@ -198,7 +198,7 @@ jQuery(document).ready(function(){
 											
 											// translate before scale
 											//transMatrix.translate( ((drawingSurface.innerWidth() / 3) * mainMenuIterate), localViewBox.y - (localViewBox.height / 2.65));//(viewBox.y * -1)
-											var transXVal = 28 * mainMenuIterate + 15;
+											var transXVal = 28 * mainMenuIterate + 5;
 												transXVal = transXVal + "%";
 											g.attr({ 
 													x : transXVal,

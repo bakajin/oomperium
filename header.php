@@ -65,6 +65,10 @@
           center: { lat: 52.3670513, lng: 4.9024593}, 
           zoom: 15,
           styles : mapstyle,
+          zoomControl: true,
+    	  zoomControlOptions: {
+        		position: google.maps.ControlPosition.RIGHT_TOP
+    		}
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);

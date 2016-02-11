@@ -7,18 +7,18 @@ jQuery(document).ready(function(){
                         s.append( fragmentList[ count ] );//.select("g") );
                         //console.log("header load: " + count);
                         switch(count) {
-                        	case 0:
-                        			//logoGroup.append(fragmentList[ count ]);
-                        	break;
-                        	case 1:
-                        			//bgGroup.append(fragmentList[ count ]);
-                        			//bgGroup.transform('s3,0,0');
-                        			buildLayout();
-                        	break;
-                        	default:
-                        		//do nothing
-                        	break;
-                        	
+                            case 0:
+                                    //logoGroup.append(fragmentList[ count ]);
+                            break;
+                            case 1:
+                                    //bgGroup.append(fragmentList[ count ]);
+                                    //bgGroup.transform('s3,0,0');
+                                    buildLayout();
+                            break;
+                            default:
+                                //do nothing
+                            break;
+                            
                         }
                 }
         }
@@ -50,18 +50,20 @@ jQuery(document).ready(function(){
                 path = themePath;
             }
     
-	var s = Snap("#site-logo");
-		// setting the viewbox for responsive love
-		s.attr({ 
-                viewBox: "0 0 100 400"
+    var s = Snap("#site-logo");
+        // setting the viewbox for responsive love
+        /*
+        s.attr({ 
+                viewBox: "0 0 100 100"
             });
-		var logoGroup = s.group();
-     	var bgGroup = s.group();
-	   var myLoadList = [ headerImg, (path + 'oomp_logo-bg.svg') ];
+        */
+        var logoGroup = s.group();
+        var bgGroup = s.group();
+       var myLoadList = [ (path + 'oomp_logo-bg-0.svg'), headerImg];
         s.loadFilesDisplayOrdered( myLoadList );
 
         function buildLayout() {
-       			var transMatrix = new Snap.Matrix();
+                var transMatrix = new Snap.Matrix();
                     transMatrix.translate(-270,161);//(50,150)
                     transMatrix.scale(0.161);
                                             
@@ -72,7 +74,7 @@ jQuery(document).ready(function(){
                     transMatrix.translate(-117,-600);//(viewBox.y * -1)
                     transMatrix.scale(1.33);
                     
-        		var background = Snap.select('#bg-elem');
+                var background = Snap.select('#bg-elem');
                     background.transform(transMatrix);
 
         }
