@@ -909,8 +909,7 @@ a.more-link {
 --------------------------------------------------------------*/
 /* don' t show textwrapper on single or category pages */
 article header.entry-header .entry-title {
-	display: none;
-
+	/*display: none;*/
 }
 
 h1 {
