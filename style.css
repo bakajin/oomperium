@@ -964,6 +964,10 @@ body.blog img.size-full, body.blog img.size-medium, body.blog img.size-small, bo
 	background-color: #fff!important;
 }
 
+body.blog div.slideshow-window {
+	padding-bottom: 75%!important;
+}
+
 body.blog div.jetpack-slideshow {
 	margin-top : 0%;
 }
