@@ -26,7 +26,7 @@ function postLayout(idx) {
 	*/
 	if(jQuery("#post-" + idx + " .entry-content div.slideshow-window").length) {
 			firstElemHeight = (14 * 27) - (4 * 27); //num wrap lines
-			console.log("slideshow detected p-h: " + firstElemHeight );
+			//console.log("slideshow detected p-h: " + firstElemHeight );
 			jQuery("#post-" + idx + " .entry-content div.slideshow-window").css({
 				"top" : ( firstElemHeight * -1 ) + "px"
 			});
@@ -40,7 +40,7 @@ function postLayout(idx) {
 	*/
 	if(jQuery("#post-" + idx + " .entry-content div iframe").length) {
 			firstElemHeight = parseInt( jQuery("#post-" + idx + " .entry-content p:first-child").outerHeight() );
-			console.log("video detected p-h: " + firstElemHeight);
+			//console.log("video detected p-h: " + firstElemHeight);
 			jQuery("#post-" + idx + " .entry-content div.video-wrap").css({
 				"top" : ( firstElemHeight * -1 + offset ) + "px"
 			});
@@ -80,7 +80,7 @@ function postLayout(idx) {
 	lastElemHeight += parseInt( jQuery("#svg-post-" + idx).outerHeight() );
 
 	if(jQuery("#post-" + idx + " .entry-content div.slideshow-window").length) {
-		mediaHeight *= 1.83; //1.85
+		mediaHeight *= 1; //1.83 //1.85
 	}
 	if(jQuery("#post-" + idx + " .entry-content div iframe").length) {
 		mediaHeight *= 2.2;
