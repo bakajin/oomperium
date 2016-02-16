@@ -210,7 +210,7 @@
     			.data('aspectRatio', this.height / this.width)
 
     	// and remove the hard coded width/height
-    			.removeAttr('height')
+    			 .removeAttr('height')
    				 .removeAttr('width');
    				 console.log("videoresized ", this.height);
 

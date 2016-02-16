@@ -2,7 +2,7 @@
 //the list to preload
 
 var menuOptions;
-var path = "images/";
+/* var path = "images/"; */
 
 // cause this is a menu, load the button base shape and it's events
 var baseShape = "oomp-button-3"; //["social-menu-button.svg"];

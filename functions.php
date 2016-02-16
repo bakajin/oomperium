@@ -222,25 +222,29 @@ function oomperium_custom_scripts() {
 	wp_register_script('snap-svg', get_template_directory_uri() . '/js/snap.svg.js');
 	wp_enqueue_script('snap-svg');
 	
+	//snap ui overwrite
+	wp_register_script('snap-ui', get_template_directory_uri() . '/js/ui-snap.js');
+	wp_enqueue_script('snap-ui');
+
 	// header snap svg	
-	wp_register_script('header-logo-snap', get_template_directory_uri() . '/js/header-logo-snap.js');
-	wp_enqueue_script('header-logo-snap');
+	/*wp_register_script('header-logo-snap', get_template_directory_uri() . '/js/header-logo-snap.js');
+	wp_enqueue_script('header-logo-snap');*/
 
 	// snap svg main menu header menu
-	wp_register_script('main-menu-snap', get_template_directory_uri() . '/js/main-menu-snap.js');
-	wp_enqueue_script('main-menu-snap');
+	/*wp_register_script('main-menu-snap', get_template_directory_uri() . '/js/main-menu-snap.js');
+	wp_enqueue_script('main-menu-snap');*/
 
 	// snap svg post snap
-	wp_register_script('post-snap', get_template_directory_uri() . '/js/post-snap.js');
-	wp_enqueue_script('post-snap');
+	/*wp_register_script('post-snap', get_template_directory_uri() . '/js/post-snap.js');
+	wp_enqueue_script('post-snap');*/
 
 	// snap svg gallery controls snap
 	//wp_register_script('gallery-controls', get_template_directory_uri() . '/js/gallery-controls.js');
 	//wp_enqueue_script('gallery-controls');
 
 	// snap svg social snap footer menu
-	wp_register_script('social-menu-snap', get_template_directory_uri() . '/js/social-menu-snap.js');
-	wp_enqueue_script('social-menu-snap');
+	/*wp_register_script('social-menu-snap', get_template_directory_uri() . '/js/social-menu-snap.js');
+	wp_enqueue_script('social-menu-snap');*/
 
 	// script to clip paragraphs
 	//wp_register_script('shapewrapper', get_template_directory_uri() . '/js/shapewrapper.js');
