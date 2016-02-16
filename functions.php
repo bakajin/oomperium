@@ -223,7 +223,7 @@ function oomperium_custom_scripts() {
 	wp_enqueue_script('snap-svg');
 	
 	//snap ui overwrite
-	wp_register_script('snap-ui', get_template_directory_uri() . '/js/ui-snap.js');
+	wp_register_script('snap-ui', get_template_directory_uri() . '/js/interface-functions.js');
 	wp_enqueue_script('snap-ui');
 
 	// header snap svg	
