@@ -612,6 +612,7 @@ a.more-link {
 	margin : auto;
 	z-index: 99;
 	margin-left: 6%;
+	overflow : visible;
 }
 
 .main-menu-button, .main-menu-sub, .social-menu-button, .gallery-button{
@@ -730,11 +731,13 @@ a.more-link {
 	svg#site-logo {
 		width : 50%;
 		height : 220%;
+		left : -2%;
+		top : -1.61em;
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {
 		width : 40%;
-		top : -4em;
+		top : -0.7em;
 	}
 	/* use one colomn */
 	article {
@@ -771,7 +774,7 @@ a.more-link {
 @media screen and (min-width: 1280px) {
 	/* make the logo bigger */ 
 	svg#site-logo {
-		left : -6%;
+		left : -4%;
 		height : 355%;
 	}
 	/* make the menu smaller / more narrow */
@@ -944,7 +947,7 @@ body.single .text-wrap, body.category .text-wrap {
 }
 
 #content {
-	padding : 0% 4% 0% 4%;
+	padding : 0% 4.6% 0% 4.6%;
 	top : 18rem;
 	position: relative;
 }

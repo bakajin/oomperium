@@ -48,6 +48,7 @@
 		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
 			<defs></defs>
 		</svg>
+		<script>postInit("post-<?php the_ID(); ?>");</script>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">

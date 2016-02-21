@@ -85,8 +85,9 @@
     </script>
 <!-- Set the path to the theme base dir -->
 <script>
-	var themePath = "<?php echo get_stylesheet_directory_uri() . '/images/'; ?>"; 
-	var headerImg = "<?php header_image(); ?>";
+		pageType = '<?php body_class(); ?>';
+		themePath = "<?php echo get_stylesheet_directory_uri() . '/images/'; ?>"; 
+		headerImg = "<?php header_image(); ?>";
 	var logoImg;
 
 	// lets find out which browser is being used 
@@ -117,7 +118,7 @@
 			// the items for javascript var
 					//this value is 0 for main top level menu items
 					//print_r($menu_item->menu_item_parent); //print_r($menu_item->url); //print_r($menu_item->guid);
-					$menuJsVars .= '{title: "' . $menu_item->title . '", parent: "' . $menu_item->menu_item_parent . '", url: "'. $menu_item->url .'", guid:"'. $menu_item->guid .'"}, ';
+					$menuJsVars .= '{idx: "' . $menu_item->ID . '", title: "' . $menu_item->title . '", parent: "' . $menu_item->menu_item_parent . '", url: "'. $menu_item->url .'", guid:"'. $menu_item->guid .'"}, ';
 		}
 	
     } else {
@@ -128,72 +129,9 @@
 	echo $menuJsVars;
 	?>
 	/* send the post ids array object to the post-snap in content.php */ 
-	var postIDs = new Array();
+	//var postIDs = new Array();
 
-	//shapeWrapper jQuery refactor 
-	jQuery(function($){
-		//select all articles and loop through each
-		//console.log($("body").hasClass("blog"));
-		if($("body").hasClass("blog")) {
-			
-			$("article").each(function(){
-				// find p elements get width and height and number of lines
-				var lineNum = 0;
-
-				var pWidth = $(this).width();
-				var pHeight = 0;
-					//check the first character in the p element to see what is in there. 
-				var conCheck = '';
-
-			$(this).children("div.entry-content").children("p").each(function(){
-				//console.log("p-height: " + $(this).height());
-				conCheck = $(this).html(); //str.charAt(0)
-				conCheck = conCheck.charAt(0);
-				switch(conCheck) {
-					case '<':
-							// do nothing when imagetag or non tekst html is found
-							//console.log("found <");
-							conCheck = '';
-						break;
-					case '&':
-							// do nothing when non breaking space is found
-							//console.log("found &");
-							conCheck = '';
-						break;
-					default:
-							//console.log("p-content:" + conCheck);
-							lineNum += Math.floor($(this).height() / parseInt($(this).css("line-height").replace('px','')));
-							pHeight += $(this).height(); 
-					break;
-				}
-								
-			});
-			var str = '';
-
-			//console.log("article: " + $(this).attr("id")); 
-			//console.log("			lines: " + lineNum); console.log("			width: " + pWidth); 
-			//console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
-			
-			var factor = 0;
-			var len = 14;//lineNum; // + (lineNum/2);
-			for (var l = 0; l < len; l++) {
-				// write divs left right to wrap text
-				factor = Math.floor(100/10)*l;
-
-				if(l < 4) {
-					factor = 0;
-					//consooe.log("one two three");
-				}
-				str += '<div class="text-wrap" style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
-				str += '<div class="text-wrap" style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
-				
-				//console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
-			}
-			$(this).children("div.entry-content").first().before(str);
-			
-		});
-	}
-
+	
 	/* Fluid embedded videos hold the letterboxing */
 	/* reference link: https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php */
 	// Find all YouTube videos
@@ -233,10 +171,14 @@
 
 		// Kick off one resize to fix all videos on page load
 		}).resize();
-	});
+	//});
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+			Move the text wrapper to the interface-functions.js
+			Move the fluid width function to the interface-functions.js
+
+	   !!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 </script>
-
 </head>
 
 <body <?php body_class(); ?>>
@@ -253,13 +195,14 @@
 	<svg id="site-logo">
 		<defs></defs>
 	</svg>
-
+	<script>headerLogoInit();</script>
 	<div class="main-navigation" id="menu">
 		<button class="menu-toggle"></button>
 		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false ) ); ?>
 		<svg id="svg-menu">
 			<defs></defs>
-		</svg>
+		</svg><script>menuInit("#svg-menu");</script>
+		
 	</div>	
 	</header><!-- #masthead -->
 

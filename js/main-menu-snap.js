@@ -60,7 +60,7 @@ jQuery(document).ready(function(){
 								
 								/*var pWidth = jQuery("#svg-menu").width();
 								var pHeight = jQuery("#svg-menu").height() -1;
-*/
+*/	
 								var pWidth = "100%";
 								var pHeight = jQuery("#svg-menu").height() -1;
 								var pX = "0%"; //10%
