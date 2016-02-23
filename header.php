@@ -128,56 +128,7 @@
 	$menuJsVars .= '{end: ""}];';
 	echo $menuJsVars;
 	?>
-	/* send the post ids array object to the post-snap in content.php */ 
-	//var postIDs = new Array();
-
 	
-	/* Fluid embedded videos hold the letterboxing */
-	/* reference link: https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php */
-	// Find all YouTube videos
-
-	var $allVideos = $("iframe[src^='//player.vimeo.com'], iframe[src^='//www.youtube.com']"),
-
-    // The element that is fluid width
-    	$fluidEl = $("#content");
-
-		// Figure out and save aspect ratio for each video
-		$allVideos.each(function() {
-			console.log("am i firing");
-  			$(this)
-    			.data('aspectRatio', this.height / this.width)
-
-    	// and remove the hard coded width/height
-    			 .removeAttr('height')
-   				 .removeAttr('width');
-   				 console.log("videoresized ", this.height);
-
-		});
-
-		// When the window is resized
-		$(window).resize(function() {
-
-  			var newWidth = $fluidEl.width();
-
-  		// Resize all videos according to their own aspect ratio
-  			$allVideos.each(function() {
-
-    			var $el = $(this);
-    				$el
-      					.width(newWidth)
-      					.height(newWidth * $el.data('aspectRatio'));
-
-  			});
-
-		// Kick off one resize to fix all videos on page load
-		}).resize();
-	//});
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-			Move the text wrapper to the interface-functions.js
-			Move the fluid width function to the interface-functions.js
-
-	   !!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 </script>
 </head>
 
@@ -195,14 +146,21 @@
 	<svg id="site-logo">
 		<defs></defs>
 	</svg>
-	<script>headerLogoInit();</script>
+	<script>
+		// fire a load request for the post controls object (cloned later)
+			loadPostControls();
+		//get the logo for the header
+			headerLogoInit();
+	</script>
 	<div class="main-navigation" id="menu">
 		<button class="menu-toggle"></button>
 		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false ) ); ?>
 		<svg id="svg-menu">
 			<defs></defs>
-		</svg><script>menuInit("#svg-menu");</script>
-		
+		</svg>
+		<script>
+			menuInit("#svg-menu");
+		</script>
 	</div>	
 	</header><!-- #masthead -->
 

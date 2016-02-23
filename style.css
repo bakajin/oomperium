@@ -106,8 +106,11 @@ section {
 body.blog article {
 	float : left;
 	width : 30%;
-	/* not entirely responsive */
+	/*
+	deprecate
+	not entirely responsive
 	height : 56rem;
+	*/
 	margin : 2% 0 2% 3%!important;
 	padding : 0.5%;
 	
@@ -576,14 +579,16 @@ a:active {
 	color: #d78081;
 }
 
+
 a.more-link {
 	position: relative;
 	text-align: center;
 	vertical-align: baseline;
-	display : block;
+	display : none;
 	/*margin : 7.5rem auto 0.5rem auto;*/
-	top : -23rem;
+	/*top : -23rem;*/
 }
+
 /*--------------------------------------------------------------
 5.2 Menus
 --------------------------------------------------------------*/
@@ -938,12 +943,19 @@ body.single .entry-content, body.category .entry-content {
 	height : auto!important;
 }
 body.blog .entry-content {
-	/*height : 100%!important;*/
+	/*
+	deprecate, move to js
+	height : 100%!important;
 	height : 56rem;
+
+	*/
 }
 
 body.single .text-wrap, body.category .text-wrap {
+	/*
+	deprecate this is checked by the js like it should be
 	display : none;
+	*/
 }
 
 #content {
@@ -985,16 +997,24 @@ div.slideshow-controls {
 	display : none!important;
 }
 div.slideshow-window:hover, .entry-content iframe:hover, div.tiled-gallery:hover, body.blog img.size-full:hover {
+	/*
+	deprecate, is handled in js
+	
 	-webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
-	clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
+	clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important; 
+	*/
 }
 
 .svg-gallery-controls {
-	display : block;
 	position: relative;
 	z-index: 9;
+	/*
+	deprecate move to js?
+
+	display : block;
 	width : 120%;
 	left : -10%;
+	*/
 }
 .svg-gallery-controls:hover {
 	opacity: 1;
@@ -1016,21 +1036,33 @@ iframe .player .video-wrapper {
 
 body.category .entry-content iframe, body.single .entry-content iframe {
 /* vimeo player and possibly youtube and other iframe */
+	/*
+	deprecate, move to js
 	top : 0rem!important;
 	clip-path: url('');
 	-webkit-clip-path : polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
+	*/
 }
 body.category .entry-content .slideshow-window, body.single .entry-content .slideshow-window, body.category .entry-content .tiled-gallery, body.single .entry-content .tiled-gallery {
 /* vimeo player and possibly youtube and other iframe */
+	/*
+	deprecate, move to js
+	
 	top : 0rem!important;
 	clip-path: url('');
 	-webkit-clip-path : polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
+	*/
 }
 
 body.blog .entry-footer {
+	/*
+	deprecate
 	display: none;
 	position: relative;
-	top : -1300px; /* overwrite with jQuery postLoayout function */
+	top : -1300px;  
+
+	overwrite with jQuery postLoayout function 
+	*/
 }
  /*--------------------------------------------------------------
 }

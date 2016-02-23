@@ -33,7 +33,7 @@
 
 	var headerAssets = new Array();
 	var menuAssets;
-	var postAssets;
+	var postAssets = new Object();
 	var socialAssets;
 			
 	var scaleFactor;
@@ -55,36 +55,49 @@
 /* load an asset list and return it as a named object */
 	function loadAssets(assetList, container) {
 			
-			
+			console.log("load container ", container);
+			var strippedContainerStr = container;
+			if( jQuery.isNumeric(container.substr(container.lastIndexOf("-")+1)) )
+				{
+					strippedContainerStr = strippedContainerStr.substr(0, container.lastIndexOf("-"));
+					console.log("multiple items: ", strippedContainerStr);
+				}
+			else
+			{
+				console.log("single item");
+				//strippedContainerStr = container;
+			}
+
 			for(a = 0; a < assetList.length; a++) {	
 					//Snap.load(assetList[a], onSVGLoaded);
-					Snap.load(assetList[a], function(loaded) {
-													switch(container) {
+					Snap.load(assetList[a], function(fragment) {
+													switch(strippedContainerStr) {
 														case "#site-logo":
 																	paper = Snap(container);
 																	//init the same function
-																	headerLogoInit(container, loaded, 1);
+																	headerLogoInit(container, fragment, a);
 
 
 														break;
 
 														case "#svg-menu":
 																	//init the same function : container, assets, loaded
-																	menuInit(container, loaded, 1);
+																	menuInit(container, fragment, a);
 
 														break;
 														
-														case "#svg-post":
-																	//select container
-																	paper = Snap(container);
-																var asset = loaded;//.select("svg");//svg
-																	paper.append(asset);
-																	//console.log("loaded list ");
+														case "#post":
+																	//this never fires, but that is ok. The loadlist is empty
+																//	postInit(container, fragment, a);
+																	console.log("post!! loaded list ", a);
+																	loadPostControls(fragment, a);
 
 														break;
 
 														case "#svg-gallery-controls":
 																//dbl check if i m still using this
+																console.log("svg-gallery-controls loaded list", a, container);
+																//drawPostControls(container, fragment, a);
 														break;
 													}
 													
@@ -107,14 +120,14 @@
 	// gues which device is requesting the page
 		//phones and tablets in portrait are higher than wide
 		// check the user agent
-			console.log("post ids", postIDs);
-			console.log("menu ids", menuIDs);
-			console.log("social ids", socialIDs);
+			//console.log("post ids", postIDs);
+			//console.log("menu ids", menuIDs);
+			//console.log("social ids", socialIDs);
 			if(themePath) {
-					console.log("page type ", pageType);
-					console.log("theme path ", themePath);
+					//console.log("page type ", pageType);
+					//console.log("theme path ", themePath);
 			}
-			console.log("header img ", headerImg);
+			//console.log("header img ", headerImg);
 			//renderMenu("#svg-menu");
 	});
 
@@ -159,21 +172,29 @@
 			
 			var pStr = "#site-logo";
 			
+			// if nothing is loaded, load the list.
+			
 			//loadList = [ themePath + 'oomp_logo-bg-0.svg', headerImg];
-			console.log("menu init ", loaded);
-			if(loaded<1 || loaded == undefined) {
-					loadList = [ themePath + 'logo-background.svg'];
+			
+				loadList = [ themePath + 'logo-background.svg'];
+			
+			if(loaded < 1 || loaded == undefined) {
+					
        				loadAssets(loadList, pStr);
-       		} else if(loaded > 0) {
+
+       		} else if(loaded >= loadList.length) {
        			
        			paper = Snap(pStr);
        			paper.append(asset);
+			
 				// not setting the viewbox for responsive love, as we are using the straight svg and two viewboxes make everything weird
-				/*paper.attr({ viewBox: "0 0 100 400" });*/
+				/*
+					paper.attr({ viewBox: "0 0 100 400" });
+				*/
 
 				//now lets check windowsize and scale and position the logo and its background
 				repositionLogo(pStr);
-		}
+			}
 	}
 
 	/* ------------------------------------
@@ -220,14 +241,13 @@
 		/* select svg object string */	
 		var mStr = "#svg-menu";
 
-		console.log("menu init ", loaded);
+			loadList = [ themePath + 'button-main.svg'];
+		//console.log("menu init ", loaded);
 		if(loaded<1 || loaded == undefined) {
 				/* load button svg */
-				loadList = [ themePath + 'button-main.svg'];
        			loadAssets(loadList, mStr);
-       			console.log("loading stuff pls wait ");
        		
-		} else if(loaded > 0) {
+		} else if(loaded => loadList.length) {
 				/* select svg object */
        	
 				paper = Snap(mStr);
@@ -254,7 +274,6 @@
 				//prepend menu bg
 				paper.prepend(bg);
 				
-				console.log("load done now draw it to screen ");
 				renderMenuButtons(mStr, asset);
 				
 		}						
@@ -277,7 +296,7 @@
 
 		for(b = 0; b < menuItems.length; b++) { 
 				
-				console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
+				//console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
 				//if parent == 0 it's a main menu item. Parent contains the parent idx
 				if(menuItems[b].parent == 0) {
 						//main menu
@@ -303,9 +322,19 @@
 							
 						var buttonAsset = asset.node.cloneNode(true);
 							buttonAsset.id = "main-button-" + menuItems[b].idx;
-							
+						//	buttonAsset.addClass("main-menu-button");
 							paper.append( buttonAsset ); //buttons.push( Snap(g.node.cloneNode(true)));
-							paper.select("#" +buttonAsset.id).attr({x : (30 * mIter + 5 + "%")})
+							
+							paper.select("#" +buttonAsset.id).attr({
+									x : (30 * mIter + 5 + "%"), class : "main-menu-button"
+								});
+							
+							paper.select("#" +buttonAsset.id).mousedown(onMainMenu);
+							paper.select("#" +buttonAsset.id).mouseup(onMainMenu);
+							paper.select("#" +buttonAsset.id).mouseover(onMainMenu);
+							paper.select("#" +buttonAsset.id).touchstart(onMainMenu);
+							paper.select("#" +buttonAsset.id).touchend(onMainMenu);
+							
 							mIter++;
 
 				} else if(menuItems[b].parent > 0) {
@@ -342,10 +371,11 @@
 												id : "sub-" + b
 											});
 							subMenuTxt.addClass("main-menu-sub");
+
 						var	subMenuRect = paper.rect(horizontal, vertical, "10%", "3%").attr({
 								fill : "#D47878",
 								id : "sub-coll-" + b,
-								opacity : 0.5
+								opacity : 0
 							});
 							subMenuRect.transform("t0,-6");
 
@@ -367,15 +397,16 @@
 	}
 
 	function onMainMenu(event) {
-			s = Snap('#svg-menu');
+			paper = Snap('#svg-menu');
+			console.log("main menu event: ", event);
 	}
 
 	function onSubMenu(event) {
-
+			console.log("submenu event: ", event);
 	}
 
 	function animComplete(event) {
-			console.log("anim: ", event)
+			console.log("anim event: ", event);
 	}
 
 
@@ -396,19 +427,102 @@
 
 
 var postClip;
-
 var maskPolygon;
 var paddingPolygon;
 
 var loadCount = 0;
-	function postInit(idx) {
-		console.log("post: ", idx);
+
+	function postInit(container, asset, loaded) {
+		var stripIdx = container;
+			stripIdx = stripIdx.substr(stripIdx.lastIndexOf("-") + 1);
+		
+		//for the load we strip the number of the post
+		//console.log(stripIdx, "post: ", idx);
+
+			wrapTextShape(stripIdx);
+			fluidVideo(stripIdx);
+
+			drawMask(stripIdx);
+
+		//the only function which should load things
+			//console.log("stripped idx: ", stripIdx, container);
+			drawPostControls(container); // container, loaded
+
+	}
+
+	function loadPostControls(asset, loaded) {
+
+			var pStr = "#post";
+			//postControls = {asset.id : asset};
+			if(loaded < 1 || loaded == undefined) {
+				/* load button svg */
+				loadList = [ 
+						themePath + 'next-button.svg', 
+						themePath + 'previous-button.svg', 
+						themePath + 'play-button.svg', 
+						themePath + 'more-button.svg', 
+						themePath + 'paginator.svg'
+						];
+
+				postAssets['next-button'] = { "postAsset" : asset, "complete" : false };
+				postAssets['previous-button'] = { "postAsset" : asset, "complete" : false };
+				postAssets['play-button'] = { "postAsset" : asset, "complete" : false };
+				postAssets['more-button'] = { "postAsset" : asset, "complete" : false };
+				postAssets['paginator'] = { "postAsset" : asset, "complete" : false };
+
+       			loadAssets(loadList, pStr);
+       			console.log("loading " + loadList.length + " items " +  pStr);
+       		
+       		/* assets are loaded, put into a container */ 
+			} else if(loaded > 0) {
+				/* select svg object */
+       			//cStr += "-";loadList.length
+       			//cStr += container;
+       			//postAssets += {asset.id : asset};
+       			console.log("asset title and id ", asset.select("title").node.textContent,loaded);
+       			postAssets[asset.select("title").node.textContent] = { "postAsset" : asset, "complete" : true };
+
+       		}
+       	
 	}
 
 	function postLayout(idx) {
-		var loadClip = ["post-clip"];
-			loadList = loadClip;
-	
+		
+		/*	fix layout per post											*
+		 *												*
+		 *	attach this to reposition the post layout	*
+		 *	deprecate 									*/
+
+		
+		// lets reposition the first paragraph
+		var subtractVal = jQuery("#svg-post-" + idx).height();
+		
+			jQuery("#post-" + idx + " .entry-content p:first").css({
+					top : subtractVal * -1 + "px"
+			});
+
+			subtractVal += jQuery("#post-" + idx + " .entry-content p:first").height();
+
+			jQuery("#post-" + idx + " .entry-content div.video-wrap").css({
+					top : subtractVal * -0.75 + "px"
+			});
+			jQuery("#post-" + idx + " .entry-content div.slideshow-window").css({
+					top : subtractVal * -1 + "px"
+			});
+			
+			subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").height();
+			subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").height();
+
+			jQuery("#svg-gallery-controls-" + idx).css({
+					top : subtractVal * -1.5 + "px",
+
+			});
+
+			jQuery("#post-" + idx).css({
+					height : "600px"
+			});
+
+			console.log("postLayout ", subtractVal, idx);
 		// get some globals
 			// *** warning *** using outerheight seems to not ensure the margin is added
 		var firstElemHeight = 0;//parseInt( jQuery("#post-" + idx + " .entry-content p:first-child").outerHeight() );
@@ -440,16 +554,16 @@ var loadCount = 0;
 		/* dont worry we're just faking it */
 
 		// select the svg object
-			s = Snap('#svg-post-'+ idx);
-			s.attr({
+			paper = Snap('#svg-post-'+ idx);
+			paper.attr({
 				"viewBox" : "0 0 100 100"
 			});
 
 		//select the content, draw a mask polygon
 		//draw some points
-		var mPoints = [0,0, 0,80, 100,20, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
+		var mPoints = [0,0, 0,90, 100,30, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
 		
-			maskPolygon = s.paper.polygon(mPoints);								
+			maskPolygon = paper.polygon(mPoints);								
 			maskPolygon.mouseover(maskHandle);
 			maskPolygon.mouseout(maskHandle);
 			maskPolygon.mouseup(maskHandle);
@@ -461,41 +575,84 @@ var loadCount = 0;
 			id : "clips-" + idx,
 		});
 
-		s.append(maskPolygon);
+		paper.append(maskPolygon);
 
-		//reposition elements in the post
-		drawPostControls(idx)
-		//postLayout(idx);
 	}
-	
-	function drawPostControls(idx) {
-		/* init */
 
-		// paragraph heights + div height + svgpost
+	//asset, 
+	function drawPostControls(container) {
+		/* init */
+		//get the id for the post
+		var elemId = container.substr(container.lastIndexOf("-") + 1);
 		
+		/* select svg object string */	
+		var cStr = "#svg-gallery-controls-";
+			cStr += elemId;
+
+		console.log("DRAWPOSTCONTROLS:: ", cStr, postAssets.length, " h: ", jQuery("#post-" + elemId).innerHeight());
+		
+		/* load up the assets for the first time */
+		//console.log("menu init ", loaded);
+				paper = Snap(cStr);
+				paper.attr({
+						width : "100%",
+						height : jQuery("#post-" + elemId).innerHeight() + "px",
+
+				});
+
 		/* draw transparent hotspot overlay trigger post link */
-		/* draw white bottom rect */
-		/* if more make more button */
-		/* if slideshow make paginator and next previous buttons */
-		/* if video make play button*/
+				var transparentOverlay = paper.rect("0","0","100%","100%");
+					transparentOverlay.attr({
+						opacity : "0"
+					});
+
+				paper.append(transparentOverlay);
+
+		/* draw white bottom rect */		
+				var whiteOverlay = paper.rect("0","80%","100%","20%");
+					whiteOverlay.attr({
+						fill : "#ffffff"
+					});
+
+					paper.append(whiteOverlay);
+				console.log("to be or not to be ", postAssets["more-button"]["complete"]);
+					if(postAssets["paginator"]["complete"] == false || postAssets["play-button"]["complete"] == false || postAssets["more-button"]["complete"] == false || postAssets["next-button"]["complete"] == false || postAssets["previous-button"]["complete"] == false) {
+													// keep looping
+													console.log("timerloop ", cStr);
+												//	drawPostControls(cStr);
+												} else {
+													/* if more make more button */
+													paper.append(postAssets["more-button"]["postAsset"].node.cloneNode(true) );
+													/* if slideshow make paginator and next previous buttons */
+													paper.append(postAssets["paginator"]["postAsset"].node.cloneNode(true) );
+													paper.append(postAssets["next-button"]["postAsset"].node.cloneNode(true) );
+													paper.append(postAssets["previous-button"]["postAsset"].node.cloneNode(true) );
+													/* if video make play button*/
+													paper.append(postAssets["play-button"]["postAsset"].node.cloneNode(true) );
+												}
+		
+					postLayout(elemId);
 	}
 
 	function wrapTextShape(idx) {
-		//console.log(jQuery("body").hasClass("blog"));
+		/* wrap a paragraph diagonally using a series of div left and right */
+
+		var postElem = jQuery("article#post-" + idx);
+			
 		if(jQuery("body").hasClass("blog")) {
 			
-			//jQuery("article").each(function(){
 				// find p elements get width and height and number of lines
 				var lineNum = 0;
 
-				var pWidth = $(this).width();
+				var pWidth = postElem.width();
 				var pHeight = 0;
 					//check the first character in the p element to see what is in there. 
 				var conCheck = '';
 
-			jQuery(this).children("div.entry-content").children("p").each(function(){
-				//console.log("p-height: " + $(this).height());
-				conCheck = jQuery(this).html(); //str.charAt(0)
+				postElem.children("div.entry-content").children("p").each(function(){
+				//console.log("p-height: " + postElem.height());
+				
+				conCheck = postElem.html(); //str.charAt(0)
 				conCheck = conCheck.charAt(0);
 				switch(conCheck) {
 					case '<':
@@ -510,18 +667,14 @@ var loadCount = 0;
 						break;
 					default:
 							//console.log("p-content:" + conCheck);
-							lineNum += Math.floor(jQuery(this).height() / parseInt(jQuery(this).css("line-height").replace('px','')));
-							pHeight += jQuery(this).height(); 
+							lineNum += Math.floor(postElem.height() / parseInt(postElem.css("line-height").replace('px','')));
+							pHeight += postElem.height(); 
 					break;
 				}
 								
 			});
-			var str = '';
 
-			//console.log("article: " + $(this).attr("id")); 
-			//console.log("			lines: " + lineNum); console.log("			width: " + pWidth); 
-			//console.log("			height: " + pHeight); 	console.log("			p first char: " + conCheck);
-			
+			var str = '<div class="text-wrapper">';
 			var factor = 0;
 			var len = 14;//lineNum; // + (lineNum/2);
 			for (var l = 0; l < len; l++) {
@@ -535,13 +688,52 @@ var loadCount = 0;
 				str += '<div class="text-wrap" style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
 				str += '<div class="text-wrap" style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
 				
-				//console.log("				counter: " + l + " 100/l: " + (100/l) + " actual width: " + factor);
 			}
+			str += '</div>';
 			//stuff goes wrong here
-			//$(this).children("div.entry-content").first().before(str);
-			jQuery(this).children("div.entry-content p").first().before(str);
-			
-		}
+			jQuery("article#post-" + idx + " div.entry-content p").first().before(str);
+		
+			}
+	}
+
+	function fluidVideo(idx) {
+
+		/* Fluid embedded videos hold the letterboxing */
+		/* reference link: https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php */
+		// Find all YouTube & Vimeo§ videos
+
+		var postVideo = jQuery("article#post-" + idx + " div.entry-content div.videowrap iframe[src^='//player.vimeo.com'], article#post-" + idx + " div.entry-content div.videowrap iframe[src^='//www.youtube.com']");
+
+    	// The element that is fluid width
+    	var fluidEl = jQuery("article#post-" + idx);
+
+		// Figure out and save aspect ratio for each video
+			postVideo.each(function() {
+  				jQuery(this).data('aspectRatio', this.height / this.width)
+
+    	// and remove the hard coded width/height
+    			 .removeAttr('height')
+   				 .removeAttr('width');
+   				 console.log("videoresized ", this.height);
+
+		});
+
+		// When the window is resized
+		//$(window).resize(function() {
+
+  			var newWidth = fluidEl.width();
+
+  		// Resize all videos according to their own aspect ratio
+  			postVideo.each(function() {
+
+    			var el = jQuery(this);
+    				el
+      					.width(newWidth)
+      					.height(newWidth * el.data('aspectRatio'));
+
+  			});
+
+		
 	}
 
 	function postHandle(event) {
