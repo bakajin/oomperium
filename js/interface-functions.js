@@ -34,7 +34,7 @@
 	var headerAssets = new Array();
 	var menuAssets;
 	var postAssets = new Object();
-	var socialAssets;
+	var socialAssets = new Object();
 			
 	var scaleFactor;
 	var transFactor;
@@ -55,21 +55,22 @@
 /* load an asset list and return it as a named object */
 	function loadAssets(assetList, container) {
 			
-			console.log("load container ", container);
+			//console.log("load container ", container);
 			var strippedContainerStr = container;
 			if( jQuery.isNumeric(container.substr(container.lastIndexOf("-")+1)) )
 				{
 					strippedContainerStr = strippedContainerStr.substr(0, container.lastIndexOf("-"));
-					console.log("multiple items: ", strippedContainerStr);
+					//console.log("multiple items: ", strippedContainerStr);
 				}
 			else
 			{
-				console.log("single item");
+				//console.log("single item");
 				//strippedContainerStr = container;
 			}
 
 			for(a = 0; a < assetList.length; a++) {	
 					//Snap.load(assetList[a], onSVGLoaded);
+
 					Snap.load(assetList[a], function(fragment) {
 													switch(strippedContainerStr) {
 														case "#site-logo":
@@ -89,16 +90,25 @@
 														case "#post":
 																	//this never fires, but that is ok. The loadlist is empty
 																//	postInit(container, fragment, a);
-																	console.log("post!! loaded list ", a);
+																	//console.log("post!! loaded list ", a);
 																	loadPostControls(fragment, a);
 
 														break;
 
 														case "#svg-gallery-controls":
 																//dbl check if i m still using this
-																console.log("svg-gallery-controls loaded list", a, container);
+																//console.log("svg-gallery-controls loaded list", a, container);
 																//drawPostControls(container, fragment, a);
 														break;
+														case "#svg-social-menu":
+																//dbl check if i m still using this
+																console.log("svg-social menu loaded list", a, container);
+																	loadSocialMenuFooter(fragment, a);
+														break;
+														default:
+																console.log("not caught: ",strippedContainerStr);
+														break;
+
 													}
 													
 					});
@@ -176,7 +186,10 @@
 			
 			//loadList = [ themePath + 'oomp_logo-bg-0.svg', headerImg];
 			
-				loadList = [ themePath + 'logo-background.svg'];
+				loadList = [ 
+						themePath + 'logo.svg',
+						themePath + 'logo-background.svg'
+						];
 			
 			if(loaded < 1 || loaded == undefined) {
 					
@@ -301,17 +314,12 @@
 				if(menuItems[b].parent == 0) {
 						//main menu
 							//mainMenuIdx = menuItems[b].idx;	
-							//console.log("kom op ", asset.id, " nou ", asset.x);
-							//console.log("kom op ", asset.select("id=menu-button").attr("x"), " nou ");
-							//asset.id = "button-" + menuItems[b].title;
-							//asset.select("*").attr({id : "button-" + menuItems[b].title});
-							//asset.select("svg").attr({id : "button-" + menuItems[b].title});
-
-							asset.select("text#text-front").attr({
+							
+							asset.select("#text-front text").attr({
 								text : menuItems[b].title
 
 							});
-							asset.select("text#text-back").attr({
+							asset.select("#text-back text").attr({
 								text : menuItems[b].title
 
 							});
@@ -319,19 +327,30 @@
 								id : "button-" + menuItems[b].idx,
 								
 							});
+							asset.select("#quarter-button-bg").attr({
+								"display" : "none"
+							});
+							asset.select("#mobile-collapse").attr({
+								"display" : "none"
+							});
 							
 						var buttonAsset = asset.node.cloneNode(true);
 							buttonAsset.id = "main-button-" + menuItems[b].idx;
-						//	buttonAsset.addClass("main-menu-button");
-							paper.append( buttonAsset ); //buttons.push( Snap(g.node.cloneNode(true)));
+						
+							paper.append( buttonAsset ); 
 							
-							paper.select("#" +buttonAsset.id).attr({
-									x : (30 * mIter + 5 + "%"), class : "main-menu-button"
+							paper.select("#" + buttonAsset.id).attr({
+									x : (30 * mIter + 5 + "%"),
+									width : "22%",
+									class : "main-menu-button"
 								});
 							
 							paper.select("#" +buttonAsset.id).mousedown(onMainMenu);
 							paper.select("#" +buttonAsset.id).mouseup(onMainMenu);
-							paper.select("#" +buttonAsset.id).mouseover(onMainMenu);
+							
+							//select the cover to prevent multiple fires of the event and animation problems
+							paper.select("#" +buttonAsset.id + " #button-" + menuItems[b].idx + " #hit-cover").mouseover(onMainMenu);
+							paper.select("#" +buttonAsset.id).mouseout(onMainMenu);
 							paper.select("#" +buttonAsset.id).touchstart(onMainMenu);
 							paper.select("#" +buttonAsset.id).touchend(onMainMenu);
 							
@@ -365,7 +384,6 @@
 
 						var subMenuTxt = paper.text(horizontal, vertical, menuItems[b].title);
 							subMenuTxt.attr({
-												fill : "#D47878",
 												"font-size" : "104%",
 												"font-family" : "cronos-pro",
 												id : "sub-" + b
@@ -373,7 +391,6 @@
 							subMenuTxt.addClass("main-menu-sub");
 
 						var	subMenuRect = paper.rect(horizontal, vertical, "10%", "3%").attr({
-								fill : "#D47878",
 								id : "sub-coll-" + b,
 								opacity : 0
 							});
@@ -381,12 +398,15 @@
 
 						var subMenuItem = paper.group(subMenuRect, subMenuTxt);
 							subMenuItem.attr({
-								id : "sub-option-" + subIdx
+								id : "sub-option-" + subIdx,
+								fill : "#D47878"
 							});
 											
 							paper.select( "#sub-option-" + subIdx ).click(onSubMenu);
 							paper.select( "#sub-option-" + subIdx ).mouseover(onSubMenu);
 							paper.select( "#sub-option-" + subIdx ).mouseout(onSubMenu);
+							paper.select( "#sub-option-" + subIdx ).touchstart(onSubMenu);
+							paper.select( "#sub-option-" + subIdx ).touchend(onSubMenu);
 											
 								
 							sIter++;
@@ -396,15 +416,126 @@
 		
 	}
 
-	function onMainMenu(event) {
-			paper = Snap('#svg-menu');
-			console.log("main menu event: ", event);
-	}
+
+		function onMainMenu(event) {
+
+							paper = Snap("#svg-menu");
+						var parentId = event.target.nearestViewportElement.id;
+						var parent = paper.select("#" + parentId);
+
+						var elem;
+
+						switch(event.type) {
+							case "mouseover":
+									console.log("over: ", parentId);
+									elem = parent;
+									//elem.unmouseover(onMainMenu);
+
+									elem = elem.select("#half-button-bg");//+ event.target.nearestViewportElement.childNodes[1].childNodes[1].id
+									elem.animate({
+											"stroke-width" : "11"
+									}, 161, mina.easein, animComplete);
+									
+									 
+							break;
+
+							case "mouseout":
+								//console.log("out ", event.target.nearestViewportElement.id);
+								//	elem = paper.select("#" + event.target.nearestViewportElement.id);
+								//	elem.mouseover(onMainMenu);
+									
+								//	elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
+								//	elem.animate({
+								//			"stroke-width" : "0.25"
+								//	}, 500, mina.easin, animComplete);
+									console.log("out: ", parentId);
+									elem = parent;
+									//elem.unmouseover(onMainMenu);
+
+									elem = elem.select("#half-button-bg");//+ event.target.nearestViewportElement.childNodes[1].childNodes[1].id
+									elem.animate({
+											"stroke-width" : "0.25"
+									}, 231, mina.easeout, animComplete);
+									
+							break;
+
+							case "mousedown":
+									console.log("down ", event.type);
+									elem = paper.select("#" + event.target.nearestViewportElement.id);
+									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									elem.transform('t-5 -5 r180');
+							break;
+							case "mouseup":
+									console.log("up ", event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
+									elem = paper.select("#" + event.target.nearestViewportElement.id);
+									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									elem.transform('t0 0 r0');
+
+									jQuery("a:contains(" + parent.select("#text-front").node.firstChild.data + ")")[0].click();
+							break;
+
+							case "touchstart":
+									console.log("touch start", event.type);
+							break;
+
+							case "touchend":
+									console.log("touch end", event.type);
+							break;
+
+							case "click":
+									/* use mouse up instead */
+									//console.log("click ", event.type, parent.select("#text-front").node.firstChild.data);
+
+									jQuery("a:contains(" + parent.select("#text-front").node.firstChild.data + ")")[0].click();
+							break;
+
+							default:
+									console.log("default ", event);
+							break;
+
+
+						}
+		}
+
 
 	function onSubMenu(event) {
-			console.log("submenu event: ", event);
-	}
+				console.log("submenu event: ", event);
+				switch(event.type) {
+							case "mouseover":
+									console.log("over ", event.type);
+									this.attr({
+										fill : "#a15b5b"
+									});
+						
+							break;
 
+							case "mouseout":
+									console.log("out ", event.type);
+									this.attr({
+										fill : "#d47878"
+									});
+							break;
+
+							case "touchstart":
+									console.log("touch ", event.type);
+							break;
+
+							case "touchend":
+									console.log("touch ", event.type);
+							break;
+
+							case "click":
+									console.log("click ", event.type, event.target.firstChild.data);
+									jQuery("a:contains(" + event.target.firstChild.data	 + ")")[0].click();
+							break;
+
+							default:
+									console.log("default ", event);
+							break;
+
+
+						}
+		}
 	function animComplete(event) {
 			console.log("anim event: ", event);
 	}
@@ -479,7 +610,7 @@ var loadCount = 0;
        			//cStr += "-";loadList.length
        			//cStr += container;
        			//postAssets += {asset.id : asset};
-       			console.log("asset title and id ", asset.select("title").node.textContent,loaded);
+       			//console.log("asset title and id ", asset.select("title").node.textContent,loaded);
        			postAssets[asset.select("title").node.textContent] = { "postAsset" : asset, "complete" : true };
 
        		}
@@ -515,6 +646,7 @@ var loadCount = 0;
 
 			jQuery("#svg-gallery-controls-" + idx).css({
 					top : subtractVal * -1.5 + "px",
+					"overflow-x" : "overlay"
 
 			});
 
@@ -522,7 +654,7 @@ var loadCount = 0;
 					height : "600px"
 			});
 
-			console.log("postLayout ", subtractVal, idx);
+			//console.log("postLayout ", subtractVal, idx);
 		// get some globals
 			// *** warning *** using outerheight seems to not ensure the margin is added
 		var firstElemHeight = 0;//parseInt( jQuery("#post-" + idx + " .entry-content p:first-child").outerHeight() );
@@ -564,12 +696,13 @@ var loadCount = 0;
 		var mPoints = [0,0, 0,90, 100,30, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
 		
 			maskPolygon = paper.polygon(mPoints);								
+			/*
 			maskPolygon.mouseover(maskHandle);
 			maskPolygon.mouseout(maskHandle);
 			maskPolygon.mouseup(maskHandle);
 			maskPolygon.touchstart(maskHandle);
 			maskPolygon.touchend(maskHandle);
-											
+			*/								
 		maskPolygon.attr({
 			fill : "#fff",
 			id : "clips-" + idx,
@@ -589,7 +722,7 @@ var loadCount = 0;
 		var cStr = "#svg-gallery-controls-";
 			cStr += elemId;
 
-		console.log("DRAWPOSTCONTROLS:: ", cStr, postAssets.length, " h: ", jQuery("#post-" + elemId).innerHeight());
+		//console.log("DRAWPOSTCONTROLS:: ", cStr, postAssets.length, " h: ", jQuery("#post-" + elemId).innerHeight());
 		
 		/* load up the assets for the first time */
 		//console.log("menu init ", loaded);
@@ -606,6 +739,13 @@ var loadCount = 0;
 						opacity : "0"
 					});
 
+					transparentOverlay.mouseover(postHandle);
+					transparentOverlay.mouseout(postHandle);
+					transparentOverlay.mousedown(postHandle);
+					transparentOverlay.mouseup(postHandle);
+					transparentOverlay.touchstart(postHandle);
+					transparentOverlay.touchend(postHandle);
+		
 				paper.append(transparentOverlay);
 
 		/* draw white bottom rect */		
@@ -615,7 +755,7 @@ var loadCount = 0;
 					});
 
 					paper.append(whiteOverlay);
-				console.log("to be or not to be ", postAssets["more-button"]["complete"]);
+				//console.log("to be or not to be ", postAssets["more-button"]["complete"]);
 					if(postAssets["paginator"]["complete"] == false || postAssets["play-button"]["complete"] == false || postAssets["more-button"]["complete"] == false || postAssets["next-button"]["complete"] == false || postAssets["previous-button"]["complete"] == false) {
 													// keep looping
 													console.log("timerloop ", cStr);
@@ -714,7 +854,7 @@ var loadCount = 0;
     	// and remove the hard coded width/height
     			 .removeAttr('height')
    				 .removeAttr('width');
-   				 console.log("videoresized ", this.height);
+   				 //console.log("videoresized ", this.height);
 
 		});
 
@@ -742,7 +882,69 @@ var loadCount = 0;
 		*/ 
 		
 		/* control text clipping wrap? */
-		
+		var idx = event.target.farthestViewportElement.id;
+		//concat the last idx string from the id
+			idx = idx.substr(idx.lastIndexOf("-")+1);
+
+			console.log("ev: ", idx, event.target.farthestViewportElement.id);
+			var mask = Snap("#clips-" + idx);	
+
+		switch(event.type) {
+			case "mouseover":
+					/* animate to off :: clipping mask */
+					mask.animate(
+  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					61, mina.easeout);
+  					
+					/* animate to off :: text-wrap divs */
+
+					/* animate to visible :: post control buttons */
+			break;
+			case "mouseout":
+
+					/* animate to on :: clipping mask */
+					mask.animate(
+  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					161, mina.easein);
+  					
+					/* animate to on :: text-wrap divs */
+
+					/* animate to invisible :: post control buttons */
+			break;
+			case "mouseup":
+					/* 
+						click() the link in ::
+							article > header.entry-header > h1.entry-title > a
+			
+					*/
+					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
+					console.log("the post cover: ", event);
+			break;
+			case "touchstart":
+					mask.animate(
+  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					61, mina.easeout);
+  					
+					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
+			break;
+			
+			case "touchend":
+					/* 
+						click() the link in ::
+							article > header.entry-header > h1.entry-title > a
+			
+					*/
+					mask.animate(
+  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					161, mina.easein);
+					
+					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
+					
+			break;
+			default:
+
+			break;
+		}
 	}
 
 	function maskHandle(event) {
@@ -769,17 +971,100 @@ var loadCount = 0;
 //<?php echo get_stylesheet_directory_uri() . '/images/social-facebook.svg'; ?>
 
 //this is the ex ready function
-	function renderSocialMenuFooter(){
-		loadList = ["facebook", "twitter", "linkedin", "behance", "vimeo", "pinterest", "skype", "background"];
+var socialIter = 0;
 
-		iterate = 0;
-	
-		s = Snap('#svg-social-menu');
-		s.attr({ viewBox: "0 0 100 100" });
+	function loadSocialMenuFooter(asset, loaded){
+		loadList = ["facebook", "twitter", "linkedin", "behance", "vimeo", "pinterest", "skype"];
+		//iterate = 0;
+		//paper.attr({ viewBox: "0 0 100 100" });
+
+		var sStr = "#svg-social-menu";
+			//postControls = {asset.id : asset};
+			if(loaded < 1 || loaded == undefined) {
+				/* load button svg */
+				loadList = [ 
+						themePath + 'social-facebook-n.svg',
+						themePath + 'social-twitter-n.svg',
+						themePath + 'social-linkedin-n.svg',
+						themePath + 'social-behance-n.svg',
+						themePath + 'social-vimeo-n.svg',
+						themePath + 'social-pinterest-n.svg',
+						themePath + 'social-skype-n.svg',
+						];
+
+				socialAssets['social-facebook-n'] = { "socialAsset" : asset, "complete" : false };
+				socialAssets['social-twitter-n'] = { "socialAsset" : asset, "complete" : false };
+				socialAssets['social-linkedin-n'] = { "socialAsset" : asset, "complete" : false };
+				socialAssets['social-behance-n'] = { "socialAsset" : asset, "complete" : false };
+				socialAssets['social-vimeo-n'] = { "socialAsset" : asset, "complete" : false };
+				socialAssets['social-pinterest-n'] = { "socialAsset" : asset, "complete" : false };
+				socialAssets['social-skype-n'] = { "socialAsset" : asset, "complete" : false };
+
+       			loadAssets(loadList, sStr);
+       			console.log("loading " + loadList.length + " items " +  sStr);
+       		
+       		/* assets are loaded, put into a container */ 
+			} else if(loaded > 0) {
+				/* select svg object */
+       			//cStr += "-";loadList.length
+       			//cStr += container;
+       			//postAssets += {asset.id : asset};
+       			//console.log("asset title and id ", asset.select("title").node.textContent,loaded);
+       			socialAssets[asset.select("title").node.textContent] = { "socialAsset" : asset, "complete" : true };
+       			// console.log("wtf:    ", socialAssets.length, asset.select("title").node.textContent);
+       			if(socialIter >= (loadList.length-1) ) {
+       						renderSocialMenu(sStr);	
+       			}
+       			//ugly solution
+       			socialIter++;
+       		}
 		
 	}
 
-	/* button event handler */ 
+	function renderSocialMenu(container) {
+							paper = Snap.select(container);
+					
+						//var bgRect = paper.rect( (window.innerWidth * -2),50,(window.innerWidth * 4),5).attr({
+						var bgRect = paper.rect( 0,10,(window.innerWidth * 4),5).attr({
+								fill : "#e6dcdc",
+								id : "background-line"
+						});
+						
+						//paper.append(bgR)
+						//var coverRect = paper.rect( (window.innerWidth * -2),0,(window.innerWidth * 4),130).attr({
+						var coverRect = paper.rect( 0,0,(window.innerWidth * 4),30).attr({
+							fill : "#ffffff",
+							opacity : "0",
+							id : "background-cover"
+						});
+						//console.log("socialAssets ", socialAssets.length);
+						
+						var bIter = 0;
+						for(social in socialAssets) {
+							console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
+
+								// socialAssets[social]["socialAsset"].select("svg").attr({
+								// 			x : 10 * bIter + "%"
+							
+								// });
+
+							paper.append(socialAssets[social]["socialAsset"]);
+							paper.select("#" + socialAssets[social]["socialAsset"].node.id).attr({ x : -42 + (13 * bIter) + "%" });
+							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mouseover(socialMenuHandle);
+							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mouseout(socialMenuHandle);
+							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mousedown(socialMenuHandle);
+							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mouseup(socialMenuHandle);
+							paper.select("#" + socialAssets[social]["socialAsset"].node.id).touchstart(socialMenuHandle);
+							paper.select("#" + socialAssets[social]["socialAsset"].node.id).touchend(socialMenuHandle);
+		
+							bIter++;
+						}
+
+
+
+	}
+
+	/* social button event handler */ 
 	function socialMenuHandle(event) {
 			
 			var elem;

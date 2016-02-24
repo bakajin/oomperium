@@ -622,6 +622,7 @@ a.more-link {
 
 .main-menu-button, .main-menu-sub, .social-menu-button, .gallery-button{
 	cursor: pointer;
+	overflow: visible;
 }
 
 .main-navigation ul {
