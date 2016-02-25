@@ -259,33 +259,11 @@ img.header-logo {
 	height : 2em;
 	display : block;
 	margin : auto;
+	overflow: visible;
 }
 
 /* styling the svg buttons */
-#svg-social-menu .cls-1 {
-        fill: #e6dcdc;
-}
 
-#svg-social-menu .cls-2 {
-        fill: #fff;
-}
-
-#svg-social-menu .cls-3 {
-        fill: #d4c978;
-}
-
-#svg-social-menu .cls-1:hover {
-        fill: #e6dcdc;
-}
-
-#svg-social-menu .cls-2:hover {
-		fill: #e6dcdc;
-       /* fill: #d4c978;*/
-}
-
-#svg-social-menu .cls-3:hover {
-        fill: #d4c978;
-}
 /* google map in footer */
 #map-canvas {
 	-webkit-mask-image : -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1));

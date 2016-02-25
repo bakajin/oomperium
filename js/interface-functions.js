@@ -1049,13 +1049,17 @@ var socialIter = 0;
 								// });
 
 							paper.append(socialAssets[social]["socialAsset"]);
-							paper.select("#" + socialAssets[social]["socialAsset"].node.id).attr({ x : -42 + (13 * bIter) + "%" });
-							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mouseover(socialMenuHandle);
-							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mouseout(socialMenuHandle);
-							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mousedown(socialMenuHandle);
-							paper.select("#" + socialAssets[social]["socialAsset"].node.id).mouseup(socialMenuHandle);
-							paper.select("#" + socialAssets[social]["socialAsset"].node.id).touchstart(socialMenuHandle);
-							paper.select("#" + socialAssets[social]["socialAsset"].node.id).touchend(socialMenuHandle);
+
+							var socialButtonAsset = paper.select("#" + socialAssets[social]["socialAsset"].node.id);
+								socialButtonAsset.addClass("social-menu-button");
+								socialButtonAsset.attr({ x : -42 + (13 * bIter) + "%" });
+							
+								socialButtonAsset.select("g").mouseover(socialMenuHandle);
+								socialButtonAsset.select("g").mouseout(socialMenuHandle);
+								socialButtonAsset.select("g").mousedown(socialMenuHandle);
+								socialButtonAsset.select("g").mouseup(socialMenuHandle);
+								socialButtonAsset.select("g").touchstart(socialMenuHandle);
+								socialButtonAsset.select("g").touchend(socialMenuHandle);
 		
 							bIter++;
 						}
@@ -1067,22 +1071,41 @@ var socialIter = 0;
 	/* social button event handler */ 
 	function socialMenuHandle(event) {
 			
-			var elem;
-
+				paper = Snap("#" + event.target.farthestViewportElement.id);
+				var elem = paper.select("#" + event.target.nearestViewportElement.id);
+				//console.log("over social ", event.target.nearestViewportElement.id);
 				switch(event.type) {
 							case "mouseover":
+								//console.log("over social ", event.target.farthestViewportElement.id);
+								//console.log("over social ", event.target.nearestViewportElement.id);
+								elem.select("#circleback").transform("s1.5");
+								elem.select("#circlefront").transform("s1.3");
 							break;
 
 							case "mouseout":
+								elem.select("#circleback").transform("s1");
+								elem.select("#circlefront").transform("s1");
 							break;
 
+							case "mousedown":
+								elem.select("#circleback").transform("s1.5");
+								elem.select("#circlefront").transform("s1.5");
+							break;
+							case "mouseup":
+								elem.select("#circleback").transform("s1.6");
+								elem.select("#circlefront").transform("s1");
+								console.log("click ", event.path[2].id);
+								jQuery("a[title='" + event.path[2].id + "']")[0].click();
+									
+							break;
 							case "touchstart":
+								elem.select("#circleback").transform("s1.5");
+								elem.select("#circlefront").transform("s1.5");
 							break;
 
 							case "touchend":
-							break;
-
-							case "mouseup":
+								elem.select("#circleback").transform("s1.6");
+								elem.select("#circlefront").transform("s1");
 							break;
 
 							default:
