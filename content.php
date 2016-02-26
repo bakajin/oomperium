@@ -20,6 +20,10 @@
 	</header><!-- .entry-header -->
 	
 	<div class="entry-content">
+		<!-- call a snap svg canvas for interactive animated svg masking -->
+		<svg class="svg-post" id="svg-post-<?php the_ID(); ?>">
+			<defs></defs>
+		</svg>
 		<?php
 			/* translators: %s: Name of current post */
 			/*
@@ -40,14 +44,11 @@
 				'after'  => '</div>',
 			) );
 		?>
-		<!-- call a snap svg canvas for interactive animated svg masking -->
-		<svg class="svg-post" id="svg-post-<?php the_ID(); ?>">
-			<defs></defs>
-		</svg>
 		<!-- Some custom gallery controls from snap -->
 		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
 			<defs></defs>
 		</svg>
+		<script>postInit("post-<?php the_ID(); ?>");</script>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">

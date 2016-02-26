@@ -105,8 +105,11 @@ section {
 body.blog article {
 	float : left;
 	width : 30%;
-	/* not entirely responsive */
+	/*
+	deprecate
+	not entirely responsive
 	height : 56rem;
+	*/
 	margin : 2% 0 2% 3%!important;
 	padding : 0.5%;
 	
@@ -181,9 +184,11 @@ img.header-logo {
 }
 
 #site-logo {
-	position: relative;
+	position : relative;
 	width : 30%;
-	height : 300%;
+	height : 273%;
+	top : 3em;
+	left : 1.5%;
 } 
 
 #secondary {
@@ -255,33 +260,11 @@ img.header-logo {
 	height : 2em;
 	display : block;
 	margin : auto;
+	overflow: visible;
 }
 
 /* styling the svg buttons */
-#svg-social-menu .cls-1 {
-        fill: #e6dcdc;
-}
 
-#svg-social-menu .cls-2 {
-        fill: #fff;
-}
-
-#svg-social-menu .cls-3 {
-        fill: #d4c978;
-}
-
-#svg-social-menu .cls-1:hover {
-        fill: #e6dcdc;
-}
-
-#svg-social-menu .cls-2:hover {
-		fill: #e6dcdc;
-       /* fill: #d4c978;*/
-}
-
-#svg-social-menu .cls-3:hover {
-        fill: #d4c978;
-}
 /* google map in footer */
 #map-canvas {
 	-webkit-mask-image : -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1));
@@ -433,7 +416,9 @@ img {
 	height: auto; /* Make sure images are scaled correctly. */
 	max-width: 100%; /* Adhere to container width. */
 }
-
+svg {
+	overflow: visible;
+}
 figure {
 	margin: 0;
 }
@@ -575,14 +560,16 @@ a:active {
 	color: #d78081;
 }
 
+
 a.more-link {
 	position: relative;
 	text-align: center;
 	vertical-align: baseline;
-	display : block;
+	display : none;
 	/*margin : 7.5rem auto 0.5rem auto;*/
-	top : -23rem;
+	/*top : -23rem;*/
 }
+
 /*--------------------------------------------------------------
 5.2 Menus
 --------------------------------------------------------------*/
@@ -611,10 +598,12 @@ a.more-link {
 	margin : auto;
 	z-index: 99;
 	margin-left: 6%;
+	overflow : visible;
 }
 
 .main-menu-button, .main-menu-sub, .social-menu-button, .gallery-button{
 	cursor: pointer;
+	overflow: visible;
 }
 
 .main-navigation ul {
@@ -728,12 +717,14 @@ a.more-link {
 	/* make the logo bigger */ 
 	svg#site-logo {
 		width : 50%;
-		height : 220%;
+		height : 200%;
+		left : -5.1%;
+		top : 2.4em;
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {
 		width : 40%;
-		top : -4em;
+		top : -0.7em;
 	}
 	/* use one colomn */
 	article {
@@ -768,10 +759,11 @@ a.more-link {
 }
 
 @media screen and (min-width: 1280px) {
-	/* make the logo bigger */ 
+	/* make the logo bigger //355 */ 
 	svg#site-logo {
-		left : -6%;
-		height : 355%;
+		left : -3.5%;
+		height : 280%;
+		top : 3em;
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {
@@ -935,16 +927,23 @@ body.single .entry-content, body.category .entry-content {
 	height : auto!important;
 }
 body.blog .entry-content {
-	/*height : 100%!important;*/
+	/*
+	deprecate, move to js
+	height : 100%!important;
 	height : 56rem;
+
+	*/
 }
 
 body.single .text-wrap, body.category .text-wrap {
+	/*
+	deprecate this is checked by the js like it should be
 	display : none;
+	*/
 }
 
 #content {
-	padding : 0% 4% 0% 4%;
+	padding : 0% 4.6% 0% 4.6%;
 	top : 18rem;
 	position: relative;
 }
@@ -982,16 +981,24 @@ div.slideshow-controls {
 	display : none!important;
 }
 div.slideshow-window:hover, .entry-content iframe:hover, div.tiled-gallery:hover, body.blog img.size-full:hover {
+	/*
+	deprecate, is handled in js
+	
 	-webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
-	clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
+	clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important; 
+	*/
 }
 
 .svg-gallery-controls {
-	display : block;
 	position: relative;
 	z-index: 9;
+	/*
+	deprecate move to js?
+
+	display : block;
 	width : 120%;
 	left : -10%;
+	*/
 }
 .svg-gallery-controls:hover {
 	opacity: 1;
@@ -1013,21 +1020,33 @@ iframe .player .video-wrapper {
 
 body.category .entry-content iframe, body.single .entry-content iframe {
 /* vimeo player and possibly youtube and other iframe */
+	/*
+	deprecate, move to js
 	top : 0rem!important;
 	clip-path: url('');
 	-webkit-clip-path : polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
+	*/
 }
 body.category .entry-content .slideshow-window, body.single .entry-content .slideshow-window, body.category .entry-content .tiled-gallery, body.single .entry-content .tiled-gallery {
 /* vimeo player and possibly youtube and other iframe */
+	/*
+	deprecate, move to js
+	
 	top : 0rem!important;
 	clip-path: url('');
 	-webkit-clip-path : polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)!important;
+	*/
 }
 
 body.blog .entry-footer {
+	/*
+	deprecate
 	display: none;
 	position: relative;
-	top : -1300px; /* overwrite with jQuery postLoayout function */
+	top : -1300px;  
+
+	overwrite with jQuery postLoayout function 
+	*/
 }
  /*--------------------------------------------------------------
 }

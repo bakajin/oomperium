@@ -2,7 +2,7 @@
 //the list to preload
 
 var menuOptions;
-var path = "images/";
+/* var path = "images/"; */
 
 // cause this is a menu, load the button base shape and it's events
 var baseShape = "oomp-button-3"; //["social-menu-button.svg"];
@@ -60,7 +60,7 @@ jQuery(document).ready(function(){
 								
 								/*var pWidth = jQuery("#svg-menu").width();
 								var pHeight = jQuery("#svg-menu").height() -1;
-*/
+*/	
 								var pWidth = "100%";
 								var pHeight = jQuery("#svg-menu").height() -1;
 								var pX = "0%"; //10%

@@ -32,7 +32,7 @@ function postLayout(idx) {
 			});
 		// the jetpack slideshow makes a window height out of padding	
 		//for some reasone it calculates all over the place and needs offset values
-		mediaHeight = (jQuery("#post-" + idx + " .entry-content div.slideshow-window").outerHeight() * 1.63); // * 1.63
+		mediaHeight = (jQuery("#post-" + idx + " .entry-content div.slideshow-window").outerHeight() * 1.21); // * 1.63
 	}
 	/* reset the position of div.videowrapper (iframe) 
 			- p.outerheight,
@@ -80,7 +80,7 @@ function postLayout(idx) {
 	lastElemHeight += parseInt( jQuery("#svg-post-" + idx).outerHeight() );
 
 	if(jQuery("#post-" + idx + " .entry-content div.slideshow-window").length) {
-		mediaHeight *= 1; //1.83 //1.85
+		mediaHeight *= 1.33; //1.83 //1.85
 	}
 	if(jQuery("#post-" + idx + " .entry-content div iframe").length) {
 		mediaHeight *= 2.2;

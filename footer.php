@@ -28,7 +28,9 @@
 			<span class="sep"> | </span>
 			<?php printf( __( 'Theme: %1$s by %2$s.', 'oomperium' ), 'oomperium', '<a href="http://oomp.nl/" rel="designer">OOMP</a>' ); ?>
 		</div><!-- .site-info -->
-		
+		<script>
+			loadSocialMenuFooter(); //"#svg-social-menu"
+		</script>
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 
