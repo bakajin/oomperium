@@ -185,9 +185,11 @@ img.header-logo {
 }
 
 #site-logo {
-	position: relative;
+	position : relative;
 	width : 30%;
-	height : 300%;
+	height : 273%;
+	top : 3em;
+	left : 1.5%;
 } 
 
 #secondary {
@@ -415,7 +417,9 @@ img {
 	height: auto; /* Make sure images are scaled correctly. */
 	max-width: 100%; /* Adhere to container width. */
 }
-
+svg {
+	overflow: visible;
+}
 figure {
 	margin: 0;
 }
@@ -714,9 +718,9 @@ a.more-link {
 	/* make the logo bigger */ 
 	svg#site-logo {
 		width : 50%;
-		height : 220%;
-		left : -2%;
-		top : -1.61em;
+		height : 200%;
+		left : -5.1%;
+		top : 2.4em;
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {
@@ -756,10 +760,11 @@ a.more-link {
 }
 
 @media screen and (min-width: 1280px) {
-	/* make the logo bigger */ 
+	/* make the logo bigger //355 */ 
 	svg#site-logo {
-		left : -4%;
-		height : 355%;
+		left : -3.5%;
+		height : 280%;
+		top : 3em;
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {

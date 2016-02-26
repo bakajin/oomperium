@@ -24,8 +24,7 @@
 	//viewbox settings * not used right now *
 	var viewBox;
 
-	//var buttons, button
-	var headerImg;
+	var headerImg = new Array();
 	
 	var loadList;
 	var assetObject;
@@ -77,8 +76,6 @@
 																	paper = Snap(container);
 																	//init the same function
 																	headerLogoInit(container, fragment, a);
-
-
 														break;
 
 														case "#svg-menu":
@@ -183,9 +180,6 @@
 			var pStr = "#site-logo";
 			
 			// if nothing is loaded, load the list.
-			
-			//loadList = [ themePath + 'oomp_logo-bg-0.svg', headerImg];
-			
 				loadList = [ 
 						themePath + 'logo.svg',
 						themePath + 'logo-background.svg'
@@ -196,15 +190,42 @@
        				loadAssets(loadList, pStr);
 
        		} else if(loaded >= loadList.length) {
-       			
+       			paper.attr({ viewBox: "0 0 300 489" }); //400
+
+       			console.log("what ", asset.node.id)
+				
        			paper = Snap(pStr);
-       			paper.append(asset);
+
+       			switch(asset.node.id) {
+       				case "logo-background":
+
+       						headerImg[0] = asset;
+       						//paper.append(asset);
+       						if(headerImg.length > 1) {
+       							//paper.g(headerImg);
+       							paper.append(headerImg[0]);
+       							paper.append(headerImg[1]);
+       						}
+       				break;
+       				case "logo":
+       						headerImg[1] = asset;
+       						//paper.prepend(asset);
+       						if(headerImg.length > 1) {
+       							//paper.g(headerImg);
+       							paper.append(headerImg[0]);
+       							paper.append(headerImg[1]);
+       						}
+       				break;
+       				default:
+       						//paper.append(asset);
+       				break;
+       			}
+       			
+       			
 			
 				// not setting the viewbox for responsive love, as we are using the straight svg and two viewboxes make everything weird
-				/*
-					paper.attr({ viewBox: "0 0 100 400" });
-				*/
-
+				
+				
 				//now lets check windowsize and scale and position the logo and its background
 				repositionLogo(pStr);
 			}
@@ -218,6 +239,7 @@
 			var windowWidth = jQuery(window).width();
 			var windowHeight = jQuery(window).height();
 			var devicePixelRatio = window.devicePixelRatio;
+
 
 			console.log("w.h: ", windowWidth, windowHeight, devicePixelRatio)
 			switch(windowWidth) {
@@ -267,7 +289,7 @@
 
        		
     	   	/* backgroundrender */
-       		var pWidth = "100%", pHeight = "100%", pX = "0%", pY = "16%", calcY = 100 - 16 + "%"; 
+       		var pWidth = "100%", pHeight = "100%", pX = "0%", pY = "17%", calcY = 100 - 17 + "%"; 
 			var bgRect = paper.rect(pX,pY,pWidth,calcY).attr({
 								fill : "#EDF0F5"
 							});
@@ -641,17 +663,22 @@ var loadCount = 0;
 					top : subtractVal * -1 + "px"
 			});
 			
-			subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").height();
-			subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").height();
+			subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").innerHeight();
+			subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").innerHeight();
 
 			jQuery("#svg-gallery-controls-" + idx).css({
-					top : subtractVal * -1.5 + "px",
+					top : subtractVal * -1.1 + "px",
 					"overflow-x" : "overlay"
 
 			});
-
+			console.log("ratio 2.33333 ", jQuery("#post-" + idx).innerWidth());
+			var wRatio = jQuery("#post-" + idx).innerWidth() * 1.5; //2.1
+				wRatio = Math.ceil(wRatio / 10) * 10;
 			jQuery("#post-" + idx).css({
-					height : "600px"
+					height :  wRatio + "px"
+			});
+			jQuery("#post-" + idx + " .entry-content").css({
+					height : wRatio * 0.9 + "px"
 			});
 
 			//console.log("postLayout ", subtractVal, idx);
@@ -728,13 +755,17 @@ var loadCount = 0;
 		//console.log("menu init ", loaded);
 				paper = Snap(cStr);
 				paper.attr({
+					viewBox : "0 0 300 500",
+					width : "100%"
+				});//500
+				/*paper.attr({
 						width : "100%",
 						height : jQuery("#post-" + elemId).innerHeight() + "px",
 
 				});
-
+*/
 		/* draw transparent hotspot overlay trigger post link */
-				var transparentOverlay = paper.rect("0","0","100%","100%");
+				var transparentOverlay = paper.rect("0","0","100%","80%");
 					transparentOverlay.attr({
 						opacity : "0"
 					});
@@ -749,7 +780,7 @@ var loadCount = 0;
 				paper.append(transparentOverlay);
 
 		/* draw white bottom rect */		
-				var whiteOverlay = paper.rect("0","80%","100%","20%");
+				var whiteOverlay = paper.rect("0","75%","100%","20%");
 					whiteOverlay.attr({
 						fill : "#ffffff"
 					});
@@ -764,11 +795,11 @@ var loadCount = 0;
 													/* if more make more button */
 													paper.append(postAssets["more-button"]["postAsset"].node.cloneNode(true) );
 													/* if slideshow make paginator and next previous buttons */
-													paper.append(postAssets["paginator"]["postAsset"].node.cloneNode(true) );
-													paper.append(postAssets["next-button"]["postAsset"].node.cloneNode(true) );
-													paper.append(postAssets["previous-button"]["postAsset"].node.cloneNode(true) );
+													//paper.append(postAssets["paginator"]["postAsset"].node.cloneNode(true) );
+													//paper.append(postAssets["next-button"]["postAsset"].node.cloneNode(true) );
+													//paper.append(postAssets["previous-button"]["postAsset"].node.cloneNode(true) );
 													/* if video make play button*/
-													paper.append(postAssets["play-button"]["postAsset"].node.cloneNode(true) );
+													//paper.append(postAssets["play-button"]["postAsset"].node.cloneNode(true) );
 												}
 		
 					postLayout(elemId);
