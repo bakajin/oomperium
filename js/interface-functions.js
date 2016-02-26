@@ -384,6 +384,7 @@
 						var subIdx = menuItems[b].idx;
 						
 						var horizontal = 0;
+						console.log("num: ",subParent);
 						switch(subParent) {
 							case "110":
 									horizontal += 19;
@@ -392,6 +393,16 @@
 									horizontal += 49;
 							break;
 							case "33":
+									horizontal += 79;
+							break;
+							//copy paste from here
+							case "286":
+									horizontal += 19;
+							break;
+							case "42":
+									horizontal += 49;
+							break;
+							case "39":
 									horizontal += 79;
 							break;
 						}
