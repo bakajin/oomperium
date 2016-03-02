@@ -131,11 +131,12 @@
 			//console.log("menu ids", menuIDs);
 			//console.log("social ids", socialIDs);
 			if(themePath) {
-					//console.log("page type ", pageType);
-					//console.log("theme path ", themePath);
+					console.log("page type ", pageType);
+					console.log("theme path ", themePath);
 			}
 			//console.log("header img ", headerImg);
 			//renderMenu("#svg-menu");
+			rerenderHeaderLogo();
 	});
 
 	jQuery(window).resize(function(){
@@ -185,17 +186,18 @@
 						themePath + 'logo-background.svg'
 						];
 			
+			console.log("logoload ", loaded, loadList.length);// asset.node.id
+
+			
 			if(loaded < 1 || loaded == undefined) {
 					
        				loadAssets(loadList, pStr);
 
-       		} else if(loaded >= loadList.length) {
+       		} else if(loaded > loadList.length) {
        			paper.attr({ viewBox: "0 0 300 489" }); //400
 
-       			console.log("what ", asset.node.id)
-				
        			paper = Snap(pStr);
-
+       			console.log("asset id: ", asset.node.id)
        			switch(asset.node.id) {
        				case "logo-background":
 
@@ -228,6 +230,16 @@
 				
 				//now lets check windowsize and scale and position the logo and its background
 				repositionLogo(pStr);
+			}
+	}
+	function rerenderHeaderLogo(){
+			var lStr = "#site-logo";
+				paper = Snap.select(lStr);
+			
+				console.log("add to header : ", headerImg.length, lStr);
+			for(b = 0; b < headerImg.length; b++) { 
+				paper.append(headerImg[b]);
+				console.log("added to header : ", b);
 			}
 	}
 
@@ -282,7 +294,7 @@
 				/* load button svg */
        			loadAssets(loadList, mStr);
        		
-		} else if(loaded => loadList.length) {
+		} else if(loaded >= loadList.length) {
 				/* select svg object */
        	
 				paper = Snap(mStr);
@@ -331,7 +343,7 @@
 
 		for(b = 0; b < menuItems.length; b++) { 
 				
-				//console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
+				console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
 				//if parent == 0 it's a main menu item. Parent contains the parent idx
 				if(menuItems[b].parent == 0) {
 						//main menu
@@ -451,7 +463,7 @@
 
 
 		function onMainMenu(event) {
-
+						console.log("event: ", event);
 							paper = Snap("#svg-menu");
 						var parentId = event.target.nearestViewportElement.id;
 						var parent = paper.select("#" + parentId);
@@ -460,7 +472,7 @@
 
 						switch(event.type) {
 							case "mouseover":
-									console.log("over: ", parentId);
+									
 									elem = parent;
 									//elem.unmouseover(onMainMenu);
 
@@ -481,7 +493,7 @@
 								//	elem.animate({
 								//			"stroke-width" : "0.25"
 								//	}, 500, mina.easin, animComplete);
-									console.log("out: ", parentId);
+								//	console.log("out: ", parentId);
 									elem = parent;
 									//elem.unmouseover(onMainMenu);
 
@@ -495,16 +507,16 @@
 							case "mousedown":
 									console.log("down ", event.type);
 									elem = paper.select("#" + event.target.nearestViewportElement.id);
-									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
-									elem.transform('t-5 -5 r180');
+									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									//elem.transform('t-5 -5 r180');
 							break;
 							case "mouseup":
-									console.log("up ", event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
+									console.log("up ",  event.target.nearestViewportElement.children[2].children[3].children[0].innerHTML );
 									elem = paper.select("#" + event.target.nearestViewportElement.id);
-									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
-									elem.transform('t0 0 r0');
+									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									//elem.transform('t0 0 r0');
 
-									jQuery("a:contains(" + parent.select("#text-front").node.firstChild.data + ")")[0].click();
+									jQuery("a:contains(" + event.target.nearestViewportElement.children[2].children[3].children[0].innerHTML  + ")")[0].click();
 							break;
 
 							case "touchstart":
@@ -661,6 +673,14 @@ var loadCount = 0;
 		// lets reposition the first paragraph
 		var subtractVal = jQuery("#svg-post-" + idx).height();
 		
+		jQuery("#svg-gallery-controls-" + idx).css({
+					top : subtractVal * -1 + "px",
+					"overflow-x" : "overlay"
+
+			});
+
+			subtractVal += jQuery("#svg-gallery-controls-" + idx).height();
+
 			jQuery("#post-" + idx + " .entry-content p:first").css({
 					top : subtractVal * -1 + "px"
 			});
@@ -668,23 +688,19 @@ var loadCount = 0;
 			subtractVal += jQuery("#post-" + idx + " .entry-content p:first").height();
 
 			jQuery("#post-" + idx + " .entry-content div.video-wrap").css({
-					top : subtractVal * -0.75 + "px"
+					top : subtractVal * -0.9 + "px"
 			});
 			jQuery("#post-" + idx + " .entry-content div.slideshow-window").css({
-					top : subtractVal * -1 + "px"
+					top : subtractVal * -0.9 + "px"
 			});
 			
 			subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").innerHeight();
 			subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").innerHeight();
 
-			jQuery("#svg-gallery-controls-" + idx).css({
-					top : subtractVal * -1.1 + "px",
-					"overflow-x" : "overlay"
-
-			});
-			console.log("ratio 2.33333 ", jQuery("#post-" + idx).innerWidth());
-			var wRatio = jQuery("#post-" + idx).innerWidth() * 1.5; //2.1
+			//console.log("ratio 2.33333 ", jQuery("#post-" + idx).innerWidth());
+			var wRatio = jQuery("#post-" + idx).innerWidth() * 1.61; //2.1
 				wRatio = Math.ceil(wRatio / 10) * 10;
+
 			jQuery("#post-" + idx).css({
 					height :  wRatio + "px"
 			});
@@ -695,13 +711,7 @@ var loadCount = 0;
 			//console.log("postLayout ", subtractVal, idx);
 		// get some globals
 			// *** warning *** using outerheight seems to not ensure the margin is added
-		var firstElemHeight = 0;//parseInt( jQuery("#post-" + idx + " .entry-content p:first-child").outerHeight() );
-		var mediaHeight = 0;
-		var lastElemHeight = 0;
-	
-		// var for positioning content
-		var offset = 4 * 27;
-	
+		
 		/* reset the position of .svg-post
 			- p.outerheight,
 			- div.slideshow-window.outerheight
@@ -766,7 +776,7 @@ var loadCount = 0;
 		//console.log("menu init ", loaded);
 				paper = Snap(cStr);
 				paper.attr({
-					viewBox : "0 0 300 500",
+					viewBox : "0 0 300 470",
 					width : "100%"
 				});//500
 				/*paper.attr({
@@ -775,6 +785,14 @@ var loadCount = 0;
 
 				});
 */
+				/* draw white bottom rect */		
+				var whiteOverlay = paper.rect("-0.5%","60%","101%","26%");
+					whiteOverlay.attr({
+						fill : "#ffffff"
+					});
+
+					paper.append(whiteOverlay);
+
 		/* draw transparent hotspot overlay trigger post link */
 				var transparentOverlay = paper.rect("0","0","100%","80%");
 					transparentOverlay.attr({
@@ -790,13 +808,6 @@ var loadCount = 0;
 		
 				paper.append(transparentOverlay);
 
-		/* draw white bottom rect */		
-				var whiteOverlay = paper.rect("0","75%","100%","20%");
-					whiteOverlay.attr({
-						fill : "#ffffff"
-					});
-
-					paper.append(whiteOverlay);
 				//console.log("to be or not to be ", postAssets["more-button"]["complete"]);
 					if(postAssets["paginator"]["complete"] == false || postAssets["play-button"]["complete"] == false || postAssets["more-button"]["complete"] == false || postAssets["next-button"]["complete"] == false || postAssets["previous-button"]["complete"] == false) {
 													// keep looping
@@ -804,6 +815,8 @@ var loadCount = 0;
 												//	drawPostControls(cStr);
 												} else {
 													/* if more make more button */
+													postAssets["more-button"]["postAsset"].select("g").transform("s0.61");
+													//postAssets["more-button"]["postAsset"].mouseup(postHandle);
 													paper.append(postAssets["more-button"]["postAsset"].node.cloneNode(true) );
 													/* if slideshow make paginator and next previous buttons */
 													//paper.append(postAssets["paginator"]["postAsset"].node.cloneNode(true) );
@@ -858,7 +871,7 @@ var loadCount = 0;
 
 			var str = '<div class="text-wrapper">';
 			var factor = 0;
-			var len = 14;//lineNum; // + (lineNum/2);
+			var len = 14;///14 /lineNum; // + (lineNum/2);
 			for (var l = 0; l < len; l++) {
 				// write divs left right to wrap text
 				factor = Math.floor(100/10)*l;
@@ -1083,7 +1096,7 @@ var socialIter = 0;
 						
 						var bIter = 0;
 						for(social in socialAssets) {
-							console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
+							//console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
 
 								// socialAssets[social]["socialAsset"].select("svg").attr({
 								// 			x : 10 * bIter + "%"
