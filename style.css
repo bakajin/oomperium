@@ -601,7 +601,7 @@ a.more-link {
 	overflow : visible;
 }
 
-.main-menu-button, .main-menu-sub, .social-menu-button, .gallery-button{
+.main-menu-button, .main-menu-sub, .social-menu-button, .gallery-button, .more-cls-1 {
 	cursor: pointer;
 	overflow: visible;
 }
@@ -1039,12 +1039,13 @@ body.category .entry-content .slideshow-window, body.single .entry-content .slid
 }
 
 body.blog .entry-footer {
+	position: relative;
+	top : -3.25em;  
+
 	/*
 	deprecate
 	display: none;
-	position: relative;
-	top : -1300px;  
-
+	
 	overwrite with jQuery postLoayout function 
 	*/
 }
@@ -1418,6 +1419,7 @@ body div.slideshow-window {
 	border : none !important;
 	margin-bottom: 0 !important;
 	border-radius : 0px !important;
+	padding-bottom : 69.25%!important;
 
 }
 
@@ -1434,7 +1436,7 @@ body.single div.slideshow-window {
 	background-color: #fff !important;
 	border : 20px solid #fff !important;
 	border-radius: 0px !important;
-	top : -28rem;
+	/* top : -28rem; */
 }
 
 .gallery {

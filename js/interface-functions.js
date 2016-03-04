@@ -19,6 +19,8 @@
 	var menuIDs = new Array();
 	var socialIDs = new Array();
 
+	var externalAssets = new Object(); 
+	var parentAsset = new Object();
 	//the svg container var
 	var paper;
 	//viewbox settings * not used right now *
@@ -51,69 +53,88 @@
 			/dom complete?
 	---------------------------------------------------------------------------- */
 
-/* load an asset list and return it as a named object */
-	function loadAssets(assetList, container) {
+	/* preload all external assets into the the structured object */
+	function loadExternalAssets() {
+
+			var containerKey;
+
+			externalAssets["svg-menu"] = {};
+			externalAssets["post"] = {};
+			externalAssets["svg-social-menu"] = {};
 			
-			//console.log("load container ", container);
-			var strippedContainerStr = container;
-			if( jQuery.isNumeric(container.substr(container.lastIndexOf("-")+1)) )
-				{
-					strippedContainerStr = strippedContainerStr.substr(0, container.lastIndexOf("-"));
-					//console.log("multiple items: ", strippedContainerStr);
-				}
-			else
-			{
-				//console.log("single item");
-				//strippedContainerStr = container;
-			}
+			containerKey = "site-logo";
 
-			for(a = 0; a < assetList.length; a++) {	
-					//Snap.load(assetList[a], onSVGLoaded);
+			externalAssets[containerKey] = {};
+			loadList = ["logo", "logo-background"];
 
-					Snap.load(assetList[a], function(fragment) {
-													switch(strippedContainerStr) {
-														case "#site-logo":
-																	paper = Snap(container);
-																	//init the same function
-																	headerLogoInit(container, fragment, a);
-														break;
+			for (i = 0; i < loadList.length; i++) {
+				externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
 
-														case "#svg-menu":
-																	//init the same function : container, assets, loaded
-																	menuInit(container, fragment, a);
-
-														break;
-														
-														case "#post":
-																	//this never fires, but that is ok. The loadlist is empty
-																//	postInit(container, fragment, a);
-																	//console.log("post!! loaded list ", a);
-																	loadPostControls(fragment, a);
-
-														break;
-
-														case "#svg-gallery-controls":
-																//dbl check if i m still using this
-																//console.log("svg-gallery-controls loaded list", a, container);
-																//drawPostControls(container, fragment, a);
-														break;
-														case "#svg-social-menu":
-																//dbl check if i m still using this
-																console.log("svg-social menu loaded list", a, container);
-																	loadSocialMenuFooter(fragment, a);
-														break;
-														default:
-																console.log("not caught: ",strippedContainerStr);
-														break;
-
-													}
-													
-					});
-
+				parentAsset[loadList[i]] = containerKey;
 			}
 			
+			containerKey = "svg-menu";
+			externalAssets[containerKey] = {};
+			loadList = ["button-main"];
+			
+			for (i = 0; i < loadList.length; i++) {
+
+					externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
+					parentAsset[loadList[i]] = containerKey;
+			}
+			
+			containerKey = "post";
+			externalAssets[containerKey] = {};
+			loadList = ['previous-button', 'play-button', 'more-button', 'paginator'];
+			
+			for (i = 0; i < loadList.length; i++) {
+
+					externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
+					parentAsset[loadList[i]] = containerKey;
+			}
+			
+			containerKey = "svg-social-menu";
+			externalAssets[containerKey] = {};
+			loadList = [ "social-facebook", "social-twitter", "social-linkedin", "social-behance", "social-vimeo", "social-pinterest", "social-skype" ];
+
+			for (i = 0; i < loadList.length; i++) {
+
+					externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
+					parentAsset[loadList[i]] = containerKey;
+			}
+			console.log("object ", externalAssets);
+			
+			/* with the object defined lets start loading the assets */
+			loadAssets();
 	}
 
+	/* load an asset list and return it as a named object */
+	function loadAssets() {
+			
+			for(mod in externalAssets) {
+					console.log("module: ", mod);
+					for(ass in externalAssets[mod]) {
+							//console.log("	assets: ", themePath + ass + ".svg");
+							
+						//lets start loading assets
+							//Snap.load(themePath + ass + ".svg", function(fragment) {
+							Snap.load(themePath + ass + ".svg", loadEvent) 
+								//ok now lets insert the completed asset back into the object
+								
+							//});
+					
+					}
+			}
+
+	}
+
+	function loadEvent(fragment) {
+						externalAssets[parentAsset[fragment.node.id]][ fragment.node.id ]["asset"] = fragment;
+						externalAssets[parentAsset[ fragment.node.id ]][ fragment.node.id ]["loadstate"] = "complete";
+								//console.log("	assets: ", ass, mod, it);
+								console.log("frag: ", fragment.node.id, parentAsset[fragment.node.id]);
+								
+	}
 	/* ------------------------------------
 			global event handlers
 	   ------------------------------------ */ 
@@ -131,11 +152,19 @@
 			//console.log("menu ids", menuIDs);
 			//console.log("social ids", socialIDs);
 			if(themePath) {
-					//console.log("page type ", pageType);
-					//console.log("theme path ", themePath);
+					console.log("page type ", pageType);
+					console.log("theme path ", themePath);
+					console.log("done: ", externalAssets);
 			}
 			//console.log("header img ", headerImg);
 			//renderMenu("#svg-menu");
+			//rerenderHeaderLogo();
+			
+			console.log("buglist: headerlogoBG looadstate, clean rendermenu func" );
+			headerLogoInit();
+
+			renderMenuButtons("svg-menu", externalAssets["svg-menu"]['button-main']['asset']);
+			renderGoogleMap();
 	});
 
 	jQuery(window).resize(function(){
@@ -149,6 +178,7 @@
 			if(jQuery(window).width() != initialWidth) {
   						//Do something
 			}
+			//console.log("done: ", externalAssets);
 	});
 
 	jQuery(window).scroll(function(){
@@ -175,60 +205,27 @@
 			animate elements
 	---------------------------------------------------------------------------- */
 
-	function headerLogoInit(container, asset, loaded) {
+	function headerLogoInit() {
 			
-			var pStr = "#site-logo";
-			
-			// if nothing is loaded, load the list.
-				loadList = [ 
-						themePath + 'logo.svg',
-						themePath + 'logo-background.svg'
-						];
-			
-			if(loaded < 1 || loaded == undefined) {
-					
-       				loadAssets(loadList, pStr);
-
-       		} else if(loaded >= loadList.length) {
+			var pStr = "site-logo";
+		       	
+       			paper = Snap("#" + pStr);
        			paper.attr({ viewBox: "0 0 300 489" }); //400
 
-       			console.log("what ", asset.node.id)
-				
-       			paper = Snap(pStr);
-
-       			switch(asset.node.id) {
-       				case "logo-background":
-
-       						headerImg[0] = asset;
-       						//paper.append(asset);
-       						if(headerImg.length > 1) {
-       							//paper.g(headerImg);
-       							paper.append(headerImg[0]);
-       							paper.append(headerImg[1]);
-       						}
-       				break;
-       				case "logo":
-       						headerImg[1] = asset;
-       						//paper.prepend(asset);
-       						if(headerImg.length > 1) {
-       							//paper.g(headerImg);
-       							paper.append(headerImg[0]);
-       							paper.append(headerImg[1]);
-       						}
-       				break;
-       				default:
-       						//paper.append(asset);
-       				break;
-       			}
-       			
-       			
+       		//					paper.append(headerImg[0].node.cloneNode(true));
+       		//					paper.append(headerImg[1].node.cloneNode(true));
+       		for(ass in externalAssets[pStr]) {
+       			console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
+       				paper.append(externalAssets[pStr][ass]["asset"]);		
+       		}
+       		
 			
 				// not setting the viewbox for responsive love, as we are using the straight svg and two viewboxes make everything weird
 				
 				
 				//now lets check windowsize and scale and position the logo and its background
 				repositionLogo(pStr);
-			}
+			//}
 	}
 
 	/* ------------------------------------
@@ -274,18 +271,11 @@
 //the list to preload
 	function menuInit(container, asset, loaded) {
 		/* select svg object string */	
-		var mStr = "#svg-menu";
+		var mStr = "svg-menu";
 
-			loadList = [ themePath + 'button-main.svg'];
-		//console.log("menu init ", loaded);
-		if(loaded<1 || loaded == undefined) {
-				/* load button svg */
-       			loadAssets(loadList, mStr);
-       		
-		} else if(loaded => loadList.length) {
 				/* select svg object */
        	
-				paper = Snap(mStr);
+				paper = Snap("#" + mStr);
 
        		
     	   	/* backgroundrender */
@@ -307,16 +297,16 @@
 
 				
 				//prepend menu bg
-				paper.prepend(bg);
+				paper.append(bg);
+			//	console.log("do menu? ", externalAssets[mStr]['button-main']['loadstate']);
+			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 				
-				renderMenuButtons(mStr, asset);
-				
-		}						
+								
 	}
 
 	function renderMenuButtons(container, asset) {
 		//render the menu (onready, onresize?)
-		paper = Snap(container);
+		paper = Snap("#" + container);
 		//checking which menu to render
 		//...
 		
@@ -331,7 +321,7 @@
 
 		for(b = 0; b < menuItems.length; b++) { 
 				
-				//console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
+				console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
 				//if parent == 0 it's a main menu item. Parent contains the parent idx
 				if(menuItems[b].parent == 0) {
 						//main menu
@@ -451,7 +441,7 @@
 
 
 		function onMainMenu(event) {
-
+						console.log("event: ", event);
 							paper = Snap("#svg-menu");
 						var parentId = event.target.nearestViewportElement.id;
 						var parent = paper.select("#" + parentId);
@@ -460,7 +450,7 @@
 
 						switch(event.type) {
 							case "mouseover":
-									console.log("over: ", parentId);
+									
 									elem = parent;
 									//elem.unmouseover(onMainMenu);
 
@@ -481,7 +471,7 @@
 								//	elem.animate({
 								//			"stroke-width" : "0.25"
 								//	}, 500, mina.easin, animComplete);
-									console.log("out: ", parentId);
+								//	console.log("out: ", parentId);
 									elem = parent;
 									//elem.unmouseover(onMainMenu);
 
@@ -495,16 +485,16 @@
 							case "mousedown":
 									console.log("down ", event.type);
 									elem = paper.select("#" + event.target.nearestViewportElement.id);
-									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
-									elem.transform('t-5 -5 r180');
+									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									//elem.transform('t-5 -5 r180');
 							break;
 							case "mouseup":
-									console.log("up ", event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
+									console.log("up ",  event.target.nearestViewportElement.children[2].children[3].children[0].innerHTML );
 									elem = paper.select("#" + event.target.nearestViewportElement.id);
-									elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
-									elem.transform('t0 0 r0');
+									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
+									//elem.transform('t0 0 r0');
 
-									jQuery("a:contains(" + parent.select("#text-front").node.firstChild.data + ")")[0].click();
+									jQuery("a:contains(" + event.target.nearestViewportElement.children[2].children[3].children[0].innerHTML  + ")")[0].click();
 							break;
 
 							case "touchstart":
@@ -614,42 +604,6 @@ var loadCount = 0;
 
 	}
 
-	function loadPostControls(asset, loaded) {
-
-			var pStr = "#post";
-			//postControls = {asset.id : asset};
-			if(loaded < 1 || loaded == undefined) {
-				/* load button svg */
-				loadList = [ 
-						themePath + 'next-button.svg', 
-						themePath + 'previous-button.svg', 
-						themePath + 'play-button.svg', 
-						themePath + 'more-button.svg', 
-						themePath + 'paginator.svg'
-						];
-
-				postAssets['next-button'] = { "postAsset" : asset, "complete" : false };
-				postAssets['previous-button'] = { "postAsset" : asset, "complete" : false };
-				postAssets['play-button'] = { "postAsset" : asset, "complete" : false };
-				postAssets['more-button'] = { "postAsset" : asset, "complete" : false };
-				postAssets['paginator'] = { "postAsset" : asset, "complete" : false };
-
-       			loadAssets(loadList, pStr);
-       			console.log("loading " + loadList.length + " items " +  pStr);
-       		
-       		/* assets are loaded, put into a container */ 
-			} else if(loaded > 0) {
-				/* select svg object */
-       			//cStr += "-";loadList.length
-       			//cStr += container;
-       			//postAssets += {asset.id : asset};
-       			//console.log("asset title and id ", asset.select("title").node.textContent,loaded);
-       			postAssets[asset.select("title").node.textContent] = { "postAsset" : asset, "complete" : true };
-
-       		}
-       	
-	}
-
 	function postLayout(idx) {
 		
 		/*	fix layout per post											*
@@ -661,6 +615,14 @@ var loadCount = 0;
 		// lets reposition the first paragraph
 		var subtractVal = jQuery("#svg-post-" + idx).height();
 		
+		jQuery("#svg-gallery-controls-" + idx).css({
+					top : subtractVal * -1 + "px",
+					"overflow-x" : "overlay"
+
+			});
+
+			subtractVal += jQuery("#svg-gallery-controls-" + idx).height();
+
 			jQuery("#post-" + idx + " .entry-content p:first").css({
 					top : subtractVal * -1 + "px"
 			});
@@ -668,23 +630,19 @@ var loadCount = 0;
 			subtractVal += jQuery("#post-" + idx + " .entry-content p:first").height();
 
 			jQuery("#post-" + idx + " .entry-content div.video-wrap").css({
-					top : subtractVal * -0.75 + "px"
+					top : subtractVal * -0.9 + "px"
 			});
 			jQuery("#post-" + idx + " .entry-content div.slideshow-window").css({
-					top : subtractVal * -1 + "px"
+					top : subtractVal * -0.9 + "px"
 			});
 			
 			subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").innerHeight();
 			subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").innerHeight();
 
-			jQuery("#svg-gallery-controls-" + idx).css({
-					top : subtractVal * -1.1 + "px",
-					"overflow-x" : "overlay"
-
-			});
-			console.log("ratio 2.33333 ", jQuery("#post-" + idx).innerWidth());
-			var wRatio = jQuery("#post-" + idx).innerWidth() * 1.5; //2.1
+			//console.log("ratio 2.33333 ", jQuery("#post-" + idx).innerWidth());
+			var wRatio = jQuery("#post-" + idx).innerWidth() * 1.61; //2.1
 				wRatio = Math.ceil(wRatio / 10) * 10;
+
 			jQuery("#post-" + idx).css({
 					height :  wRatio + "px"
 			});
@@ -695,13 +653,7 @@ var loadCount = 0;
 			//console.log("postLayout ", subtractVal, idx);
 		// get some globals
 			// *** warning *** using outerheight seems to not ensure the margin is added
-		var firstElemHeight = 0;//parseInt( jQuery("#post-" + idx + " .entry-content p:first-child").outerHeight() );
-		var mediaHeight = 0;
-		var lastElemHeight = 0;
-	
-		// var for positioning content
-		var offset = 4 * 27;
-	
+		
 		/* reset the position of .svg-post
 			- p.outerheight,
 			- div.slideshow-window.outerheight
@@ -766,7 +718,7 @@ var loadCount = 0;
 		//console.log("menu init ", loaded);
 				paper = Snap(cStr);
 				paper.attr({
-					viewBox : "0 0 300 500",
+					viewBox : "0 0 300 470",
 					width : "100%"
 				});//500
 				/*paper.attr({
@@ -775,6 +727,14 @@ var loadCount = 0;
 
 				});
 */
+				/* draw white bottom rect */		
+				var whiteOverlay = paper.rect("-0.5%","60%","101%","26%");
+					whiteOverlay.attr({
+						fill : "#ffffff"
+					});
+
+					paper.append(whiteOverlay);
+
 		/* draw transparent hotspot overlay trigger post link */
 				var transparentOverlay = paper.rect("0","0","100%","80%");
 					transparentOverlay.attr({
@@ -790,29 +750,31 @@ var loadCount = 0;
 		
 				paper.append(transparentOverlay);
 
-		/* draw white bottom rect */		
-				var whiteOverlay = paper.rect("0","75%","100%","20%");
-					whiteOverlay.attr({
-						fill : "#ffffff"
-					});
-
-					paper.append(whiteOverlay);
 				//console.log("to be or not to be ", postAssets["more-button"]["complete"]);
-					if(postAssets["paginator"]["complete"] == false || postAssets["play-button"]["complete"] == false || postAssets["more-button"]["complete"] == false || postAssets["next-button"]["complete"] == false || postAssets["previous-button"]["complete"] == false) {
-													// keep looping
-													console.log("timerloop ", cStr);
-												//	drawPostControls(cStr);
-												} else {
 													/* if more make more button */
-													paper.append(postAssets["more-button"]["postAsset"].node.cloneNode(true) );
+					for(ass in externalAssets["post"]) {
+									
+									//postAssets["more-button"]["postAsset"].select("g").transform("s0.61");
+									
+									console.log("asset: ", externalAssets["post"][ass]['loadstate']);
+									/*
+									if(externalAssets["post"][ass]['loadstate'] == 'complete') {
+										paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
+									}	
+									*/
+					}
+					
+					
+													//postAssets["more-button"]["postAsset"].mouseup(postHandle);
+													//paper.append(postAssets["more-button"]["postAsset"].node.cloneNode(true) );
 													/* if slideshow make paginator and next previous buttons */
 													//paper.append(postAssets["paginator"]["postAsset"].node.cloneNode(true) );
 													//paper.append(postAssets["next-button"]["postAsset"].node.cloneNode(true) );
 													//paper.append(postAssets["previous-button"]["postAsset"].node.cloneNode(true) );
 													/* if video make play button*/
 													//paper.append(postAssets["play-button"]["postAsset"].node.cloneNode(true) );
-												}
-		
+											
+					console.log("elemId? ", elemId);
 					postLayout(elemId);
 	}
 
@@ -858,7 +820,7 @@ var loadCount = 0;
 
 			var str = '<div class="text-wrapper">';
 			var factor = 0;
-			var len = 14;//lineNum; // + (lineNum/2);
+			var len = 14;///14 /lineNum; // + (lineNum/2);
 			for (var l = 0; l < len; l++) {
 				// write divs left right to wrap text
 				factor = Math.floor(100/10)*l;
@@ -1016,55 +978,14 @@ var loadCount = 0;
 var socialIter = 0;
 
 	function loadSocialMenuFooter(asset, loaded){
-		loadList = ["facebook", "twitter", "linkedin", "behance", "vimeo", "pinterest", "skype"];
-		//iterate = 0;
-		//paper.attr({ viewBox: "0 0 100 100" });
-
-		var sStr = "#svg-social-menu";
-			//postControls = {asset.id : asset};
-			if(loaded < 1 || loaded == undefined) {
-				/* load button svg */
-				loadList = [ 
-						themePath + 'social-facebook-n.svg',
-						themePath + 'social-twitter-n.svg',
-						themePath + 'social-linkedin-n.svg',
-						themePath + 'social-behance-n.svg',
-						themePath + 'social-vimeo-n.svg',
-						themePath + 'social-pinterest-n.svg',
-						themePath + 'social-skype-n.svg',
-						];
-
-				socialAssets['social-facebook-n'] = { "socialAsset" : asset, "complete" : false };
-				socialAssets['social-twitter-n'] = { "socialAsset" : asset, "complete" : false };
-				socialAssets['social-linkedin-n'] = { "socialAsset" : asset, "complete" : false };
-				socialAssets['social-behance-n'] = { "socialAsset" : asset, "complete" : false };
-				socialAssets['social-vimeo-n'] = { "socialAsset" : asset, "complete" : false };
-				socialAssets['social-pinterest-n'] = { "socialAsset" : asset, "complete" : false };
-				socialAssets['social-skype-n'] = { "socialAsset" : asset, "complete" : false };
-
-       			loadAssets(loadList, sStr);
-       			console.log("loading " + loadList.length + " items " +  sStr);
-       		
-       		/* assets are loaded, put into a container */ 
-			} else if(loaded > 0) {
-				/* select svg object */
-       			//cStr += "-";loadList.length
-       			//cStr += container;
-       			//postAssets += {asset.id : asset};
-       			//console.log("asset title and id ", asset.select("title").node.textContent,loaded);
-       			socialAssets[asset.select("title").node.textContent] = { "socialAsset" : asset, "complete" : true };
-       			// console.log("wtf:    ", socialAssets.length, asset.select("title").node.textContent);
-       			if(socialIter >= (loadList.length-1) ) {
-       						renderSocialMenu(sStr);	
-       			}
-       			//ugly solution
-       			socialIter++;
-       		}
 		
+		var sStr = "svg-social-menu";
+							renderSocialMenu(sStr);	
+       	
 	}
 
 	function renderSocialMenu(container) {
-							paper = Snap.select(container);
+							paper = Snap.select("#" + container);
 					
 						//var bgRect = paper.rect( (window.innerWidth * -2),50,(window.innerWidth * 4),5).attr({
 						var bgRect = paper.rect( 0,10,(window.innerWidth * 4),5).attr({
@@ -1082,17 +1003,17 @@ var socialIter = 0;
 						//console.log("socialAssets ", socialAssets.length);
 						
 						var bIter = 0;
-						for(social in socialAssets) {
-							console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
+
+						for(social in externalAssets[container]) {
+							//console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
 
 								// socialAssets[social]["socialAsset"].select("svg").attr({
 								// 			x : 10 * bIter + "%"
 							
 								// });
+								paper.append(externalAssets[container][social]["asset"]);
 
-							paper.append(socialAssets[social]["socialAsset"]);
-
-							var socialButtonAsset = paper.select("#" + socialAssets[social]["socialAsset"].node.id);
+							var socialButtonAsset = paper.select("#" + externalAssets[container][social]["asset"].node.id);
 								socialButtonAsset.addClass("social-menu-button");
 								socialButtonAsset.attr({ x : -42 + (13 * bIter) + "%" });
 							
@@ -1109,6 +1030,66 @@ var socialIter = 0;
 
 
 	}
+
+	function renderGoogleMap() {
+
+      	jQuery("#map-canvas").css({ 
+      		"width" : (window.innerWidth + "px"),
+      		"height" : "600px"
+      	});
+      	
+      	var mapstyle = [
+  				{
+    				featureType: 'landscape.man_made',
+    				elementType: 'geometry.fill',
+    				stylers: [
+      					{ color: '#faeeee' }
+    				]
+  				},{
+    				featureType: 'water',
+    				elementType: 'geometry.fill',
+    				stylers: [
+      					{ color: '#edf0f5' }
+    				]
+  				},{
+    				featureType: 'road.local',
+    				stylers: [
+      					{ color: '#ffffff' }
+    				]
+  				},{
+    				featureType: 'transit.line',
+    				stylers: [
+      					{ color: '#D4C978' },
+      					{ lightness: 56 }
+    				]
+  				},{
+    				featureType: 'poi.park',
+    				elementType: 'geometry.fill',
+    				stylers: [
+      					{ color: '#4ca984' },
+      					{ lightness: 56 }
+    				]	
+  				}
+			];
+
+        var mapOptions = {
+          center: { lat: 52.3670513, lng: 4.9024593}, 
+          zoom: 15,
+          styles : mapstyle,
+          zoomControl: true,
+    	  zoomControlOptions: {
+        		position: google.maps.ControlPosition.RIGHT_TOP
+    		}
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        var marker = new google.maps.Marker({
+  			position: { lat: 52.3728883, lng: 4.9024593 },
+  			map: map,
+			}); //icon: iconBase + 'schools_maps.png'
+      
+      }
 
 	/* social button event handler */ 
 	function socialMenuHandle(event) {

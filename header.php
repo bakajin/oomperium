@@ -21,78 +21,20 @@
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDenmsexxZoYPEwOpdIp1zCMl3mLo60J5U">
     </script>
-    <script type="text/javascript">
-      function initialize() {
-      	jQuery("#map-canvas").css({ 
-      		"width" : (window.innerWidth + "px"),
-      		"height" : "600px"
-      })
-      	var mapstyle = [
-  				{
-    				featureType: 'landscape.man_made',
-    				elementType: 'geometry.fill',
-    				stylers: [
-      					{ color: '#faeeee' }
-    				]
-  				},{
-    				featureType: 'water',
-    				elementType: 'geometry.fill',
-    				stylers: [
-      					{ color: '#edf0f5' }
-    				]
-  				},{
-    				featureType: 'road.local',
-    				stylers: [
-      					{ color: '#ffffff' }
-    				]
-  				},{
-    				featureType: 'transit.line',
-    				stylers: [
-      					{ color: '#D4C978' },
-      					{ lightness: 56 }
-    				]
-  				},{
-    				featureType: 'poi.park',
-    				elementType: 'geometry.fill',
-    				stylers: [
-      					{ color: '#4ca984' },
-      					{ lightness: 56 }
-    				]	
-  				}
-			];
 
-        var mapOptions = {
-          center: { lat: 52.3670513, lng: 4.9024593}, 
-          zoom: 15,
-          styles : mapstyle,
-          zoomControl: true,
-    	  zoomControlOptions: {
-        		position: google.maps.ControlPosition.RIGHT_TOP
-    		}
-        };
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-
-        var marker = new google.maps.Marker({
-  			position: { lat: 52.3728883, lng: 4.9024593},
-  			map: map,
-			}); //icon: iconBase + 'schools_maps.png'
-      
-      }
-      	
-      google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
 <!-- Set the path to the theme base dir -->
 <script>
 		pageType = '<?php body_class(); ?>';
 		themePath = "<?php echo get_stylesheet_directory_uri() . '/images/'; ?>"; 
-		headerImg = "<?php header_image(); ?>";
+		console.log("ok this is why it says 7");
+		//headerImg = "<?php header_image(); ?>";
 	var logoImg;
 
 	// lets find out which browser is being used 
 		// object name, version, engine
 	var browser = {name : "", version : "", engine : ""};
+	//lets start loading all the assets for the svg overwrite
+	
 </script>
 <!-- Type kit definition of fonts -->
 <script src="//use.typekit.net/qbz6cuj.js"></script>
@@ -147,10 +89,8 @@
 		<defs></defs>
 	</svg>
 	<script>
-		// fire a load request for the post controls object (cloned later)
-			loadPostControls();
-		//get the logo for the header
-			headerLogoInit();
+			//lets preload everything svg stored externally
+			loadExternalAssets();
 	</script>
 	<div class="main-navigation" id="menu">
 		<button class="menu-toggle"></button>
