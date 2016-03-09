@@ -65,7 +65,7 @@
 			containerKey = "site-logo";
 
 			externalAssets[containerKey] = {};
-			loadList = ["logo", "logo-background"];
+			loadList = ["logo-background", "logo"];
 
 			for (i = 0; i < loadList.length; i++) {
 				externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
@@ -112,16 +112,12 @@
 	function loadAssets() {
 			
 			for(mod in externalAssets) {
-					console.log("module: ", mod);
+					//console.log("module: ", mod);
 					for(ass in externalAssets[mod]) {
-							//console.log("	assets: ", themePath + ass + ".svg");
+						//console.log("	assets: ", themePath + ass + ".svg");
 							
 						//lets start loading assets
-							//Snap.load(themePath + ass + ".svg", function(fragment) {
 							Snap.load(themePath + ass + ".svg", loadEvent) 
-								//ok now lets insert the completed asset back into the object
-								
-							//});
 					
 					}
 			}
@@ -131,8 +127,8 @@
 	function loadEvent(fragment) {
 						externalAssets[parentAsset[fragment.node.id]][ fragment.node.id ]["asset"] = fragment;
 						externalAssets[parentAsset[ fragment.node.id ]][ fragment.node.id ]["loadstate"] = "complete";
-								//console.log("	assets: ", ass, mod, it);
-								console.log("frag: ", fragment.node.id, parentAsset[fragment.node.id]);
+								
+								//console.log("frag: ", fragment.node.id, parentAsset[fragment.node.id]);
 								
 	}
 	/* ------------------------------------
@@ -215,7 +211,7 @@
        		//					paper.append(headerImg[0].node.cloneNode(true));
        		//					paper.append(headerImg[1].node.cloneNode(true));
        		for(ass in externalAssets[pStr]) {
-       			console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
+       			//console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
        				paper.append(externalAssets[pStr][ass]["asset"]);		
        		}
        		
@@ -321,7 +317,7 @@
 
 		for(b = 0; b < menuItems.length; b++) { 
 				
-				console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
+				//console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
 				//if parent == 0 it's a main menu item. Parent contains the parent idx
 				if(menuItems[b].parent == 0) {
 						//main menu
@@ -756,12 +752,12 @@ var loadCount = 0;
 									
 									//postAssets["more-button"]["postAsset"].select("g").transform("s0.61");
 									
-									console.log("asset: ", externalAssets["post"][ass]['loadstate']);
-									/*
+									console.log("asset: ", ass, externalAssets["post"][ass]['loadstate']);
+									
 									if(externalAssets["post"][ass]['loadstate'] == 'complete') {
 										paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
 									}	
-									*/
+									
 					}
 					
 					
