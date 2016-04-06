@@ -1001,7 +1001,7 @@ var socialIter = 0;
 						var bIter = 0;
 
 						for(social in externalAssets[container]) {
-							//console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
+							console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
 
 								// socialAssets[social]["socialAsset"].select("svg").attr({
 								// 			x : 10 * bIter + "%"
