@@ -435,8 +435,20 @@
 		
 	}
 
+	function verticalFluidMenu() {
+		/* on scroll, on timmetime */
+		/* collapse the menu, scale down tekst, crossfade to bars */
+		/* scale bg vertical */
+	}
 
-		function onMainMenu(event) {
+	function horizontalFluidMenu() {
+		/* on portrait screen and touch capable */
+		/* show only one option */
+		/* move button and unhide in accordance */
+		
+	}
+
+	function onMainMenu(event) {
 						console.log("event: ", event);
 							paper = Snap("#svg-menu");
 						var parentId = event.target.nearestViewportElement.id;
@@ -1001,7 +1013,8 @@ var socialIter = 0;
 						var bIter = 0;
 
 						for(social in externalAssets[container]) {
-							console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
+							console.log("socialAssets:: ", social);
+							//console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
 
 								// socialAssets[social]["socialAsset"].select("svg").attr({
 								// 			x : 10 * bIter + "%"

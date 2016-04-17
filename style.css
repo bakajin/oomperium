@@ -1414,6 +1414,11 @@ object {
 /*--------------------------------------------------------------
 12.2 Galleries
 --------------------------------------------------------------*/
+/* featured gallery styling */
+img.feat-gallery {
+	top : 0px;
+}
+
 /* jetpack slideshow overwrite */
 body div.slideshow-window {
 	border : none !important;

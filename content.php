@@ -10,8 +10,11 @@
 		<script>
 			postIDs.push(<?php the_ID(); ?>);
 		</script>
-		<?php the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="ibase_blob_open(link_identifier, blob_id)okmark">', esc_url( get_permalink() ) ), '</a></h1>' ); ?>
 
+		<?php 
+			the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="ibase_blob_open(link_identifier, blob_id)okmark">', esc_url( get_permalink() ) ), '</a></h1>' ); 
+			?>
+		
 		<?php if ( 'post' == get_post_type() ) : ?>
 		<div class="entry-meta">
 			<?php oomperium_posted_on(); ?>
@@ -28,6 +31,7 @@
 		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
 			<defs></defs>
 		</svg>
+
 		<?php
 			/* translators: %s: Name of current post */
 			/*
@@ -36,6 +40,16 @@
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			));
 */
+			$galleryArray = get_post_gallery_ids($post->ID); 
+
+			foreach ($galleryArray as $id) { 
+
+    				echo '<img id="feat-gallery-'. $id .'" class="feat-gallery" src=' . wp_get_attachment_url( $id ) .'>';
+
+			}
+			//$galleryString = get_post_gallery_ids($post->ID,"string"); 
+			//echo $galleryString;
+
 			the_content( sprintf(
 				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperidev' ), 
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
