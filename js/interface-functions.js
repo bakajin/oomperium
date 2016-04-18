@@ -436,16 +436,21 @@
 	}
 
 	function verticalFluidMenu() {
+		
+		console.log("responsive minify vertical");
 		/* on scroll, on timmetime */
 		/* collapse the menu, scale down tekst, crossfade to bars */
 		/* scale bg vertical */
+
 	}
 
 	function horizontalFluidMenu() {
+
+		console.log("responsive minify horizontal:");
 		/* on portrait screen and touch capable */
 		/* show only one option */
 		/* move button and unhide in accordance */
-		
+
 	}
 
 	function onMainMenu(event) {
@@ -678,6 +683,10 @@ var loadCount = 0;
 		*/
 
 		/* to the content (div.slideshow-window, div.videowrapper) add numlines (8 or text.wrap >= 80%) multiplied by lineheight (27px) */	
+	}
+
+	function featuredGallery(idx){
+		/* make the featured gallery out of and img list */ 
 	}
 
 	function drawMask(idx) {
