@@ -611,8 +611,12 @@ var loadCount = 0;
 
 			drawMask(stripIdx);
 
+			// make a featured gallery slideshow
+			featuredGallery(stripIdx);
+			
 		//the only function which should load things
 			//console.log("stripped idx: ", stripIdx, container);
+
 			drawPostControls(container); // container, loaded
 
 	}
@@ -687,6 +691,43 @@ var loadCount = 0;
 
 	function featuredGallery(idx){
 		/* make the featured gallery out of and img list */ 
+
+		//subtract svg-post height
+		var resetHeight = jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
+			
+		//subtract svg-gallery-controls-height
+			resetHeight += jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
+
+			jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
+				"opacity" : 0.1
+			});
+			jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
+				"opacity" : 0.1
+			});
+		/* select the gallery images */
+		
+		console.log("amount of images" + jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length);
+		//for(var img = 0; img < jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length; img++){
+		jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
+			//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
+			
+			jQuery( element ).css({
+				"top" : (resetHeight * -1)
+			})
+			
+			resetHeight += jQuery(element).outerHeight();
+			
+			console.log( index + " height reset: " + resetHeight + " : " +  jQuery( element ).outerHeight() );
+		});
+
+		//minus every previous image height
+
+		//cross fade
+
+		//loop paginator
+
+		// render controls
+
 	}
 
 	function drawMask(idx) {

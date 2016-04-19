@@ -1417,6 +1417,7 @@ object {
 /* featured gallery styling */
 img.feat-gallery {
 	top : 0px;
+	position: relative;
 }
 
 /* jetpack slideshow overwrite */
