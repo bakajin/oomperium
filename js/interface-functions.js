@@ -605,7 +605,7 @@ var loadCount = 0;
 		
 		//for the load we strip the number of the post
 		//console.log(stripIdx, "post: ", idx);
-
+		if(jQuery("body").hasClass("blog")) {
 			wrapTextShape(stripIdx);
 			fluidVideo(stripIdx);
 
@@ -618,7 +618,7 @@ var loadCount = 0;
 			//console.log("stripped idx: ", stripIdx, container);
 
 			drawPostControls(container); // container, loaded
-
+		}
 	}
 
 	function postLayout(idx) {
@@ -693,29 +693,37 @@ var loadCount = 0;
 		/* make the featured gallery out of and img list */ 
 
 		//subtract svg-post height
-		var resetHeight = jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
+		var resetHeight = 16; // make this the margin top of .entry content
+			resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
 			
 		//subtract svg-gallery-controls-height
-			resetHeight += jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
+			resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").position().top;
+			resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
 
+			// we need to position the gallery images to end up under the paragraph of text. So we well use half of the text height
+			resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
+
+			//temp setting so i can see what i am doing
 			jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
-				"opacity" : 0.1
+				"opacity" : 1
 			});
 			jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
-				"opacity" : 0.1
+				"opacity" : 1
 			});
+
 		/* select the gallery images */
 		
-		console.log("amount of images" + jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length);
+		//console.log("amount of images" + jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length);
 		//for(var img = 0; img < jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length; img++){
 		jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
 			//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
+				
 			
 			jQuery( element ).css({
-				"top" : (resetHeight * -1)
+				"top" : (resetHeight)
 			})
+			resetHeight -= jQuery(element).innerHeight();
 			
-			resetHeight += jQuery(element).outerHeight();
 			
 			console.log( index + " height reset: " + resetHeight + " : " +  jQuery( element ).outerHeight() );
 		});
@@ -741,7 +749,7 @@ var loadCount = 0;
 
 		//select the content, draw a mask polygon
 		//draw some points
-		var mPoints = [0,0, 0,90, 100,30, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
+		var mPoints = [0,0, 0,65, 100,20, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
 		
 			maskPolygon = paper.polygon(mPoints);								
 			/*
@@ -786,7 +794,7 @@ var loadCount = 0;
 				});
 */
 				/* draw white bottom rect */		
-				var whiteOverlay = paper.rect("-0.5%","60%","101%","26%");
+				var whiteOverlay = paper.rect("-0.5%","70%","101%","30%");
 					whiteOverlay.attr({
 						fill : "#ffffff"
 					});
@@ -841,7 +849,7 @@ var loadCount = 0;
 
 		var postElem = jQuery("article#post-" + idx);
 			
-		if(jQuery("body").hasClass("blog")) {
+		
 			
 				// find p elements get width and height and number of lines
 				var lineNum = 0;
@@ -895,7 +903,7 @@ var loadCount = 0;
 			//stuff goes wrong here
 			jQuery("article#post-" + idx + " div.entry-content p").first().before(str);
 		
-			}
+			
 	}
 
 	function fluidVideo(idx) {

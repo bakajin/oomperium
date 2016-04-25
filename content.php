@@ -40,6 +40,11 @@
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			));
 */
+			the_content( sprintf(
+				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperidev' ), 
+				the_title( '<span class="screen-reader-text">"', '"</span>', false )
+			) );
+
 			$galleryArray = get_post_gallery_ids($post->ID); 
 
 			foreach ($galleryArray as $id) { 
@@ -48,10 +53,6 @@
 
 			}
 
-			the_content( sprintf(
-				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperidev' ), 
-				the_title( '<span class="screen-reader-text">"', '"</span>', false )
-			) );
 		?>
 
 		<?php
