@@ -21,6 +21,9 @@
 
 	var externalAssets = new Object(); 
 	var parentAsset = new Object();
+	var assetWaitForLoad = new Array();
+	var fIdx = 0;
+	//var loadFailLoop;
 	//the svg container var
 	var paper;
 	//viewbox settings * not used right now *
@@ -85,7 +88,7 @@
 			
 			containerKey = "post";
 			externalAssets[containerKey] = {};
-			loadList = ['previous-button', 'play-button', 'more-button', 'paginator'];
+			loadList = ['previous-button', 'next-button', 'play-button', 'more-button', 'paginator'];
 			
 			for (i = 0; i < loadList.length; i++) {
 
@@ -161,6 +164,31 @@
 
 			renderMenuButtons("svg-menu", externalAssets["svg-menu"]['button-main']['asset']);
 			renderGoogleMap();
+
+			//console.log("WARNING:: ", assetWaitForLoad.length);
+			for(f = 0; f < assetWaitForLoad.length; f++) {
+				//console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+				switch(assetWaitForLoad[f].container)	{
+					case "post":
+							drawPostControls(assetWaitForLoad[f].container + "-" + assetWaitForLoad[f].id);
+							fIdx = 0;
+					break;
+					case "site-logo":
+							//console.log("WARNING:: !site-logo found ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, fIdx);
+							headerLogoInit();
+					break;
+					case "svg-social-menu":
+							renderSocialMenu(assetWaitForLoad[f].container);
+							console.log("WARNING:: svg-social-menu ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+							fIdx = 0;
+					break;
+					default:
+							console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+					break;
+
+				}
+				
+			}
 	});
 
 	jQuery(window).resize(function(){
@@ -177,13 +205,30 @@
 			//console.log("done: ", externalAssets);
 	});
 
+	var scrollValue = 0;
+	
 	jQuery(window).scroll(function(){
 	/*
 		Resize handler
 		one resize is fired on load by the fluid video fix in header.php
 
 		reposition stuff, scale things
-	*/	
+	*/
+		var newScroll = jQuery(this).scrollTop();
+
+		var direction;
+		if (newScroll > scrollValue){
+		//write the codes related to down-ward scrolling here
+			direction = "down"
+     	} else {
+     	//write the codes related to upward-scrolling here
+     		direction = "up"
+     	}
+
+     	scrollValue = newScroll;
+		 //scrollValue += 1;
+	// minify menu horizontally
+		verticalFluidMenu(direction);
 	});
 
 //orientation change?
@@ -210,9 +255,25 @@
 
        		//					paper.append(headerImg[0].node.cloneNode(true));
        		//					paper.append(headerImg[1].node.cloneNode(true));
+       		 
        		for(ass in externalAssets[pStr]) {
        			//console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
-       				paper.append(externalAssets[pStr][ass]["asset"]);		
+       				if(externalAssets[pStr][ass]["loadstate"] == "complete") {
+							paper.append(externalAssets[pStr][ass]["asset"]);
+							
+					} else {
+							console.log("WARNING INTERVAL:: ", ass, externalAssets[pStr][ass]["loadstate"], fIdx);
+							assetWaitForLoad[fIdx] =  { "asset" : ass, "container" : pStr };
+							fIdx++;
+							/*if(externalAssets[pStr]["logo-background"]["loadstate"] == "complete" & externalAssets[pStr]["logo"]["loadstate"] == "complete"){
+										//clearInterval(loadFailLoop);
+
+										console.log("CLEARED:: ", externalAssets[pStr]["logo-background"]["loadstate"], externalAssets[pStr]["logo"]["loadstate"] );
+	   						}//console.log("APPENDED:: ", ass, externalAssets[pStr][ass]["loadstate"]);
+							*/
+							setTimeout(logoLoadWait, 3000);
+
+					}	
        		}
        		
 			
@@ -227,6 +288,14 @@
 	/* ------------------------------------
 			header event handlers
 	   ------------------------------------ */ 
+	   function logoLoadWait() {
+	   				console.log("TIMERLOOP");
+	   				headerLogoInit();
+	   				/*if(externalAssets["site-logo"]["logo-background"]["loadstate"] == "complete" & externalAssets["site-logo"]["logo"]["loadstate"] == "complete"){
+								//clearInterval(loadFailLoop);
+								console.log("CLEARED:: ", externalAssets["site-logo"]["logo-background"]["loadstate"], externalAssets["site-logo"]["logo"]["loadstate"] );
+	   				}*/
+	   }
 
 	   function repositionLogo(container) {
 			var windowWidth = jQuery(window).width();
@@ -277,19 +346,26 @@
     	   	/* backgroundrender */
        		var pWidth = "100%", pHeight = "100%", pX = "0%", pY = "17%", calcY = 100 - 17 + "%"; 
 			var bgRect = paper.rect(pX,pY,pWidth,calcY).attr({
-								fill : "#EDF0F5"
+								fill : "#EDF0F5",
+								id : "menu-bg-rect"
 							});
+
 			var lineTop = paper.line(pX,pY, pWidth,pY).attr({
 								fill : "none",
 								stroke : "#D47878",
-								strokeWidth : 0.25
+								strokeWidth : 0.25,
+								id : "menu-bg-line-top"
 							});
 			var lineBottom = paper.line(pX,pHeight, pWidth,pHeight).attr({
 									fill : "none",
 									stroke : "#D47878",
-									strokeWidth : 0.25
+									strokeWidth : 0.25,
+									id : "menu-bg-line-bottom"
 							});
-			var bg = paper.group(bgRect, lineTop, lineBottom);
+			var bg = paper.group(bgRect, lineTop, lineBottom).attr({
+					id : "menu-bg"
+			});
+
 
 				
 				//prepend menu bg
@@ -304,7 +380,6 @@
 		//render the menu (onready, onresize?)
 		paper = Snap("#" + container);
 		//checking which menu to render
-		//...
 		
 		//now lets setup the buttons
 		//looping the menu object (set in header.php)
@@ -370,7 +445,7 @@
 						var subIdx = menuItems[b].idx;
 						
 						var horizontal = 0;
-						console.log("num: ",subParent);
+						//console.log("num: ",subParent);
 						switch(subParent) {
 							case "110":
 									horizontal += 19;
@@ -409,7 +484,7 @@
 											});
 							subMenuTxt.addClass("main-menu-sub");
 
-						var	subMenuRect = paper.rect(horizontal, vertical, "10%", "3%").attr({
+						var	subMenuRect = paper.rect(horizontal, vertical, "9%", "5%").attr({
 								id : "sub-coll-" + b,
 								opacity : 0
 							});
@@ -418,6 +493,7 @@
 						var subMenuItem = paper.group(subMenuRect, subMenuTxt);
 							subMenuItem.attr({
 								id : "sub-option-" + subIdx,
+								"class" : "sub-option",
 								fill : "#D47878"
 							});
 											
@@ -435,13 +511,74 @@
 		
 	}
 
-	function verticalFluidMenu() {
+	function verticalFluidMenu(val) {
 		
-		console.log("responsive minify vertical");
-		/* on scroll, on timmetime */
+		//console.log("responsive minify vertical", val);
+		/* on scroll, on timmer, on mouseover!, on touchstart! */
 		/* collapse the menu, scale down tekst, crossfade to bars */
 		/* scale bg vertical */
+		paper = Snap("#svg-menu");
+		var background;
+		var subMenu;
+		switch(val) {
+			case "up":
+						background = paper.select("#menu-bg");
+						background.animate({transform : "s1,1,0,26" }, 21);
 
+					
+						subMenu = paper.selectAll("#svg-menu g.sub-option");
+						for(el = 0; el < subMenu.length; el++) {
+							if(el >= 0) {
+								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
+							}
+							if(el >= 3) {
+								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
+							}
+							if(el >= (subMenu.length - 2)) {
+								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
+							}
+						}
+
+						subMenu = paper.selectAll("#svg-menu g.sub-option text").animate({
+							opacity : "1"
+						}, 21);
+						subMenu = paper.selectAll("#svg-menu g.sub-option rect").animate({
+							opacity : "0"
+						}, 21);
+			break;
+
+			case "down":
+				// lets scale the menu-bg as a whole
+						background = paper.select("#menu-bg");
+						background.animate({transform : "s1,0.5,0,26" }, 18);
+
+					//	background = paper.select("#menu-bg-line-bottom");
+					//	background.attr({"y1" : "99%", "y2" : "99%"}, 21);
+
+						subMenu = paper.selectAll("#svg-menu g.sub-option");
+						for(el = 0; el < subMenu.length; el++) {
+							if(el >= 0) {
+								subMenu[el].animate({ transform : "t0s0.35,0.33,110,52" }, 18);	
+							}
+							if(el >= 3) {
+								subMenu[el].animate({ transform : "t190s0.35,0.33,110,52" }, 18);	
+							}
+							if(el >= (subMenu.length - 2)) {
+								subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);	
+							}
+						}
+							
+						subMenu = paper.selectAll("#svg-menu g.sub-option text").animate({
+							opacity : "0"
+						}, 18);
+						subMenu = paper.selectAll("#svg-menu g.sub-option rect").animate({
+							opacity : "1"
+						}, 18);
+					
+						
+			break;
+		}
+		
 	}
 
 	function horizontalFluidMenu() {
@@ -704,37 +841,41 @@ var loadCount = 0;
 			resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
 
 			//temp setting so i can see what i am doing
+			/*
 			jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
 				"opacity" : 1
 			});
 			jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
 				"opacity" : 1
 			});
-
-		/* select the gallery images */
+*/
 		
-		//console.log("amount of images" + jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length);
-		//for(var img = 0; img < jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length; img++){
+		/* select the gallery images */
 		jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
 			//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
 				
-			
 			jQuery( element ).css({
-				"top" : (resetHeight)
-			})
+				"top" : resetHeight
+			});
+
+			if(index > 0) {
+				jQuery( element ).hide();
+			}
+
 			resetHeight -= jQuery(element).innerHeight();
 			
+			//render a paginator per instance
+			renderPaginator(idx);
+
+			//add a fade in (and out) timer function
+			if(index == 0) {
+				console.log( "HELOO ", index, element );
+				setTimeout(featuredGalleryCrossFade(index, element), 3000);
+			}
 			
-			console.log( index + " height reset: " + resetHeight + " : " +  jQuery( element ).outerHeight() );
 		});
 
-		//minus every previous image height
-
-		//cross fade
-
-		//loop paginator
-
-		// render controls
+		// render control buttons next and previous
 
 	}
 
@@ -787,25 +928,25 @@ var loadCount = 0;
 					viewBox : "0 0 300 470",
 					width : "100%"
 				});//500
-				/*paper.attr({
-						width : "100%",
-						height : jQuery("#post-" + elemId).innerHeight() + "px",
 
-				});
-*/
 				/* draw white bottom rect */		
-				var whiteOverlay = paper.rect("-0.5%","70%","101%","30%");
-					whiteOverlay.attr({
-						fill : "#ffffff"
-					});
+				if(paper.select("#whiteOverlay-" + elemId) == undefined) {
+				
+					var whiteOverlay = paper.rect("-0.5%","70%","101%","30%");
+						whiteOverlay.attr({
+							fill : "#ffffff",
+							id : ("whiteOverlay-" + elemId)
+						});
 
-					paper.append(whiteOverlay);
-
+							//paper.append(whiteOverlay);
+					}
 		/* draw transparent hotspot overlay trigger post link */
-				var transparentOverlay = paper.rect("0","0","100%","80%");
-					transparentOverlay.attr({
-						opacity : "0"
-					});
+				if(paper.select("#transparentOverlay-" + elemId) == undefined) {
+					var transparentOverlay = paper.rect("0","0","100%","80%");
+						transparentOverlay.attr({
+							opacity : "0",
+							id : ("transparentOverlay-" + elemId)
+						});
 
 					transparentOverlay.mouseover(postHandle);
 					transparentOverlay.mouseout(postHandle);
@@ -813,8 +954,11 @@ var loadCount = 0;
 					transparentOverlay.mouseup(postHandle);
 					transparentOverlay.touchstart(postHandle);
 					transparentOverlay.touchend(postHandle);
-		
-				paper.append(transparentOverlay);
+				
+				
+				
+						paper.append(transparentOverlay);
+					}
 
 				//console.log("to be or not to be ", postAssets["more-button"]["complete"]);
 													/* if more make more button */
@@ -822,15 +966,23 @@ var loadCount = 0;
 									
 									//postAssets["more-button"]["postAsset"].select("g").transform("s0.61");
 									
-									console.log("asset: ", ass, externalAssets["post"][ass]['loadstate']);
+									//console.log("asset: ", ass, externalAssets["post"][ass]['loadstate']);
 									
 									if(externalAssets["post"][ass]['loadstate'] == 'complete') {
-										paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
-									}	
+										if(paper.select("#" + ass) == undefined) {
+												console.log("adding a gallery control:: ", ass, paper.select("#" + ass));
+										
+												paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
+												paper.select(cStr + " #" + ass + " g").transform("s0.61");
+										}
+									} else {
+										//console.log("WARNING:: ", ass, externalAssets["post"][ass]['loadstate']);
+										assetWaitForLoad[fIdx] = {"asset" : ass, "container" : "post", "id" : elemId};
+										fIdx++;
+
+									}
 									
 					}
-					
-					
 													//postAssets["more-button"]["postAsset"].mouseup(postHandle);
 													//paper.append(postAssets["more-button"]["postAsset"].node.cloneNode(true) );
 													/* if slideshow make paginator and next previous buttons */
@@ -840,8 +992,27 @@ var loadCount = 0;
 													/* if video make play button*/
 													//paper.append(postAssets["play-button"]["postAsset"].node.cloneNode(true) );
 											
-					console.log("elemId? ", elemId);
+					//console.log("elemId? ", elemId);
 					postLayout(elemId);
+	}
+
+	function renderPaginator(idx) {
+			paper = Snap("#svg-gallery-controls-" + idx);
+			
+			//var paginator = paper.append(externalAssets["post"]["paginator"]['asset'].node.cloneNode(true));	//paper.select("#paginator");
+			
+				//console.log(paginator);
+
+			if(externalAssets["post"]["paginator"]['loadstate'] == 'complete') {
+				//console.log("					paginator::");
+				paper.append(externalAssets["post"]["paginator"]['asset'].node.cloneNode(true));
+				//paper.append(paginator.clone());
+			} else {
+				//console.log("WARNING:: paginator ", externalAssets["post"]["paginator"]['loadstate']);
+				assetWaitForLoad[fIdx] = {"asset" : "paginator", "container" : "post", "id" : idx};
+				fIdx++;
+			}
+				
 	}
 
 	function wrapTextShape(idx) {
@@ -1024,7 +1195,12 @@ var loadCount = 0;
 		
 		
 	}
+	function featuredGalleryCrossFade(idx, el) {
+			console.log("cross fade feat gallery::: ", idx, el);
+			jQuery(el).toggle(3000);
+			jQuery(el).next().toggle(3000);
 
+	}
 /*  ============================================================================
 	footer & social menu functions
 		init
@@ -1071,27 +1247,32 @@ var socialIter = 0;
 						var bIter = 0;
 
 						for(social in externalAssets[container]) {
-							console.log("socialAssets:: ", social);
-							//console.log("socialAssets:: ", socialAssets[social]["socialAsset"].node.id, bIter);
-
-								// socialAssets[social]["socialAsset"].select("svg").attr({
-								// 			x : 10 * bIter + "%"
+							console.log("socialAssets:: ", social, container);
 							
-								// });
-								paper.append(externalAssets[container][social]["asset"]);
+							if(externalAssets[container][social]["loadstate"] == "complete") {
+									paper.append(externalAssets[container][social]["asset"]);
 
-							var socialButtonAsset = paper.select("#" + externalAssets[container][social]["asset"].node.id);
-								socialButtonAsset.addClass("social-menu-button");
-								socialButtonAsset.attr({ x : -42 + (13 * bIter) + "%" });
+								var socialButtonAsset = paper.select("#" + externalAssets[container][social]["asset"].node.id);
+									socialButtonAsset.addClass("social-menu-button");
+									socialButtonAsset.attr({ x : -42 + (13 * bIter) + "%" });
 							
-								socialButtonAsset.select("g").mouseover(socialMenuHandle);
-								socialButtonAsset.select("g").mouseout(socialMenuHandle);
-								socialButtonAsset.select("g").mousedown(socialMenuHandle);
-								socialButtonAsset.select("g").mouseup(socialMenuHandle);
-								socialButtonAsset.select("g").touchstart(socialMenuHandle);
-								socialButtonAsset.select("g").touchend(socialMenuHandle);
+									socialButtonAsset.select("g").mouseover(socialMenuHandle);
+									socialButtonAsset.select("g").mouseout(socialMenuHandle);
+									socialButtonAsset.select("g").mousedown(socialMenuHandle);
+									socialButtonAsset.select("g").mouseup(socialMenuHandle);
+									socialButtonAsset.select("g").touchstart(socialMenuHandle);
+									socialButtonAsset.select("g").touchend(socialMenuHandle);
 		
-							bIter++;
+								bIter++;
+							} else {
+								//console.log("WARNING::", social, externalAssets[container][social]["loadstate"], " has not finsihed loading");
+								assetWaitForLoad[fIdx] = {"asset" : social, "container" : container};
+								fIdx++;
+								//the asset hasnt finished loading
+								//add a string to the assetWaitForLoad Variable so we can get back to it later
+
+							}
+								
 						}
 
 

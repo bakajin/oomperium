@@ -111,7 +111,7 @@ body.blog article {
 	not entirely responsive
 	height : 56rem;
 	*/
-	margin : 2% 0 2% 3%!important;
+	margin : 2% 0 2% 2%!important;
 	padding : 0.5%;
 	
 }
@@ -733,10 +733,6 @@ a.more-link {
 		margin-left: 6%!important;
 	}
 
-	body.blog article:first-child {
-		margin-left : 3%!important;
-	}
-
 	.menu-toggle,
 	.main-navigation.toggled .nav-menu {
 		display: block;
@@ -1079,7 +1075,7 @@ body.blog .entry-footer {
 	margin: 1em 0 0;
 }
 .blog article:first-child {
-	margin-left: 36%!important;
+	margin-left: 33%!important;
 }
 .blog div.infinite-wrap article:first-child {
 	margin-left: 3%!important;
