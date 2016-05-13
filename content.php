@@ -49,7 +49,7 @@
 
 			foreach ($galleryArray as $id) { 
 					//this should only be rendered for the index
-    				echo '<img id="feat-gallery-'. $id .'" class="feat-gallery" src=' . wp_get_attachment_url( $id ) .'>';
+    				echo '<img id="feat-gallery-'. $id .'" class="feat-gallery inactive-img" src=' . wp_get_attachment_url( $id ) .'>';
 
 			}
 

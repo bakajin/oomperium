@@ -281,7 +281,8 @@ input,
 select,
 textarea {
 	color: #404040;
-	font-family: "cronos-pro",sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
+	/*font-family: "cronos-pro",sans-serif;*/
 	font-size: 16px;
 	font-size: 1.6rem;
 	line-height: 1.5;

@@ -39,7 +39,10 @@
 	var menuAssets;
 	var postAssets = new Object();
 	var socialAssets = new Object();
-			
+	
+	//featured gallery post specific counter
+	var gIter = {};
+
 	var scaleFactor;
 	var transFactor;
 	var transMatrix;
@@ -445,7 +448,7 @@
 						var subIdx = menuItems[b].idx;
 						
 						var horizontal = 0;
-						//console.log("num: ",subParent);
+						console.log("subparent num: ",subParent);
 						switch(subParent) {
 							case "110":
 									horizontal += 19;
@@ -464,6 +467,9 @@
 									horizontal += 49;
 							break;
 							case "39":
+									horizontal += 79;
+							break;
+							case "211":
 									horizontal += 79;
 							break;
 						}
@@ -859,7 +865,9 @@ var loadCount = 0;
 			});
 
 			if(index > 0) {
+				//jQuery( element ).addClass("inactive-img");
 				jQuery( element ).hide();
+
 			}
 
 			resetHeight -= jQuery(element).innerHeight();
@@ -869,8 +877,14 @@ var loadCount = 0;
 
 			//add a fade in (and out) timer function
 			if(index == 0) {
-				console.log( "HELOO ", index, element );
-				setTimeout(featuredGalleryCrossFade(index, element), 3000);
+			//	console.log( "HELOO ", index, element );
+				jQuery( element ).removeClass("inactive-img");
+				jQuery( element ).addClass("active-img");
+				//setTimeout(featuredGalleryCrossFade(idx), 3000);
+				//let 's set the gIter counter for the first time
+				gIter[idx] = 0;
+
+				setInterval(featuredGalleryCrossFade, 8000, idx);
 			}
 			
 		});
@@ -1195,11 +1209,54 @@ var loadCount = 0;
 		
 		
 	}
-	function featuredGalleryCrossFade(idx, el) {
-			console.log("cross fade feat gallery::: ", idx, el);
-			jQuery(el).toggle(3000);
-			jQuery(el).next().toggle(3000);
 
+	
+	function featuredGalleryCrossFade(idx) {
+			
+			console.log("cross fade feat gallery::: ", idx, jQuery('article#post-' + idx + ' div.entry-content img.inactive-img:first').length );			
+			
+			//selector for the active image
+			var activeImg = "article#post-" + idx + " .entry-content img.active-img";
+			
+			//selector for all inactive images
+			var inactiveImg = "article#post-" + idx + " div.entry-content img.inactive-img";
+			
+			//fade in from list
+					
+			jQuery(inactiveImg).eq(gIter[idx]).fadeIn(6000, function(){
+																	console.log("fade in: ", gIter[idx]); //, jQuery(this)
+																						
+																	});
+			
+			//select active
+			//fade out
+			jQuery(activeImg).fadeOut(1000, function(){
+															//reposistion faded in img
+															var imgPos = (jQuery("#svg-post-" + idx).height() + jQuery("#svg-gallery-controls-" + idx).height() + jQuery("article#post-" + idx + " div.entry-content p").height()) * -1
+																console.log("img pos: ", imgPos, jQuery(activeImg).height(), parseInt(jQuery(inactiveImg).eq(gIter[idx]).css("top")));
+															jQuery(inactiveImg).eq(gIter[idx]).css({
+																"top" : imgPos
+															})
+															//set inactive!
+															jQuery(activeImg).addClass("inactive-img");
+															jQuery(activeImg).removeClass("active-img");
+															//set active!
+															jQuery(inactiveImg).eq(gIter[idx]).addClass("active-img");
+															jQuery(inactiveImg).eq(gIter[idx]).removeClass("inactive-img");
+															 	
+															//if(gIter >= jQuery(inactiveImg).length) {
+															if(gIter[idx] >= jQuery(inactiveImg).length) {
+																	//gIter = 0;
+																	gIter[idx] = 0;
+																	console.log("reset gIter: " + idx + " ::" + gIter[idx], jQuery(inactiveImg).length);
+															} else {
+																	//gIter++;
+																	gIter[idx] += 1;
+																	console.log("plus gIter: " + idx + " ::" + gIter[idx], jQuery(inactiveImg).length);
+															}
+														});
+			
+		
 	}
 /*  ============================================================================
 	footer & social menu functions
