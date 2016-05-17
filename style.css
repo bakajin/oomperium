@@ -164,6 +164,8 @@ a img {
 }
 
 .site-header {
+	pointer-events : none;
+
 	position : fixed;
 
 	z-index : 10;
@@ -577,6 +579,7 @@ a.more-link {
 --------------------------------------------------------------*/
 
 .main-navigation {
+	pointer-events : auto; 
 	clear: both;
 	display: block;
 	float: right;
@@ -760,7 +763,7 @@ a.more-link {
 	/* make the logo bigger //355 */ 
 	svg#site-logo {
 		left : -3.5%;
-		height : 280%;
+		/*height : 1800%; 280% */
 		top : 3em;
 	}
 	/* make the menu smaller / more narrow */
@@ -1001,8 +1004,8 @@ div.slideshow-window:hover, .entry-content iframe:hover, div.tiled-gallery:hover
 	opacity: 1;
 }
 
-body.category .svg-post {
-	/*display : none;*/
+body.category .svg-post, body.category .svg-gallery-controls {
+	display : none;
 }
 
 body.blog .entry-content iframe {
@@ -1419,6 +1422,7 @@ img.feat-gallery {
 
 /* jetpack slideshow overwrite */
 body div.slideshow-window {
+	background-color: #fff !important;
 	border : none !important;
 	margin-bottom: 0 !important;
 	border-radius : 0px !important;
@@ -1436,7 +1440,7 @@ body div.slideshow-window * img, body.single div.slideshow-window * img {
 
 
 body.single div.slideshow-window {
-	background-color: #fff !important;
+	
 	border : 20px solid #fff !important;
 	border-radius: 0px !important;
 	/* top : -28rem; */

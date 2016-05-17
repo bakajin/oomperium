@@ -40,6 +40,7 @@
 	var postAssets = new Object();
 	var socialAssets = new Object();
 	
+	var postControlsViewBoxStr = "0 0 300 470";
 	//featured gallery post specific counter
 	var gIter = {};
 
@@ -173,6 +174,8 @@
 				//console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 				switch(assetWaitForLoad[f].container)	{
 					case "post":
+					//externalAssets[pStr][ass]["loadstate"]
+						console.log("WARNING:: post/paginator ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 							drawPostControls(assetWaitForLoad[f].container + "-" + assetWaitForLoad[f].id);
 							fIdx = 0;
 					break;
@@ -260,9 +263,11 @@
        		//					paper.append(headerImg[1].node.cloneNode(true));
        		 
        		for(ass in externalAssets[pStr]) {
-       			//console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
+       			console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
        				if(externalAssets[pStr][ass]["loadstate"] == "complete") {
+							//externalAssets[pStr][ass]["asset"].transform("s5");
 							paper.append(externalAssets[pStr][ass]["asset"]);
+							paper.select("#" + ass).transform("s5");
 							
 					} else {
 							console.log("WARNING INTERVAL:: ", ass, externalAssets[pStr][ass]["loadstate"], fIdx);
@@ -484,8 +489,9 @@
 
 						var subMenuTxt = paper.text(horizontal, vertical, menuItems[b].title);
 							subMenuTxt.attr({
-												"font-size" : "104%",
-												"font-family" : "cronos-pro",
+												"font-size" : "95%",
+												"font-weight" : "400",
+												"font-family" : "Source Sans Pro, sans-serif",
 												id : "sub-" + b
 											});
 							subMenuTxt.addClass("main-menu-sub");
@@ -567,10 +573,13 @@
 								subMenu[el].animate({ transform : "t0s0.35,0.33,110,52" }, 18);	
 							}
 							if(el >= 3) {
-								subMenu[el].animate({ transform : "t190s0.35,0.33,110,52" }, 18);	
+								subMenu[el].animate({ transform : "t190s0.35,0.33,110,52" }, 18);
+								
 							}
 							if(el >= (subMenu.length - 2)) {
-								subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);	
+								console.log("WARNING THIS 2 BREAKS THE 3rd MENU with more than 3 options")
+								subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);
+									
 							}
 						}
 							
@@ -836,7 +845,7 @@ var loadCount = 0;
 		/* make the featured gallery out of and img list */ 
 
 		//subtract svg-post height
-		var resetHeight = 16; // make this the margin top of .entry content
+		var resetHeight = 120; // 16 make this the margin top of .entry content
 			resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
 			
 		//subtract svg-gallery-controls-height
@@ -847,14 +856,14 @@ var loadCount = 0;
 			resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
 
 			//temp setting so i can see what i am doing
-			/*
+		/*
 			jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
 				"opacity" : 1
 			});
 			jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
 				"opacity" : 1
 			});
-*/
+		*/
 		
 		/* select the gallery images */
 		jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
@@ -870,11 +879,8 @@ var loadCount = 0;
 
 			}
 
-			resetHeight -= jQuery(element).innerHeight();
+			//resetHeight -= jQuery(element).innerHeight();
 			
-			//render a paginator per instance
-			renderPaginator(idx);
-
 			//add a fade in (and out) timer function
 			if(index == 0) {
 			//	console.log( "HELOO ", index, element );
@@ -884,12 +890,16 @@ var loadCount = 0;
 				//let 's set the gIter counter for the first time
 				gIter[idx] = 0;
 
-				setInterval(featuredGalleryCrossFade, 8000, idx);
+				setInterval(featuredGalleryCrossFade, 10000, idx);
 			}
+
+			//render a paginator per instance
+			renderPaginator(idx, index);
+
 			
 		});
 
-		// render control buttons next and previous
+		// render control buttons next and previous or not?
 
 	}
 
@@ -904,7 +914,7 @@ var loadCount = 0;
 
 		//select the content, draw a mask polygon
 		//draw some points
-		var mPoints = [0,0, 0,65, 100,20, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
+		var mPoints = [0,0, 0,75, 100,25, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
 		
 			maskPolygon = paper.polygon(mPoints);								
 			/*
@@ -939,27 +949,27 @@ var loadCount = 0;
 		//console.log("menu init ", loaded);
 				paper = Snap(cStr);
 				paper.attr({
-					viewBox : "0 0 300 470",
+					viewBox : postControlsViewBoxStr,
 					width : "100%"
 				});//500
 
 				/* draw white bottom rect */		
-				if(paper.select("#whiteOverlay-" + elemId) == undefined) {
+				if(paper.select("#white-overlay-" + elemId) == undefined) {
 				
 					var whiteOverlay = paper.rect("-0.5%","70%","101%","30%");
 						whiteOverlay.attr({
 							fill : "#ffffff",
-							id : ("whiteOverlay-" + elemId)
+							id : ("white-overlay-" + elemId)
 						});
 
-							//paper.append(whiteOverlay);
+							paper.prepend(whiteOverlay);
 					}
 		/* draw transparent hotspot overlay trigger post link */
-				if(paper.select("#transparentOverlay-" + elemId) == undefined) {
+				if(paper.select("#transparent-overlay-" + elemId) == undefined) {
 					var transparentOverlay = paper.rect("0","0","100%","80%");
 						transparentOverlay.attr({
 							opacity : "0",
-							id : ("transparentOverlay-" + elemId)
+							id : ("transparent-overlay-" + elemId)
 						});
 
 					transparentOverlay.mouseover(postHandle);
@@ -984,10 +994,64 @@ var loadCount = 0;
 									
 									if(externalAssets["post"][ass]['loadstate'] == 'complete') {
 										if(paper.select("#" + ass) == undefined) {
-												console.log("adding a gallery control:: ", ass, paper.select("#" + ass));
-										
-												paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
-												paper.select(cStr + " #" + ass + " g").transform("s0.61");
+												//console.log("adding a gallery control:: ", ass, paper.select("#" + ass));
+												switch(ass) {
+													case "play-button":
+														//don't append, featured gallery does not work with video
+													break;
+													case "paginator":
+														//don't append, the custom function will grab it later 
+														if(jQuery(cStr + " #paginator-0").length < 1) {
+															for(p = 0; p < jQuery("article#post-" + elemId + " div.entry-content img.feat-gallery").length; p++){
+																renderPaginator(elemId, p);
+															}
+														}
+														
+													break;
+													case "previous-button":
+														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
+														paper.select(cStr + " #" + ass + " g").transform("s0.61");
+														paper.select(cStr + " #" + ass + "").attr({
+																									"y" : "42%",
+																									"x" : "-8%",
+																									"display" : "none"
+																								});
+													break;
+													case "next-button":
+														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
+														paper.select(cStr + " #" + ass + " g").transform("s0.61");
+														paper.select(cStr + " #" + ass + "").attr({
+																									"y" : "42%",
+																									"display" : "none"
+																								});
+													break;
+													case "more-button":
+														//more-button or next-button or previous-button
+														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
+														//lets tweak the size now
+														paper.select(cStr + " #" + ass).attr({"y" : "77%", "x" : "37%"});
+														paper.select(cStr + " #" + ass + " g").transform("s0.61");
+														
+														paper.select(cStr + " #" + ass + " g").mouseover(moreHandle);
+														paper.select(cStr + " #" + ass + " g").mouseout(moreHandle);
+														paper.select(cStr + " #" + ass + " g").mousedown(moreHandle);
+														paper.select(cStr + " #" + ass + " g").mouseup(moreHandle);
+														paper.select(cStr + " #" + ass + " g").touchstart(moreHandle);
+														paper.select(cStr + " #" + ass + " g").touchend(moreHandle);
+				
+														// add a handle function and on click do:
+														//jQuery("a[title='" + event.path[2].id + "']")[0].click(); or something along these lines
+
+													break;
+													default:
+														//more-button or next-button or previous-button
+														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
+														//lets tweak the size now
+														paper.select(cStr + " #" + ass + " g").transform("s0.61");
+
+													break;
+												}
+												
 										}
 									} else {
 										//console.log("WARNING:: ", ass, externalAssets["post"][ass]['loadstate']);
@@ -1010,21 +1074,43 @@ var loadCount = 0;
 					postLayout(elemId);
 	}
 
-	function renderPaginator(idx) {
+	function renderPaginator(idx, num) {
 			paper = Snap("#svg-gallery-controls-" + idx);
-			
-			//var paginator = paper.append(externalAssets["post"]["paginator"]['asset'].node.cloneNode(true));	//paper.select("#paginator");
-			
-				//console.log(paginator);
+			var totItems = jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length;
+				totItems -= 1;
 
+			var wVal = postControlsViewBoxStr.split(" ");
+			var hVal = parseInt(wVal[3]);
+				wVal = parseInt(wVal[2]);
+
+		//	var totItems = jQuery("article#" + idx + " div.entry-content img.feat-gallery").length;
+			console.log("paginator ", idx, num, totItems );
+			
 			if(externalAssets["post"]["paginator"]['loadstate'] == 'complete') {
 				//console.log("					paginator::");
-				paper.append(externalAssets["post"]["paginator"]['asset'].node.cloneNode(true));
+				var paginatorAsset = externalAssets["post"]["paginator"]['asset'].node.cloneNode(true)
+			//	externalAssets["post"]["paginator"]['asset'].node.attr({ "x" : "100"});
+					paginatorAsset.id = "paginator-" + num;
+
+					paper.append(paginatorAsset);
+
+					paper.select("#svg-gallery-controls-" + idx + " #paginator-" + num).attr({
+						"x" : (wVal / totItems) + ( num * 25 ) + 6,
+						"y" : hVal / 1.41
+					});
+					if(num == 0) {
+							//leave selected
+					} else {
+							paper.select("#svg-gallery-controls-" + idx + " #paginator-" + num + " g#paginator-radio circle#paginator-selected").attr({
+							"opacity" : "0"
+						}); //#d4c978
+					}
+					
 				//paper.append(paginator.clone());
 			} else {
-				//console.log("WARNING:: paginator ", externalAssets["post"]["paginator"]['loadstate']);
-				assetWaitForLoad[fIdx] = {"asset" : "paginator", "container" : "post", "id" : idx};
-				fIdx++;
+				console.log("WARNING:: paginator ", externalAssets["post"]["paginator"]['loadstate'], idx);
+					assetWaitForLoad[fIdx] = {"asset" : "paginator", "container" : "post", "id" : idx};
+					fIdx++;
 			}
 				
 	}
@@ -1202,18 +1288,54 @@ var loadCount = 0;
 		}
 	}
 
-	function maskHandle(event) {
+	function moreHandle(event) {
 		/* 
-				the handler for the post cover :: deprecated?
+				the handler for the more button cover :: deprecated?
 		*/ 
-		
+			var idx = event.target.farthestViewportElement.id;
+		//concat the last idx string from the id
+			idx = idx.substr(idx.lastIndexOf("-")+1);
+
+			console.log("ev: ", idx, event.target.farthestViewportElement.id);
+			
+		switch(event.type) {
+			case "mouseover":
+					
+			break;
+			case "mouseout":
+
+					
+			break;
+			case "mouseup":
+					/* 
+						click() the link in ::
+							article > header.entry-header > h1.entry-title > a
+			
+					*/
+					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
+					console.log("the more button cover: ", event);
+			break;
+			
+			case "touchend":
+					/* 
+						click() the link in ::
+							article > header.entry-header > h1.entry-title > a
+			
+					*/
+					
+					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
+					
+			break;
+			default:
+
+			break;
+		}
 		
 	}
 
 	
 	function featuredGalleryCrossFade(idx) {
 			
-			console.log("cross fade feat gallery::: ", idx, jQuery('article#post-' + idx + ' div.entry-content img.inactive-img:first').length );			
 			
 			//selector for the active image
 			var activeImg = "article#post-" + idx + " .entry-content img.active-img";
@@ -1221,31 +1343,29 @@ var loadCount = 0;
 			//selector for all inactive images
 			var inactiveImg = "article#post-" + idx + " div.entry-content img.inactive-img";
 			
-			//fade in from list
-					
-			jQuery(inactiveImg).eq(gIter[idx]).fadeIn(6000, function(){
-																	console.log("fade in: ", gIter[idx]); //, jQuery(this)
-																						
-																	});
+			console.log("cross fade feat gallery::: ", idx, gIter[idx], jQuery(inactiveImg).length);			
 			
-			//select active
 			//fade out
-			jQuery(activeImg).fadeOut(1000, function(){
+			jQuery(activeImg).fadeOut(1500, function(){
 															//reposistion faded in img
-															var imgPos = (jQuery("#svg-post-" + idx).height() + jQuery("#svg-gallery-controls-" + idx).height() + jQuery("article#post-" + idx + " div.entry-content p").height()) * -1
-																console.log("img pos: ", imgPos, jQuery(activeImg).height(), parseInt(jQuery(inactiveImg).eq(gIter[idx]).css("top")));
+															var imgPos = (jQuery("#svg-post-" + idx).height() + jQuery("#svg-gallery-controls-" + idx).height() + jQuery("article#post-" + idx + " div.entry-content p").height()) * -1;
+															console.log("img pos: ", imgPos, jQuery(activeImg).height() );
 															jQuery(inactiveImg).eq(gIter[idx]).css({
 																"top" : imgPos
-															})
-															//set inactive!
-															jQuery(activeImg).addClass("inactive-img");
-															jQuery(activeImg).removeClass("active-img");
-															//set active!
-															jQuery(inactiveImg).eq(gIter[idx]).addClass("active-img");
-															jQuery(inactiveImg).eq(gIter[idx]).removeClass("inactive-img");
-															 	
-															//if(gIter >= jQuery(inactiveImg).length) {
-															if(gIter[idx] >= jQuery(inactiveImg).length) {
+															});
+
+														});
+			//fade in from list
+					
+			jQuery(inactiveImg).eq(gIter[idx]).fadeIn(1000, function(){
+														
+															
+															// set the paginator
+															/*paper.select("#svg-gallery-controls-" + idx + " #paginator-" + gIter[idx] + " #paginator-radio #paginator-selected").animate({
+																opacity : "1"
+															}, 21);*/
+															console.log("REVERSE ITER SET fade in: ", gIter[idx], jQuery(inactiveImg).length); //, jQuery(this)
+															if(gIter[idx] >= (jQuery(inactiveImg).length-1)) {
 																	//gIter = 0;
 																	gIter[idx] = 0;
 																	console.log("reset gIter: " + idx + " ::" + gIter[idx], jQuery(inactiveImg).length);
@@ -1254,7 +1374,17 @@ var loadCount = 0;
 																	gIter[idx] += 1;
 																	console.log("plus gIter: " + idx + " ::" + gIter[idx], jQuery(inactiveImg).length);
 															}
-														});
+															//set inactive!
+															jQuery(activeImg).addClass("inactive-img");
+															jQuery(activeImg).removeClass("active-img");
+															//set active!
+															jQuery(inactiveImg).eq(gIter[idx]).addClass("active-img");
+															jQuery(inactiveImg).eq(gIter[idx]).removeClass("inactive-img");
+
+															// lets make sure the inactive image doesnt show, like really doesnt.
+															//jQuery(inactiveImg).hide();
+																			
+											});
 			
 		
 	}
