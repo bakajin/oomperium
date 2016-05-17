@@ -267,7 +267,7 @@
        				if(externalAssets[pStr][ass]["loadstate"] == "complete") {
 							//externalAssets[pStr][ass]["asset"].transform("s5");
 							paper.append(externalAssets[pStr][ass]["asset"]);
-							paper.select("#" + ass).transform("s5");
+						//	paper.select("#" + ass).transform("s5");
 							
 					} else {
 							console.log("WARNING INTERVAL:: ", ass, externalAssets[pStr][ass]["loadstate"], fIdx);
@@ -770,6 +770,17 @@ var loadCount = 0;
 			//console.log("stripped idx: ", stripIdx, container);
 
 			drawPostControls(container); // container, loaded
+		} else {
+			//hide the featured gallery
+			jQuery("article#post-" + stripIdx + " div.entry-content img.feat-gallery").each(function( index, element ) {
+				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
+				
+					jQuery( element ).css({
+						"display" : "none"
+					});
+
+
+				});
 		}
 	}
 
@@ -843,64 +854,64 @@ var loadCount = 0;
 
 	function featuredGallery(idx){
 		/* make the featured gallery out of and img list */ 
-
-		//subtract svg-post height
-		var resetHeight = 120; // 16 make this the margin top of .entry content
-			resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
-			
-		//subtract svg-gallery-controls-height
-			resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").position().top;
-			resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
-
-			// we need to position the gallery images to end up under the paragraph of text. So we well use half of the text height
-			resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
-
-			//temp setting so i can see what i am doing
-		/*
-			jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
-				"opacity" : 1
-			});
-			jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
-				"opacity" : 1
-			});
-		*/
 		
-		/* select the gallery images */
-		jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
-			//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
+			//subtract svg-post height
+			var resetHeight = 120; // 16 make this the margin top of .entry content
+				resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
+			
+			//subtract svg-gallery-controls-height
+				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").position().top;
+				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
+
+				// we need to position the gallery images to end up under the paragraph of text. So we well use half of the text height
+				resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
+
+				//temp setting so i can see what i am doing
+			/*
+				jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
+					"opacity" : 1
+				});
+				jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
+					"opacity" : 1
+				});
+			*/
+		
+			/* select the gallery images */
+			jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
+				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
 				
-			jQuery( element ).css({
-				"top" : resetHeight
+				jQuery( element ).css({
+					"top" : resetHeight
+				});
+
+				if(index > 0) {
+					//jQuery( element ).addClass("inactive-img");
+					jQuery( element ).hide();
+
+				}
+
+				//resetHeight -= jQuery(element).innerHeight();
+			
+				//add a fade in (and out) timer function
+				if(index == 0) {
+				//	console.log( "HELOO ", index, element );
+					jQuery( element ).removeClass("inactive-img");
+					jQuery( element ).addClass("active-img");
+					//setTimeout(featuredGalleryCrossFade(idx), 3000);
+					//let 's set the gIter counter for the first time
+					gIter[idx] = 0;
+
+					setInterval(featuredGalleryCrossFade, 10000, idx);
+				}
+
+				//render a paginator per instance
+				renderPaginator(idx, index);
+
+			
 			});
-
-			if(index > 0) {
-				//jQuery( element ).addClass("inactive-img");
-				jQuery( element ).hide();
-
-			}
-
-			//resetHeight -= jQuery(element).innerHeight();
-			
-			//add a fade in (and out) timer function
-			if(index == 0) {
-			//	console.log( "HELOO ", index, element );
-				jQuery( element ).removeClass("inactive-img");
-				jQuery( element ).addClass("active-img");
-				//setTimeout(featuredGalleryCrossFade(idx), 3000);
-				//let 's set the gIter counter for the first time
-				gIter[idx] = 0;
-
-				setInterval(featuredGalleryCrossFade, 10000, idx);
-			}
-
-			//render a paginator per instance
-			renderPaginator(idx, index);
-
-			
-		});
 
 		// render control buttons next and previous or not?
-
+	
 	}
 
 	function drawMask(idx) {
@@ -1346,7 +1357,7 @@ var loadCount = 0;
 			console.log("cross fade feat gallery::: ", idx, gIter[idx], jQuery(inactiveImg).length);			
 			
 			//fade out
-			jQuery(activeImg).fadeOut(1500, function(){
+			jQuery(activeImg).fadeOut(1000, function(){
 															//reposistion faded in img
 															var imgPos = (jQuery("#svg-post-" + idx).height() + jQuery("#svg-gallery-controls-" + idx).height() + jQuery("article#post-" + idx + " div.entry-content p").height()) * -1;
 															console.log("img pos: ", imgPos, jQuery(activeImg).height() );

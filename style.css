@@ -926,13 +926,13 @@ body.single .entry-content, body.category .entry-content {
 	/*height : 100%!important;*/
 	height : auto!important;
 }
+
 body.blog .entry-content {
 	/*
-	deprecate, move to js
-	height : 100%!important;
-	height : 56rem;
-
+		deprecate, move to js
+		height : 100%!important; height : 56rem;
 	*/
+	overflow-y : hidden;
 }
 
 body.single .text-wrap, body.category .text-wrap {
