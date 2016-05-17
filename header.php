@@ -14,6 +14,7 @@
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,400italic,700,900' rel='stylesheet' type='text/css'>
 <!-- google maps api for footer -->
 	<style type="text/css">
     	html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
@@ -26,7 +27,7 @@
 <script>
 		pageType = '<?php body_class(); ?>';
 		themePath = "<?php echo get_stylesheet_directory_uri() . '/images/'; ?>"; 
-		console.log("ok this is why it says 7");
+		//console.log("ok this is why it says 7");
 		//headerImg = "<?php header_image(); ?>";
 	var logoImg;
 
@@ -37,8 +38,8 @@
 	
 </script>
 <!-- Type kit definition of fonts -->
-<script src="//use.typekit.net/qbz6cuj.js"></script>
-<script>try{Typekit.load();}catch(e){}</script>
+<script src="https://use.typekit.net/ewr0nac.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
 <?php wp_head(); ?>
 <!-- OOMP custom nav menu code !-->
 <!-- send vars to external javascript files -->

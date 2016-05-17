@@ -6,7 +6,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-	<!-- content.php -->
+	<!-- category.php -->
 		<script>
 			postIDs.push(<?php the_ID(); ?>);
 		</script>
@@ -36,12 +36,12 @@
 			/* translators: %s: Name of current post */
 			/*
 			the_excerpt(sprintf(
-				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'oomperium' ), 
+				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'oomperidev' ), 
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			));
 */
 			the_content( sprintf(
-				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperium' ), 
+				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperidev' ), 
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			) );
 
@@ -57,7 +57,7 @@
 
 		<?php
 			wp_link_pages( array(
-				'before' => '<div class="page-links">' . __( 'Pages:', 'oomperium' ),
+				'before' => '<div class="page-links">' . __( 'Pages:', 'oomperidev' ),
 				'after'  => '</div>',
 			) );
 		?>

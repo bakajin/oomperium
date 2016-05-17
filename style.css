@@ -110,7 +110,7 @@ body.blog article {
 	not entirely responsive
 	height : 56rem;
 	*/
-	margin : 2% 0 2% 3%!important;
+	margin : 2% 0 2% 2%!important;
 	padding : 0.5%;
 	
 }
@@ -163,6 +163,8 @@ a img {
 }
 
 .site-header {
+	pointer-events : none;
+
 	position : fixed;
 
 	z-index : 10;
@@ -280,7 +282,8 @@ input,
 select,
 textarea {
 	color: #404040;
-	font-family: "cronos-pro",sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
+	/*font-family: "cronos-pro",sans-serif;*/
 	font-size: 16px;
 	font-size: 1.6rem;
 	line-height: 1.5;
@@ -575,6 +578,7 @@ a.more-link {
 --------------------------------------------------------------*/
 
 .main-navigation {
+	pointer-events : auto; 
 	clear: both;
 	display: block;
 	float: right;
@@ -732,10 +736,6 @@ a.more-link {
 		margin-left: 6%!important;
 	}
 
-	body.blog article:first-child {
-		margin-left : 3%!important;
-	}
-
 	.menu-toggle,
 	.main-navigation.toggled .nav-menu {
 		display: block;
@@ -762,7 +762,7 @@ a.more-link {
 	/* make the logo bigger //355 */ 
 	svg#site-logo {
 		left : -3.5%;
-		height : 280%;
+		/*height : 1800%; 280% */
 		top : 3em;
 	}
 	/* make the menu smaller / more narrow */
@@ -926,13 +926,13 @@ body.single .entry-content, body.category .entry-content {
 	/*height : 100%!important;*/
 	height : auto!important;
 }
+
 body.blog .entry-content {
 	/*
-	deprecate, move to js
-	height : 100%!important;
-	height : 56rem;
-
+		deprecate, move to js
+		height : 100%!important; height : 56rem;
 	*/
+	overflow-y : hidden;
 }
 
 body.single .text-wrap, body.category .text-wrap {
@@ -1004,8 +1004,8 @@ div.slideshow-window:hover, .entry-content iframe:hover, div.tiled-gallery:hover
 	opacity: 1;
 }
 
-body.category .svg-post {
-	/*display : none;*/
+body.category .svg-post, body.category .svg-gallery-controls {
+	display : none;
 }
 
 body.blog .entry-content iframe {
@@ -1079,7 +1079,7 @@ body.blog .entry-footer {
 	margin: 1em 0 0;
 }
 .blog article:first-child {
-	margin-left: 36%!important;
+	margin-left: 33%!important;
 }
 .blog div.infinite-wrap article:first-child {
 	margin-left: 3%!important;
@@ -1414,8 +1414,15 @@ object {
 /*--------------------------------------------------------------
 12.2 Galleries
 --------------------------------------------------------------*/
+/* featured gallery styling */
+img.feat-gallery {
+	top : 0px;
+	position: relative;
+}
+
 /* jetpack slideshow overwrite */
 body div.slideshow-window {
+	background-color: #fff !important;
 	border : none !important;
 	margin-bottom: 0 !important;
 	border-radius : 0px !important;
@@ -1433,7 +1440,7 @@ body div.slideshow-window * img, body.single div.slideshow-window * img {
 
 
 body.single div.slideshow-window {
-	background-color: #fff !important;
+	
 	border : 20px solid #fff !important;
 	border-radius: 0px !important;
 	/* top : -28rem; */
