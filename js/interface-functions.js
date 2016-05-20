@@ -37,6 +37,8 @@
 
 	var headerAssets = new Array();
 	var menuAssets;
+	var fluidMenuTimer;
+
 	var postAssets = new Object();
 	var socialAssets = new Object();
 	
@@ -228,7 +230,7 @@
 			direction = "down"
      	} else {
      	//write the codes related to upward-scrolling here
-     		direction = "up"
+     		direction = "deprecated"
      	}
 
      	scrollValue = newScroll;
@@ -283,14 +285,10 @@
 
 					}	
        		}
-       		
-			
-				// not setting the viewbox for responsive love, as we are using the straight svg and two viewboxes make everything weird
-				
-				
+       			
 				//now lets check windowsize and scale and position the logo and its background
 				repositionLogo(pStr);
-			//}
+			
 	}
 
 	/* ------------------------------------
@@ -340,24 +338,22 @@
 			mobile menu
 	---------------------------------------------------------------------------- */
 
-/* render the main menu using snap svgs */ 
-//the list to preload
+
 	function menuInit(container, asset, loaded) {
+		/* render the main menu using snap svgs */ 
+
 		/* select svg object string */	
 		var mStr = "svg-menu";
-
 				/* select svg object */
-       	
 				paper = Snap("#" + mStr);
 
-       		
     	   	/* backgroundrender */
        		var pWidth = "100%", pHeight = "100%", pX = "0%", pY = "17%", calcY = 100 - 17 + "%"; 
 			var bgRect = paper.rect(pX,pY,pWidth,calcY).attr({
 								fill : "#EDF0F5",
 								id : "menu-bg-rect"
 							});
-
+			
 			var lineTop = paper.line(pX,pY, pWidth,pY).attr({
 								fill : "none",
 								stroke : "#D47878",
@@ -374,13 +370,19 @@
 					id : "menu-bg"
 			});
 
-
+			//lets add some handlers to the background to expand the menu on mouseover
+				bg.mouseover(verticalFluidMenu);
+				bg.mouseout(verticalFluidMenu);
+				bg.touchstart(verticalFluidMenu);
+				bg.touchend(verticalFluidMenu);
 				
 				//prepend menu bg
 				paper.append(bg);
 			//	console.log("do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
-				
+			
+			// lets collapse the menu after a while 
+			fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
 								
 	}
 
@@ -400,42 +402,51 @@
 
 		for(b = 0; b < menuItems.length; b++) { 
 				
-				//console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
+				console.log("WARNING :: not using lazy load or asset complete check :" + menuItems[b].title + " : menu iter ||  " + b + " : " + menuItems[b].parent, menuItems[b].idx);
 				//if parent == 0 it's a main menu item. Parent contains the parent idx
 				if(menuItems[b].parent == 0) {
 						//main menu
 							//mainMenuIdx = menuItems[b].idx;	
-							
+							//set the button text
 							asset.select("#text-front text").attr({
 								text : menuItems[b].title
 
 							});
+							
 							asset.select("#text-back text").attr({
 								text : menuItems[b].title
 
 							});
+							
+							// lets give it an id so we can find it later
 							asset.select("g").attr({
 								id : "button-" + menuItems[b].idx,
 								
 							});
+
+							//hide mobile menu assets parts for now
 							asset.select("#quarter-button-bg").attr({
 								"display" : "none"
 							});
+
 							asset.select("#mobile-collapse").attr({
 								"display" : "none"
 							});
 							
+							// clone asset & append to stage
 						var buttonAsset = asset.node.cloneNode(true);
 							buttonAsset.id = "main-button-" + menuItems[b].idx;
 						
 							paper.append( buttonAsset ); 
 							
+							// tweak asset display on stage
 							paper.select("#" + buttonAsset.id).attr({
 									x : (30 * mIter + 5 + "%"),
 									width : "22%",
 									class : "main-menu-button"
 								});
 							
+							//add handlers for functionality
 							paper.select("#" +buttonAsset.id).mousedown(onMainMenu);
 							paper.select("#" +buttonAsset.id).mouseup(onMainMenu);
 							
@@ -475,6 +486,9 @@
 									horizontal += 79;
 							break;
 							case "211":
+									horizontal += 79;
+							break;
+							case "573":
 									horizontal += 79;
 							break;
 						}
@@ -525,8 +539,12 @@
 
 	function verticalFluidMenu(val) {
 		
-		//console.log("responsive minify vertical", val);
-		/* on scroll, on timmer, on mouseover!, on touchstart! */
+		
+		if(val.target !== undefined) {
+			console.log("responsive minify vertical", val.target);
+			val = "up";
+		}
+		/* on scroll, on timer, on mouseover!, on touchstart! */
 		/* collapse the menu, scale down tekst, crossfade to bars */
 		/* scale bg vertical */
 		paper = Snap("#svg-menu");
@@ -557,6 +575,8 @@
 						subMenu = paper.selectAll("#svg-menu g.sub-option rect").animate({
 							opacity : "0"
 						}, 21);
+						console.log("fluidmenutimer ", fluidMenuTimer);
+						fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
 			break;
 
 			case "down":
@@ -1184,7 +1204,12 @@ var loadCount = 0;
 			str += '</div>';
 			//stuff goes wrong here
 			jQuery("article#post-" + idx + " div.entry-content p").first().before(str);
-		
+			//lets clip the paragraph with the svg poly in the svg-post
+		/*
+			jQuery("article#post-" + idx + " div.entry-content p").first().css({
+					"clip-path" : "polygon(0% 0%, 15% 0%, 15% 100%, 0% 100%)"
+			});//"url('#svg-post-" + idx + "')"
+		*/
 			
 	}
 

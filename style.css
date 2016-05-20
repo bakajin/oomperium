@@ -1113,14 +1113,20 @@ article p strong {
 
 .entry-content p { 
 	font-size: 110%;
-	color: #b8a5a5;
+	color: #61665e; /* #b8a5a5 */
+
 	position : relative;
 	z-index: 3;
+}
+body.blog .entry-content p {
+	-webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 30%, 100% 0%); 
+	clip-path: polygon(0% 0%, 0% 100%, 100% 30%, 100% 0%);
+
 }
 body.blog .entry-content div {
 	position: relative;
 	z-index: 1;
-	/*top : -23rem;*/
+	/* top : -23rem; */
 }
 
 body.single article header h1 {
@@ -1135,7 +1141,7 @@ article:nth-child(n+3) p strong, article:nth-child(n+3) header h1 a {
 }
 
 article:nth-child(n+3) p {
-	color: #d4c978;
+	color: #66655e; /* #d4c978; */
 }
 
 article:nth-child(n+6) p strong, article:nth-child(n+6) header h1 a {
@@ -1143,7 +1149,7 @@ article:nth-child(n+6) p strong, article:nth-child(n+6) header h1 a {
 }
 
 article:nth-child(n+6) p {
-	color: #61665e;
+	color: #5e6166; /* #61665e; */
 }
 
 article:nth-child(n+9) p strong, article:nth-child(n+9) header h1 a {
@@ -1151,7 +1157,7 @@ article:nth-child(n+9) p strong, article:nth-child(n+9) header h1 a {
 }
 
 article:nth-child(n+9) p {
-	color: #4e679c;
+	color: #61665e; /* #4e679c; */
 }
 
 .page-links {
