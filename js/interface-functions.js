@@ -383,14 +383,13 @@
 			
 			// lets collapse the menu after a while 
 			fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
-								
+					
 	}
 
 	function renderMenuButtons(container, asset) {
 		//render the menu (onready, onresize?)
 		paper = Snap("#" + container);
 		//checking which menu to render
-		
 		//now lets setup the buttons
 		//looping the menu object (set in header.php)
 		
@@ -498,6 +497,7 @@
 						if(subParent !== lastIdx) {
 								sIter = 0;
 							}
+
 						var vertical = 40 + (15 * sIter);
 							vertical += "%";
 
@@ -534,7 +534,10 @@
 							lastIdx = subParent;			
 				}
 		}
-		
+		console.log("WARN menu bg corrected in renderMenuButtons ");
+		var menubg = paper.select("#menu-bg");
+			menubg.transform("s1,1,0");
+
 	}
 
 	function verticalFluidMenu(val) {
@@ -876,7 +879,7 @@ var loadCount = 0;
 		/* make the featured gallery out of and img list */ 
 		
 			//subtract svg-post height
-			var resetHeight = 120; // 16 make this the margin top of .entry content
+			var resetHeight = 130; // 16 make this the margin top of .entry content
 				resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
 			
 			//subtract svg-gallery-controls-height
@@ -1015,6 +1018,12 @@ var loadCount = 0;
 						paper.append(transparentOverlay);
 					}
 
+					//set up a paginator group
+					if(paper.select("#paginators-" + elemId) == undefined) {
+							var paginators = paper.group().attr({
+																"id" : "paginators-" + elemId
+							});  
+					}					
 				//console.log("to be or not to be ", postAssets["more-button"]["complete"]);
 													/* if more make more button */
 					for(ass in externalAssets["post"]) {
@@ -1031,7 +1040,7 @@ var loadCount = 0;
 														//don't append, featured gallery does not work with video
 													break;
 													case "paginator":
-														//don't append, the custom function will grab it later 
+
 														if(jQuery(cStr + " #paginator-0").length < 1) {
 															for(p = 0; p < jQuery("article#post-" + elemId + " div.entry-content img.feat-gallery").length; p++){
 																renderPaginator(elemId, p);
@@ -1105,10 +1114,12 @@ var loadCount = 0;
 					postLayout(elemId);
 	}
 
+
 	function renderPaginator(idx, num) {
-			paper = Snap("#svg-gallery-controls-" + idx);
+			//paginators-" + elemId
+			paper = Snap("#paginators-" + idx);//svg-gallery-controls-
 			var totItems = jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length;
-				totItems -= 1;
+				//totItems += 1;
 
 			var wVal = postControlsViewBoxStr.split(" ");
 			var hVal = parseInt(wVal[3]);
@@ -1117,6 +1128,7 @@ var loadCount = 0;
 		//	var totItems = jQuery("article#" + idx + " div.entry-content img.feat-gallery").length;
 			console.log("paginator ", idx, num, totItems );
 			
+
 			if(externalAssets["post"]["paginator"]['loadstate'] == 'complete') {
 				//console.log("					paginator::");
 				var paginatorAsset = externalAssets["post"]["paginator"]['asset'].node.cloneNode(true)
@@ -1125,10 +1137,11 @@ var loadCount = 0;
 
 					paper.append(paginatorAsset);
 
-					paper.select("#svg-gallery-controls-" + idx + " #paginator-" + num).attr({
-						"x" : (wVal / totItems) + ( num * 25 ) + 6,
-						"y" : hVal / 1.41
+					
+					paper.select("#paginator-" + num).attr({
+						"x" : ( num * 25 )
 					});
+
 					if(num == 0) {
 							//leave selected
 					} else {
@@ -1136,8 +1149,11 @@ var loadCount = 0;
 							"opacity" : "0"
 						}); //#d4c978
 					}
-					
+					//console.log("width paginators ", jQuery("#paginators-" + idx).outerWidth());
+					var pWidth = (29) * num
+					paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
 				//paper.append(paginator.clone());
+				paper.attr();
 			} else {
 				console.log("WARNING:: paginator ", externalAssets["post"]["paginator"]['loadstate'], idx);
 					assetWaitForLoad[fIdx] = {"asset" : "paginator", "container" : "post", "id" : idx};
@@ -1275,6 +1291,11 @@ var loadCount = 0;
   					
 					/* animate to off :: text-wrap divs */
 
+					/* animate clip-path on paragraph */
+					jQuery("article#post-" + idx + " div.entry-content p").css({
+						"-webkit-clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)",
+						"clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)"
+					});
 					/* animate to visible :: post control buttons */
 			break;
 			case "mouseout":
@@ -1286,6 +1307,11 @@ var loadCount = 0;
   					
 					/* animate to on :: text-wrap divs */
 
+					/* animate clip-path on paragraph */
+					jQuery("article#post-" + idx + " div.entry-content p").css({
+						"-webkit-clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)",
+						"clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)"
+					});
 					/* animate to invisible :: post control buttons */
 			break;
 			case "mouseup":
@@ -1374,11 +1400,13 @@ var loadCount = 0;
 			
 			
 			//selector for the active image
-			var activeImg = "article#post-" + idx + " .entry-content img.active-img";
+			//var activeImg = "article#post-" + idx + " .entry-content img.active-img";
+			var activeImg = "article#post-" + idx + " .entry-content img.feat-gallery";
 			
 			//selector for all inactive images
-			var inactiveImg = "article#post-" + idx + " div.entry-content img.inactive-img";
-			
+			//var inactiveImg = "article#post-" + idx + " div.entry-content img.inactive-img";
+			var inactiveImg = "article#post-" + idx + " div.entry-content img.feat-gallery";
+
 			console.log("cross fade feat gallery::: ", idx, gIter[idx], jQuery(inactiveImg).length);			
 			
 			//fade out
@@ -1419,6 +1447,7 @@ var loadCount = 0;
 
 															// lets make sure the inactive image doesnt show, like really doesnt.
 															//jQuery(inactiveImg).hide();
+
 																			
 											});
 			
