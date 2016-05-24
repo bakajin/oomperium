@@ -37,6 +37,8 @@
 
 	var headerAssets = new Array();
 	var menuAssets;
+	var fluidMenuTimer;
+
 	var postAssets = new Object();
 	var socialAssets = new Object();
 	
@@ -228,7 +230,7 @@
 			direction = "down"
      	} else {
      	//write the codes related to upward-scrolling here
-     		direction = "up"
+     		direction = "deprecated"
      	}
 
      	scrollValue = newScroll;
@@ -283,14 +285,10 @@
 
 					}	
        		}
-       		
-			
-				// not setting the viewbox for responsive love, as we are using the straight svg and two viewboxes make everything weird
-				
-				
+       			
 				//now lets check windowsize and scale and position the logo and its background
 				repositionLogo(pStr);
-			//}
+			
 	}
 
 	/* ------------------------------------
@@ -340,24 +338,22 @@
 			mobile menu
 	---------------------------------------------------------------------------- */
 
-/* render the main menu using snap svgs */ 
-//the list to preload
+
 	function menuInit(container, asset, loaded) {
+		/* render the main menu using snap svgs */ 
+
 		/* select svg object string */	
 		var mStr = "svg-menu";
-
 				/* select svg object */
-       	
 				paper = Snap("#" + mStr);
 
-       		
     	   	/* backgroundrender */
        		var pWidth = "100%", pHeight = "100%", pX = "0%", pY = "17%", calcY = 100 - 17 + "%"; 
 			var bgRect = paper.rect(pX,pY,pWidth,calcY).attr({
 								fill : "#EDF0F5",
 								id : "menu-bg-rect"
 							});
-
+			
 			var lineTop = paper.line(pX,pY, pWidth,pY).attr({
 								fill : "none",
 								stroke : "#D47878",
@@ -374,21 +370,26 @@
 					id : "menu-bg"
 			});
 
-
+			//lets add some handlers to the background to expand the menu on mouseover
+				bg.mouseover(verticalFluidMenu);
+				bg.mouseout(verticalFluidMenu);
+				bg.touchstart(verticalFluidMenu);
+				bg.touchend(verticalFluidMenu);
 				
 				//prepend menu bg
 				paper.append(bg);
 			//	console.log("do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
-				
-								
+			
+			// lets collapse the menu after a while 
+			fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
+					
 	}
 
 	function renderMenuButtons(container, asset) {
 		//render the menu (onready, onresize?)
 		paper = Snap("#" + container);
 		//checking which menu to render
-		
 		//now lets setup the buttons
 		//looping the menu object (set in header.php)
 		
@@ -400,42 +401,51 @@
 
 		for(b = 0; b < menuItems.length; b++) { 
 				
-				//console.log(menuItems[b].title + " : iter : " + b + " : " + menuItems[b].parent, menuItems[b].idx);
+				console.log("WARNING :: not using lazy load or asset complete check :" + menuItems[b].title + " : menu iter ||  " + b + " : " + menuItems[b].parent, menuItems[b].idx);
 				//if parent == 0 it's a main menu item. Parent contains the parent idx
 				if(menuItems[b].parent == 0) {
 						//main menu
 							//mainMenuIdx = menuItems[b].idx;	
-							
+							//set the button text
 							asset.select("#text-front text").attr({
 								text : menuItems[b].title
 
 							});
+							
 							asset.select("#text-back text").attr({
 								text : menuItems[b].title
 
 							});
+							
+							// lets give it an id so we can find it later
 							asset.select("g").attr({
 								id : "button-" + menuItems[b].idx,
 								
 							});
+
+							//hide mobile menu assets parts for now
 							asset.select("#quarter-button-bg").attr({
 								"display" : "none"
 							});
+
 							asset.select("#mobile-collapse").attr({
 								"display" : "none"
 							});
 							
+							// clone asset & append to stage
 						var buttonAsset = asset.node.cloneNode(true);
 							buttonAsset.id = "main-button-" + menuItems[b].idx;
 						
 							paper.append( buttonAsset ); 
 							
+							// tweak asset display on stage
 							paper.select("#" + buttonAsset.id).attr({
 									x : (30 * mIter + 5 + "%"),
 									width : "22%",
 									class : "main-menu-button"
 								});
 							
+							//add handlers for functionality
 							paper.select("#" +buttonAsset.id).mousedown(onMainMenu);
 							paper.select("#" +buttonAsset.id).mouseup(onMainMenu);
 							
@@ -477,6 +487,9 @@
 							case "211":
 									horizontal += 79;
 							break;
+							case "573":
+									horizontal += 79;
+							break;
 						}
 							horizontal += "%";
 						
@@ -484,6 +497,7 @@
 						if(subParent !== lastIdx) {
 								sIter = 0;
 							}
+
 						var vertical = 40 + (15 * sIter);
 							vertical += "%";
 
@@ -520,13 +534,20 @@
 							lastIdx = subParent;			
 				}
 		}
-		
+		console.log("WARN menu bg corrected in renderMenuButtons ");
+		var menubg = paper.select("#menu-bg");
+			menubg.transform("s1,1,0");
+
 	}
 
 	function verticalFluidMenu(val) {
 		
-		//console.log("responsive minify vertical", val);
-		/* on scroll, on timmer, on mouseover!, on touchstart! */
+		
+		if(val.target !== undefined) {
+			console.log("responsive minify vertical", val.target);
+			val = "up";
+		}
+		/* on scroll, on timer, on mouseover!, on touchstart! */
 		/* collapse the menu, scale down tekst, crossfade to bars */
 		/* scale bg vertical */
 		paper = Snap("#svg-menu");
@@ -557,6 +578,8 @@
 						subMenu = paper.selectAll("#svg-menu g.sub-option rect").animate({
 							opacity : "0"
 						}, 21);
+						console.log("fluidmenutimer ", fluidMenuTimer);
+						fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
 			break;
 
 			case "down":
@@ -856,7 +879,7 @@ var loadCount = 0;
 		/* make the featured gallery out of and img list */ 
 		
 			//subtract svg-post height
-			var resetHeight = 120; // 16 make this the margin top of .entry content
+			var resetHeight = 130; // 16 make this the margin top of .entry content
 				resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
 			
 			//subtract svg-gallery-controls-height
@@ -899,7 +922,7 @@ var loadCount = 0;
 					jQuery( element ).addClass("active-img");
 					//setTimeout(featuredGalleryCrossFade(idx), 3000);
 					//let 's set the gIter counter for the first time
-					gIter[idx] = 0;
+					gIter[idx] = 1;
 
 					setInterval(featuredGalleryCrossFade, 10000, idx);
 				}
@@ -995,6 +1018,12 @@ var loadCount = 0;
 						paper.append(transparentOverlay);
 					}
 
+					//set up a paginator group
+					if(paper.select("#paginators-" + elemId) == undefined) {
+							var paginators = paper.group().attr({
+																"id" : "paginators-" + elemId
+							});  
+					}					
 				//console.log("to be or not to be ", postAssets["more-button"]["complete"]);
 													/* if more make more button */
 					for(ass in externalAssets["post"]) {
@@ -1011,7 +1040,7 @@ var loadCount = 0;
 														//don't append, featured gallery does not work with video
 													break;
 													case "paginator":
-														//don't append, the custom function will grab it later 
+
 														if(jQuery(cStr + " #paginator-0").length < 1) {
 															for(p = 0; p < jQuery("article#post-" + elemId + " div.entry-content img.feat-gallery").length; p++){
 																renderPaginator(elemId, p);
@@ -1085,10 +1114,12 @@ var loadCount = 0;
 					postLayout(elemId);
 	}
 
+
 	function renderPaginator(idx, num) {
-			paper = Snap("#svg-gallery-controls-" + idx);
+			//paginators-" + elemId
+			paper = Snap("#paginators-" + idx);//svg-gallery-controls-
 			var totItems = jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length;
-				totItems -= 1;
+				//totItems += 1;
 
 			var wVal = postControlsViewBoxStr.split(" ");
 			var hVal = parseInt(wVal[3]);
@@ -1097,6 +1128,7 @@ var loadCount = 0;
 		//	var totItems = jQuery("article#" + idx + " div.entry-content img.feat-gallery").length;
 			console.log("paginator ", idx, num, totItems );
 			
+
 			if(externalAssets["post"]["paginator"]['loadstate'] == 'complete') {
 				//console.log("					paginator::");
 				var paginatorAsset = externalAssets["post"]["paginator"]['asset'].node.cloneNode(true)
@@ -1105,10 +1137,11 @@ var loadCount = 0;
 
 					paper.append(paginatorAsset);
 
-					paper.select("#svg-gallery-controls-" + idx + " #paginator-" + num).attr({
-						"x" : (wVal / totItems) + ( num * 25 ) + 6,
-						"y" : hVal / 1.41
+					
+					paper.select("#paginator-" + num).attr({
+						"x" : ( num * 25 )
 					});
+
 					if(num == 0) {
 							//leave selected
 					} else {
@@ -1116,8 +1149,11 @@ var loadCount = 0;
 							"opacity" : "0"
 						}); //#d4c978
 					}
-					
+					//console.log("width paginators ", jQuery("#paginators-" + idx).outerWidth());
+					var pWidth = (29) * num
+					paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
 				//paper.append(paginator.clone());
+				paper.attr();
 			} else {
 				console.log("WARNING:: paginator ", externalAssets["post"]["paginator"]['loadstate'], idx);
 					assetWaitForLoad[fIdx] = {"asset" : "paginator", "container" : "post", "id" : idx};
@@ -1184,7 +1220,12 @@ var loadCount = 0;
 			str += '</div>';
 			//stuff goes wrong here
 			jQuery("article#post-" + idx + " div.entry-content p").first().before(str);
-		
+			//lets clip the paragraph with the svg poly in the svg-post
+		/*
+			jQuery("article#post-" + idx + " div.entry-content p").first().css({
+					"clip-path" : "polygon(0% 0%, 15% 0%, 15% 100%, 0% 100%)"
+			});//"url('#svg-post-" + idx + "')"
+		*/
 			
 	}
 
@@ -1250,6 +1291,11 @@ var loadCount = 0;
   					
 					/* animate to off :: text-wrap divs */
 
+					/* animate clip-path on paragraph */
+					jQuery("article#post-" + idx + " div.entry-content p").css({
+						"-webkit-clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)",
+						"clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)"
+					});
 					/* animate to visible :: post control buttons */
 			break;
 			case "mouseout":
@@ -1261,6 +1307,11 @@ var loadCount = 0;
   					
 					/* animate to on :: text-wrap divs */
 
+					/* animate clip-path on paragraph */
+					jQuery("article#post-" + idx + " div.entry-content p").css({
+						"-webkit-clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)",
+						"clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)"
+					});
 					/* animate to invisible :: post control buttons */
 			break;
 			case "mouseup":
@@ -1349,11 +1400,13 @@ var loadCount = 0;
 			
 			
 			//selector for the active image
-			var activeImg = "article#post-" + idx + " .entry-content img.active-img";
+			//var activeImg = "article#post-" + idx + " .entry-content img.active-img";
+			var activeImg = "article#post-" + idx + " .entry-content img.feat-gallery";
 			
 			//selector for all inactive images
-			var inactiveImg = "article#post-" + idx + " div.entry-content img.inactive-img";
-			
+			//var inactiveImg = "article#post-" + idx + " div.entry-content img.inactive-img";
+			var inactiveImg = "article#post-" + idx + " div.entry-content img.feat-gallery";
+
 			console.log("cross fade feat gallery::: ", idx, gIter[idx], jQuery(inactiveImg).length);			
 			
 			//fade out
@@ -1394,6 +1447,7 @@ var loadCount = 0;
 
 															// lets make sure the inactive image doesnt show, like really doesnt.
 															//jQuery(inactiveImg).hide();
+
 																			
 											});
 			
