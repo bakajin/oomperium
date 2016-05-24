@@ -922,7 +922,7 @@ var loadCount = 0;
 					jQuery( element ).addClass("active-img");
 					//setTimeout(featuredGalleryCrossFade(idx), 3000);
 					//let 's set the gIter counter for the first time
-					gIter[idx] = 0;
+					gIter[idx] = 1;
 
 					setInterval(featuredGalleryCrossFade, 10000, idx);
 				}
