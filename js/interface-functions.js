@@ -111,7 +111,7 @@
 					externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
 					parentAsset[loadList[i]] = containerKey;
 			}
-			console.log("object ", externalAssets);
+			//console.log("object ", externalAssets);
 			
 			/* with the object defined lets start loading the assets */
 			loadAssets();
@@ -197,6 +197,7 @@
 				}
 				
 			}
+			fluidHeaderLogo("load");
 	});
 
 	jQuery(window).resize(function(){
@@ -211,6 +212,7 @@
   						//Do something
 			}
 			//console.log("done: ", externalAssets);
+			fluidHeaderLogo("resize");
 	});
 
 	var scrollValue = 0;
@@ -230,13 +232,14 @@
 			direction = "down"
      	} else {
      	//write the codes related to upward-scrolling here
-     		direction = "deprecated"
+     		direction = "up"
      	}
 
      	scrollValue = newScroll;
 		 //scrollValue += 1;
 	// minify menu horizontally
 		verticalFluidMenu(direction);
+		fluidHeaderLogo(direction);
 	});
 
 //orientation change?
@@ -265,7 +268,7 @@
        		//					paper.append(headerImg[1].node.cloneNode(true));
        		 
        		for(ass in externalAssets[pStr]) {
-       			console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
+       			//console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
        				if(externalAssets[pStr][ass]["loadstate"] == "complete") {
 							//externalAssets[pStr][ass]["asset"].transform("s5");
 							paper.append(externalAssets[pStr][ass]["asset"]);
@@ -275,20 +278,13 @@
 							console.log("WARNING INTERVAL:: ", ass, externalAssets[pStr][ass]["loadstate"], fIdx);
 							assetWaitForLoad[fIdx] =  { "asset" : ass, "container" : pStr };
 							fIdx++;
-							/*if(externalAssets[pStr]["logo-background"]["loadstate"] == "complete" & externalAssets[pStr]["logo"]["loadstate"] == "complete"){
-										//clearInterval(loadFailLoop);
-
-										console.log("CLEARED:: ", externalAssets[pStr]["logo-background"]["loadstate"], externalAssets[pStr]["logo"]["loadstate"] );
-	   						}//console.log("APPENDED:: ", ass, externalAssets[pStr][ass]["loadstate"]);
-							*/
+							
 							setTimeout(logoLoadWait, 3000);
 
 					}	
        		}
        			
-				//now lets check windowsize and scale and position the logo and its background
-				repositionLogo(pStr);
-			
+				
 	}
 
 	/* ------------------------------------
@@ -297,34 +293,92 @@
 	   function logoLoadWait() {
 	   				console.log("TIMERLOOP");
 	   				headerLogoInit();
-	   				/*if(externalAssets["site-logo"]["logo-background"]["loadstate"] == "complete" & externalAssets["site-logo"]["logo"]["loadstate"] == "complete"){
-								//clearInterval(loadFailLoop);
-								console.log("CLEARED:: ", externalAssets["site-logo"]["logo-background"]["loadstate"], externalAssets["site-logo"]["logo"]["loadstate"] );
-	   				}*/
+	   				
 	   }
 
-	   function repositionLogo(container) {
+	
+	function fluidHeaderLogo(type) {
+			//console.log("logo event ", type);
+
 			var windowWidth = jQuery(window).width();
 			var windowHeight = jQuery(window).height();
-			var devicePixelRatio = window.devicePixelRatio;
+			//var devicePixelRatio = window.devicePixelRatio;
 
+			var opacityVal = 1;
+			var logoPaper = Snap("#site-logo");
 
-			console.log("w.h: ", windowWidth, windowHeight, devicePixelRatio)
-			switch(windowWidth) {
-				case windowWidth < 500: 
+			var logoBg = logoPaper.select("#logo-background");
+			var logo = logoPaper.select("#logo");
+
+			var coverShards = logoPaper.select("#cover");
+			var yellowShard = logoPaper.select("#shard-yellow");
+			var yellowShard2 = logoPaper.select("#shard-yellow-2");
+			var greenShard = logoPaper.select("#shard-green");
+			var blueShard = logoPaper.select("#shard-blue");
+			var blackShard = logoPaper.select("#shard-black");
+			var redShard = logoPaper.select("#shard-red");
+
+			var logoOO = logoPaper.select("g#logo g#oo");
+			var logoMP = logoPaper.select("g#logo g#mp");
+
+			switch(type) {
+				case "load":
+						console.log("logo load " + windowWidth, windowHeight);
+						
+						logo.attr({ x : "-5", y : "62"});
+						logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+				break;
+				case "down":
+						console.log("logo scroll down " + jQuery(window).scrollTop() );
+						coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
+						
+						yellowShard2.animate({ opacity : "0.35" }, 61);
+
+						yellowShard.animate({transform : "t0,-70", opacity : "0.35" }, 61);
+						//greenShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+						greenShard.animate({transform : "t0,-100", opacity : "0.35" }, 61);
+						//blueShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+						blueShard.animate({transform : "t0,-130", opacity : "0.35" }, 61);
+						//blackShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+						blackShard.animate({transform : "t0,-260", opacity : "0.35" }, 61);
+						//redShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+						redShard.animate({transform : "t0,-90", opacity : "0.35" }, 61);
 
 				break;
-				case windowWidth > 500: 
+				case "up":
+						console.log("logo scroll up " + jQuery(window).scrollTop() );
+
+						coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
+						
+						yellowShard2.animate({ opacity : "1" }, 61);
+
+						yellowShard.animate({transform : "t0,0", opacity : "1" }, 61);
+						greenShard.animate({transform : "t0,0", opacity : "1" }, 61);
+						blueShard.animate({transform : "t0,0", opacity : "1" }, 61);
+						blackShard.animate({transform : "t0,0", opacity : "1" }, 61);
+						redShard.animate({transform : "t0,0", opacity : "1" }, 61);
+
+						/*
+						yellowShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
+						greenShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
+						blueShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
+						blackShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
+						redShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
+						*/
 
 				break;
-				case windowWidth > 1000: 
-
+				case "time":
+						console.log("logo timer " );
 				break;
-
+				case "resize":
+						console.log("logo resize " + windowWidth, windowHeight);
+						
+						logo.attr({ x : "-5", y : "62"});
+						logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+				break;
 			}
 
 	}
-	
 
 /*  ============================================================================
 	main menu functions
@@ -387,165 +441,173 @@
 	}
 
 	function renderMenuButtons(container, asset) {
-		//render the menu (onready, onresize?)
-		paper = Snap("#" + container);
+		//render the menu ()
+			paper = Snap("#" + container);
 		//checking which menu to render
 		//now lets setup the buttons
 		//looping the menu object (set in header.php)
 		
-		var buttons = new Array();
+				var buttons = new Array();
 
-		var mIter = 0;
-		var sIter = 0;
-		var lastIdx;
-
-		for(b = 0; b < menuItems.length; b++) { 
+				var mIter = 0;
+				var sIter = 0;
+				var lastIdx;
 				
-				console.log("WARNING :: not using lazy load or asset complete check :" + menuItems[b].title + " : menu iter ||  " + b + " : " + menuItems[b].parent, menuItems[b].idx);
-				//if parent == 0 it's a main menu item. Parent contains the parent idx
-				if(menuItems[b].parent == 0) {
+			//check the lazy loader first	
+				if(externalAssets[container]["button-main"]["loadstate"] == "complete") {
+
+					for(b = 0; b < menuItems.length; b++) { 			
+					//if parent == 0 it's a main menu item. Parent contains the parent idx
+					if(menuItems[b].parent == 0) {
 						//main menu
-							//mainMenuIdx = menuItems[b].idx;	
+		
 							//set the button text
-							asset.select("#text-front text").attr({
+								asset.select("#text-front text").attr({
 								text : menuItems[b].title
-
-							});
-							
-							asset.select("#text-back text").attr({
-								text : menuItems[b].title
-
-							});
-							
-							// lets give it an id so we can find it later
-							asset.select("g").attr({
-								id : "button-" + menuItems[b].idx,
-								
-							});
-
-							//hide mobile menu assets parts for now
-							asset.select("#quarter-button-bg").attr({
-								"display" : "none"
-							});
-
-							asset.select("#mobile-collapse").attr({
-								"display" : "none"
-							});
-							
-							// clone asset & append to stage
-						var buttonAsset = asset.node.cloneNode(true);
-							buttonAsset.id = "main-button-" + menuItems[b].idx;
-						
-							paper.append( buttonAsset ); 
-							
-							// tweak asset display on stage
-							paper.select("#" + buttonAsset.id).attr({
-									x : (30 * mIter + 5 + "%"),
-									width : "22%",
-									class : "main-menu-button"
 								});
 							
+								asset.select("#text-back text").attr({
+									text : menuItems[b].title
+								});
+							
+							// lets give it an id so we can find it later
+								asset.select("g").attr({
+									id : "button-" + menuItems[b].idx,
+								
+								});
+
+							//hide mobile menu assets parts for now
+								asset.select("#quarter-button-bg").attr({
+									"display" : "none"
+								});
+
+								asset.select("#mobile-collapse").attr({
+									"display" : "none"
+								});
+							
+							// clone asset & append to stage
+							var buttonAsset = asset.node.cloneNode(true);
+								buttonAsset.id = "main-button-" + menuItems[b].idx;
+						
+								paper.append( buttonAsset ); 
+							
+							// tweak asset display on stage
+								paper.select("#" + buttonAsset.id).attr({
+										x : (30 * mIter + 5 + "%"),
+										width : "22%",
+										class : "main-menu-button"
+									});
+							
 							//add handlers for functionality
-							paper.select("#" +buttonAsset.id).mousedown(onMainMenu);
-							paper.select("#" +buttonAsset.id).mouseup(onMainMenu);
+								paper.select("#" +buttonAsset.id).mousedown(onMainMenu);
+								paper.select("#" +buttonAsset.id).mouseup(onMainMenu);
 							
 							//select the cover to prevent multiple fires of the event and animation problems
-							paper.select("#" +buttonAsset.id + " #button-" + menuItems[b].idx + " #hit-cover").mouseover(onMainMenu);
-							paper.select("#" +buttonAsset.id).mouseout(onMainMenu);
-							paper.select("#" +buttonAsset.id).touchstart(onMainMenu);
-							paper.select("#" +buttonAsset.id).touchend(onMainMenu);
+								paper.select("#" +buttonAsset.id + " #button-" + menuItems[b].idx + " #hit-cover").mouseover(onMainMenu);
+								paper.select("#" +buttonAsset.id).mouseout(onMainMenu);
+								paper.select("#" +buttonAsset.id).touchstart(onMainMenu);
+								paper.select("#" +buttonAsset.id).touchend(onMainMenu);
 							
-							mIter++;
+								mIter++;
 
-				} else if(menuItems[b].parent > 0) {
-						//sub menu
-						var subParent = menuItems[b].parent;
-						var subIdx = menuItems[b].idx;
+					} else if(menuItems[b].parent > 0) {
+							//sub menu
+							var subParent = menuItems[b].parent;
+							var subIdx = menuItems[b].idx;
 						
-						var horizontal = 0;
-						console.log("subparent num: ",subParent);
-						switch(subParent) {
-							case "110":
-									horizontal += 19;
-							break;
-							case "114":
-									horizontal += 49;
-							break;
-							case "33":
-									horizontal += 79;
-							break;
-							//copy paste from here
-							case "286":
-									horizontal += 19;
-							break;
-							case "42":
-									horizontal += 49;
-							break;
-							case "39":
-									horizontal += 79;
-							break;
-							case "211":
-									horizontal += 79;
-							break;
-							case "573":
-									horizontal += 79;
-							break;
-						}
-							horizontal += "%";
-						
-						//lets check if this is a new group of submenus and reset the iteration
-						if(subParent !== lastIdx) {
-								sIter = 0;
+							var horizontal = 0;
+								//console.log("subparent num: ",subParent);
+							switch(subParent) {
+								case "110":
+										horizontal += 19;
+								break;
+								case "114":
+										horizontal += 49;
+								break;
+								case "33":
+										horizontal += 79;
+								break;
+								//copy paste from here
+								case "286":
+										horizontal += 19;
+								break;
+								case "42":
+										horizontal += 49;
+								break;
+								case "39":
+										horizontal += 79;
+								break;
+								case "211":
+										horizontal += 79;
+								break;
+								case "573":
+										horizontal += 79;
+								break;
 							}
+								horizontal += "%";
+						
+							//lets check if this is a new group of submenus and reset the iteration
+							if(subParent !== lastIdx) {
+									sIter = 0;
+								}
 
-						var vertical = 40 + (15 * sIter);
-							vertical += "%";
+							var vertical = 40 + (15 * sIter);
+								vertical += "%";
 
-						var subMenuTxt = paper.text(horizontal, vertical, menuItems[b].title);
-							subMenuTxt.attr({
-												"font-size" : "95%",
-												"font-weight" : "400",
-												"font-family" : "Source Sans Pro, sans-serif",
-												id : "sub-" + b
-											});
-							subMenuTxt.addClass("main-menu-sub");
+							var subMenuTxt = paper.text(horizontal, vertical, menuItems[b].title);
+								subMenuTxt.attr({
+													"font-size" : "95%",
+													"font-weight" : "400",
+													"font-family" : "Source Sans Pro, sans-serif",
+													id : "sub-" + b
+												});
+								subMenuTxt.addClass("main-menu-sub");
 
-						var	subMenuRect = paper.rect(horizontal, vertical, "9%", "5%").attr({
-								id : "sub-coll-" + b,
-								opacity : 0
-							});
-							subMenuRect.transform("t0,-6");
+							var	subMenuRect = paper.rect(horizontal, vertical, "9%", "5%").attr({
+									id : "sub-coll-" + b,
+									opacity : 0
+								});
+								subMenuRect.transform("t0,-6");
 
-						var subMenuItem = paper.group(subMenuRect, subMenuTxt);
-							subMenuItem.attr({
-								id : "sub-option-" + subIdx,
-								"class" : "sub-option",
-								fill : "#D47878"
-							});
+							var subMenuItem = paper.group(subMenuRect, subMenuTxt);
+								subMenuItem.attr({
+									id : "sub-option-" + subIdx,
+									"class" : "sub-option",
+									fill : "#D47878"
+								});
 											
-							paper.select( "#sub-option-" + subIdx ).click(onSubMenu);
-							paper.select( "#sub-option-" + subIdx ).mouseover(onSubMenu);
-							paper.select( "#sub-option-" + subIdx ).mouseout(onSubMenu);
-							paper.select( "#sub-option-" + subIdx ).touchstart(onSubMenu);
-							paper.select( "#sub-option-" + subIdx ).touchend(onSubMenu);
+								paper.select( "#sub-option-" + subIdx ).click(onSubMenu);
+								paper.select( "#sub-option-" + subIdx ).mouseover(onSubMenu);
+								paper.select( "#sub-option-" + subIdx ).mouseout(onSubMenu);
+								paper.select( "#sub-option-" + subIdx ).touchstart(onSubMenu);
+								paper.select( "#sub-option-" + subIdx ).touchend(onSubMenu);
 											
 								
-							sIter++;
-							lastIdx = subParent;			
-				}
+								sIter++;
+								lastIdx = subParent;			
+						}
+					}
+						//console.log("WARN menu bg corrected in renderMenuButtons ");
+					var menubg = paper.select("#menu-bg");
+						menubg.transform("s1,1,0");
+		
+		} else {
+					setTimeout(menuButtonLoadWait, 3000, container, "button-main");//menuButtonLoadWait(container,asset); //container	
 		}
-		console.log("WARN menu bg corrected in renderMenuButtons ");
-		var menubg = paper.select("#menu-bg");
-			menubg.transform("s1,1,0");
+		
+	}
 
+	function menuButtonLoadWait(container, asset) {
+		//	console.log("WARN MENU LOAD LOOP ", container, asset );
+			renderMenuButtons(container,externalAssets[container][asset]["asset"]);
 	}
 
 	function verticalFluidMenu(val) {
 		
 		
 		if(val.target !== undefined) {
-			console.log("responsive minify vertical", val.target);
-			val = "up";
+			//console.log("responsive minify vertical ", val.target);
+			val = "mouse";
 		}
 		/* on scroll, on timer, on mouseover!, on touchstart! */
 		/* collapse the menu, scale down tekst, crossfade to bars */
@@ -554,7 +616,7 @@
 		var background;
 		var subMenu;
 		switch(val) {
-			case "up":
+			case "mouse":
 						background = paper.select("#menu-bg");
 						background.animate({transform : "s1,1,0,26" }, 21);
 
@@ -578,7 +640,8 @@
 						subMenu = paper.selectAll("#svg-menu g.sub-option rect").animate({
 							opacity : "0"
 						}, 21);
-						console.log("fluidmenutimer ", fluidMenuTimer);
+						
+						//console.log("fluidmenutimer ", fluidMenuTimer);
 						fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
 			break;
 
@@ -629,7 +692,7 @@
 	}
 
 	function onMainMenu(event) {
-						console.log("event: ", event);
+						//console.log("event: ", event);
 							paper = Snap("#svg-menu");
 						var parentId = event.target.nearestViewportElement.id;
 						var parent = paper.select("#" + parentId);
@@ -652,17 +715,10 @@
 
 							case "mouseout":
 								//console.log("out ", event.target.nearestViewportElement.id);
-								//	elem = paper.select("#" + event.target.nearestViewportElement.id);
-								//	elem.mouseover(onMainMenu);
-									
-								//	elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[1].id);
-								//	elem.animate({
-								//			"stroke-width" : "0.25"
-								//	}, 500, mina.easin, animComplete);
+								
 								//	console.log("out: ", parentId);
 									elem = parent;
-									//elem.unmouseover(onMainMenu);
-
+								
 									elem = elem.select("#half-button-bg");//+ event.target.nearestViewportElement.childNodes[1].childNodes[1].id
 									elem.animate({
 											"stroke-width" : "0.25"
@@ -671,13 +727,13 @@
 							break;
 
 							case "mousedown":
-									console.log("down ", event.type);
+								//	console.log("down ", event.type);
 									elem = paper.select("#" + event.target.nearestViewportElement.id);
 									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
 									//elem.transform('t-5 -5 r180');
 							break;
 							case "mouseup":
-									console.log("up ",  event.target.nearestViewportElement.children[2].children[3].children[0].innerHTML );
+								//	console.log("up ",  event.target.nearestViewportElement.children[2].children[3].children[0].innerHTML );
 									elem = paper.select("#" + event.target.nearestViewportElement.id);
 									//elem = elem.select("#" + event.target.nearestViewportElement.childNodes[1].childNodes[5].id);
 									//elem.transform('t0 0 r0');
@@ -690,7 +746,9 @@
 							break;
 
 							case "touchend":
-									console.log("touch end", event.type);
+								//	console.log("touch end", event.type);
+									elem = paper.select("#" + event.target.nearestViewportElement.id);
+									jQuery("a:contains(" + event.target.nearestViewportElement.children[2].children[3].children[0].innerHTML  + ")")[0].click();
 							break;
 
 							case "click":
@@ -710,10 +768,10 @@
 
 
 	function onSubMenu(event) {
-				console.log("submenu event: ", event);
+				//console.log("submenu event: ", event);
 				switch(event.type) {
 							case "mouseover":
-									console.log("over ", event.type);
+									//console.log("over ", event.type);
 									this.attr({
 										fill : "#a15b5b"
 									});
@@ -721,7 +779,7 @@
 							break;
 
 							case "mouseout":
-									console.log("out ", event.type);
+									//console.log("out ", event.type);
 									this.attr({
 										fill : "#d47878"
 									});
@@ -733,10 +791,11 @@
 
 							case "touchend":
 									console.log("touch ", event.type);
+									jQuery("a:contains(" + event.target.firstChild.data	 + ")")[0].click();
 							break;
 
 							case "click":
-									console.log("click ", event.type, event.target.firstChild.data);
+									//console.log("click ", event.type, event.target.firstChild.data);
 									jQuery("a:contains(" + event.target.firstChild.data	 + ")")[0].click();
 							break;
 
@@ -747,8 +806,9 @@
 
 						}
 		}
+
 	function animComplete(event) {
-			console.log("anim event: ", event);
+		//	console.log("anim event: ", event);
 	}
 
 
@@ -793,9 +853,10 @@ var loadCount = 0;
 			//console.log("stripped idx: ", stripIdx, container);
 
 			drawPostControls(container); // container, loaded
+		} else if(jQuery("body").hasClass("category")) {
 		} else {
 			//hide the featured gallery
-			jQuery("article#post-" + stripIdx + " div.entry-content img.feat-gallery").each(function( index, element ) {
+				jQuery("article#post-" + stripIdx + " div.entry-content img.feat-gallery").each(function( index, element ) {
 				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
 				
 					jQuery( element ).css({
@@ -882,11 +943,11 @@ var loadCount = 0;
 			var resetHeight = 130; // 16 make this the margin top of .entry content
 				resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
 			
-			//subtract svg-gallery-controls-height
+			// subtract svg-gallery-controls-height
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").position().top;
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
 
-				// we need to position the gallery images to end up under the paragraph of text. So we well use half of the text height
+			// we need to position the gallery images to end up under the paragraph of text. So we well use half of the text height
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
 
 				//temp setting so i can see what i am doing
@@ -907,24 +968,15 @@ var loadCount = 0;
 					"top" : resetHeight
 				});
 
-				if(index > 0) {
-					//jQuery( element ).addClass("inactive-img");
-					jQuery( element ).hide();
-
-				}
-
-				//resetHeight -= jQuery(element).innerHeight();
-			
 				//add a fade in (and out) timer function
 				if(index == 0) {
-				//	console.log( "HELOO ", index, element );
-					jQuery( element ).removeClass("inactive-img");
-					jQuery( element ).addClass("active-img");
-					//setTimeout(featuredGalleryCrossFade(idx), 3000);
-					//let 's set the gIter counter for the first time
-					gIter[idx] = 1;
+				
+					//let 's set the gIter counter for the first time for pagination iteration
+					gIter[idx] = 0;
 
-					setInterval(featuredGalleryCrossFade, 10000, idx);
+					//setInterval(featuredGalleryCrossFade, 10000, idx);
+					setInterval(featuredGalleryCycle, 8000, idx);
+					
 				}
 
 				//render a paginator per instance
@@ -1018,14 +1070,14 @@ var loadCount = 0;
 						paper.append(transparentOverlay);
 					}
 
-					//set up a paginator group
+					//set up a paginator group if there is none
 					if(paper.select("#paginators-" + elemId) == undefined) {
 							var paginators = paper.group().attr({
 																"id" : "paginators-" + elemId
 							});  
 					}					
-				//console.log("to be or not to be ", postAssets["more-button"]["complete"]);
-													/* if more make more button */
+				
+					/* if more make more buttons */
 					for(ass in externalAssets["post"]) {
 									
 									//postAssets["more-button"]["postAsset"].select("g").transform("s0.61");
@@ -1042,7 +1094,7 @@ var loadCount = 0;
 													case "paginator":
 
 														if(jQuery(cStr + " #paginator-0").length < 1) {
-															for(p = 0; p < jQuery("article#post-" + elemId + " div.entry-content img.feat-gallery").length; p++){
+															for(p = 0; p < jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.feat-gallery").length; p++){
 																renderPaginator(elemId, p);
 															}
 														}
@@ -1094,7 +1146,7 @@ var loadCount = 0;
 												
 										}
 									} else {
-										//console.log("WARNING:: ", ass, externalAssets["post"][ass]['loadstate']);
+										console.log("WARNING POST CONTROLS NOT LOADED YET TIMER LOOP NEEDED:: ", ass, externalAssets["post"][ass]['loadstate']);
 										assetWaitForLoad[fIdx] = {"asset" : ass, "container" : "post", "id" : elemId};
 										fIdx++;
 
@@ -1116,23 +1168,29 @@ var loadCount = 0;
 
 
 	function renderPaginator(idx, num) {
-			//paginators-" + elemId
+			
+			//set up a paginator group if none exists
+			if(Snap.select("#paginators-" + idx) == undefined) {
+						paper = Snap("#svg-gallery-controls-" + idx);
+						var paginators = paper.group().attr({
+															"id" : "paginators-" + idx
+										});  
+			}
+		
 			paper = Snap("#paginators-" + idx);//svg-gallery-controls-
-			var totItems = jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").length;
+			var totItems = jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.feat-gallery").length;
 				//totItems += 1;
 
 			var wVal = postControlsViewBoxStr.split(" ");
 			var hVal = parseInt(wVal[3]);
 				wVal = parseInt(wVal[2]);
 
-		//	var totItems = jQuery("article#" + idx + " div.entry-content img.feat-gallery").length;
-			console.log("paginator ", idx, num, totItems );
+			//console.log("paginator ", idx, num, totItems );
 			
 
 			if(externalAssets["post"]["paginator"]['loadstate'] == 'complete') {
-				//console.log("					paginator::");
+		
 				var paginatorAsset = externalAssets["post"]["paginator"]['asset'].node.cloneNode(true)
-			//	externalAssets["post"]["paginator"]['asset'].node.attr({ "x" : "100"});
 					paginatorAsset.id = "paginator-" + num;
 
 					paper.append(paginatorAsset);
@@ -1146,16 +1204,16 @@ var loadCount = 0;
 							//leave selected
 					} else {
 							paper.select("#svg-gallery-controls-" + idx + " #paginator-" + num + " g#paginator-radio circle#paginator-selected").attr({
-							"opacity" : "0"
-						}); //#d4c978
+							"r" : "0"
+							});
 					}
-					//console.log("width paginators ", jQuery("#paginators-" + idx).outerWidth());
+					
 					var pWidth = (29) * num
 					paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
-				//paper.append(paginator.clone());
-				paper.attr();
+				
+				//paper.attr();
 			} else {
-				console.log("WARNING:: paginator ", externalAssets["post"]["paginator"]['loadstate'], idx);
+				console.log("WARNING:: paginator not complete timerloop needed ", externalAssets["post"]["paginator"]['loadstate'], idx);
 					assetWaitForLoad[fIdx] = {"asset" : "paginator", "container" : "post", "id" : idx};
 					fIdx++;
 			}
@@ -1178,7 +1236,6 @@ var loadCount = 0;
 				var conCheck = '';
 
 				postElem.children("div.entry-content").children("p").each(function(){
-				//console.log("p-height: " + postElem.height());
 				
 				conCheck = postElem.html(); //str.charAt(0)
 				conCheck = conCheck.charAt(0);
@@ -1211,7 +1268,7 @@ var loadCount = 0;
 
 				if(l < 4) {
 					factor = 0;
-					//console.log("one two three");
+					
 				}
 				str += '<div class="text-wrap" style="float:left;clear:left;height:' + pHeight / lineNum + 'px;width:' + 0 + 'px"></div>'; //background:red;border:solid 2px green;
 				str += '<div class="text-wrap" style="float:right;clear:right;height:' + pHeight / lineNum  + 'px;width:' + factor + '%"></div>'; //background:green;border:solid 2px red;
@@ -1279,7 +1336,7 @@ var loadCount = 0;
 		//concat the last idx string from the id
 			idx = idx.substr(idx.lastIndexOf("-")+1);
 
-			console.log("ev: ", idx, event.target.farthestViewportElement.id);
+			//console.log("ev: ", idx, event.target.farthestViewportElement.id);
 			var mask = Snap("#clips-" + idx);	
 
 		switch(event.type) {
@@ -1358,7 +1415,7 @@ var loadCount = 0;
 		//concat the last idx string from the id
 			idx = idx.substr(idx.lastIndexOf("-")+1);
 
-			console.log("ev: ", idx, event.target.farthestViewportElement.id);
+		//	console.log("ev: ", idx, event.target.farthestViewportElement.id);
 			
 		switch(event.type) {
 			case "mouseover":
@@ -1374,8 +1431,9 @@ var loadCount = 0;
 							article > header.entry-header > h1.entry-title > a
 			
 					*/
+
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
-					console.log("the more button cover: ", event);
+					
 			break;
 			
 			case "touchend":
@@ -1395,64 +1453,43 @@ var loadCount = 0;
 		
 	}
 
-	
-	function featuredGalleryCrossFade(idx) {
-			
-			
-			//selector for the active image
-			//var activeImg = "article#post-" + idx + " .entry-content img.active-img";
-			var activeImg = "article#post-" + idx + " .entry-content img.feat-gallery";
-			
-			//selector for all inactive images
-			//var inactiveImg = "article#post-" + idx + " div.entry-content img.inactive-img";
-			var inactiveImg = "article#post-" + idx + " div.entry-content img.feat-gallery";
+	function featuredGalleryCycle(idx) {
+		/* timed slideshow */
+				//http://www.simonbattersby.com/blog/simple-jquery-image-crossfade/
 
-			console.log("cross fade feat gallery::: ", idx, gIter[idx], jQuery(inactiveImg).length);			
-			
-			//fade out
-			jQuery(activeImg).fadeOut(1000, function(){
-															//reposistion faded in img
-															var imgPos = (jQuery("#svg-post-" + idx).height() + jQuery("#svg-gallery-controls-" + idx).height() + jQuery("article#post-" + idx + " div.entry-content p").height()) * -1;
-															console.log("img pos: ", imgPos, jQuery(activeImg).height() );
-															jQuery(inactiveImg).eq(gIter[idx]).css({
-																"top" : imgPos
-															});
+				var active = jQuery('#gallery-cycler-' + idx + ' .active-img');
+				var next = (active.next().length > 0) ? active.next() : jQuery('#gallery-cycler-' + idx + ' img:first');
+      				next.css('z-index',2);//move the next image up the pile
+      				active.fadeOut(1100,function(){//fade out the top image
+      				active.css('z-index',1).show().removeClass('active-img');//reset the z-index and unhide the image
+      				next.css('z-index',3).addClass('active-img');//make the next image the top one
 
-														});
-			//fade in from list
-					
-			jQuery(inactiveImg).eq(gIter[idx]).fadeIn(1000, function(){
-														
-															
-															// set the paginator
-															/*paper.select("#svg-gallery-controls-" + idx + " #paginator-" + gIter[idx] + " #paginator-radio #paginator-selected").animate({
-																opacity : "1"
-															}, 21);*/
-															console.log("REVERSE ITER SET fade in: ", gIter[idx], jQuery(inactiveImg).length); //, jQuery(this)
-															if(gIter[idx] >= (jQuery(inactiveImg).length-1)) {
-																	//gIter = 0;
+      				//current paginator
+      				var paginators = Snap.select("#svg-gallery-controls-" + idx);
+      					paginators.select("#paginators-" + idx + " #paginator-" + (gIter[idx]) + " g#paginator-radio circle#paginator-selected").animate({ r : 0.1 }, 101, mina.easein);	
+      																
+																	
+      				// track iteration per idx for paginator and button control
+      				if(gIter[idx] == (jQuery('#gallery-cycler-' + idx + ' img.feat-gallery').length -1)) {
+											
 																	gIter[idx] = 0;
-																	console.log("reset gIter: " + idx + " ::" + gIter[idx], jQuery(inactiveImg).length);
+																	// next paginator
+																	paginators = Snap.select("#svg-gallery-controls-" + idx);
+																	paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein);	
+					
 															} else {
-																	//gIter++;
 																	gIter[idx] += 1;
-																	console.log("plus gIter: " + idx + " ::" + gIter[idx], jQuery(inactiveImg).length);
+																	// next paginator
+																	paginators = Snap.select("#svg-gallery-controls-" + idx);
+																	paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein);	
+					
+																	//console.log("plus gIter: " + idx + " ::" + gIter[idx], jQuery('#gallery-cycler-' + idx + ' img.feat-gallery').length);
 															}
-															//set inactive!
-															jQuery(activeImg).addClass("inactive-img");
-															jQuery(activeImg).removeClass("active-img");
-															//set active!
-															jQuery(inactiveImg).eq(gIter[idx]).addClass("active-img");
-															jQuery(inactiveImg).eq(gIter[idx]).removeClass("inactive-img");
+      				
+      			});
 
-															// lets make sure the inactive image doesnt show, like really doesnt.
-															//jQuery(inactiveImg).hide();
-
-																			
-											});
-			
-		
 	}
+
 /*  ============================================================================
 	footer & social menu functions
 		init
@@ -1474,7 +1511,8 @@ var socialIter = 0;
 	function loadSocialMenuFooter(asset, loaded){
 		
 		var sStr = "svg-social-menu";
-							renderSocialMenu(sStr);	
+			
+			renderSocialMenu(sStr);	
        	
 	}
 
@@ -1499,7 +1537,7 @@ var socialIter = 0;
 						var bIter = 0;
 
 						for(social in externalAssets[container]) {
-							console.log("socialAssets:: ", social, container);
+							//console.log("socialAssets:: ", social, container);
 							
 							if(externalAssets[container][social]["loadstate"] == "complete") {
 									paper.append(externalAssets[container][social]["asset"]);

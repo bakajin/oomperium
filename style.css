@@ -189,9 +189,9 @@ img.header-logo {
 #site-logo {
 	position : relative;
 	width : 30%;
-	height : 273%;
-	top : 3em;
-	left : 1.5%;
+	height : 228%; /* 273% */
+	/*top : 2em;*/
+	left : 0px; /* 2% */
 } 
 
 #secondary {
@@ -598,11 +598,12 @@ a.more-link {
 
 #svg-menu {
 	position: relative;
-	width : 100%; /* 100% */
+	width : 106%; /* 100% */
 	display : block;
 	margin : auto;
 	z-index: 99;
-	margin-left: 6%;
+	/*margin-left: 6%;*/
+	left : -6%;
 	overflow : visible;
 }
 
@@ -723,8 +724,8 @@ a.more-link {
 	svg#site-logo {
 		width : 50%;
 		height : 200%;
-		left : -5.1%;
-		top : 2.4em;
+		/*left : -5.1%;*/
+		top : 1.61em;
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {
@@ -762,9 +763,10 @@ a.more-link {
 @media screen and (min-width: 1280px) {
 	/* make the logo bigger //355 */ 
 	svg#site-logo {
-		left : -3.5%;
-		/*height : 1800%; 280% */
-		top : 3em;
+		/* left : 0px; -5.5%
+			height : 1800%; 280% 
+			top : 3em;
+			*/
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {
@@ -1421,10 +1423,20 @@ object {
 /*--------------------------------------------------------------
 12.2 Galleries
 --------------------------------------------------------------*/
-/* featured gallery styling */
+/* featured gallery styling 
 img.feat-gallery {
 	top : 0px;
 	position: relative;
+}*/
+.gallery-cycler { 
+	position:relative; 
+}
+.gallery-cycler img {
+	position:absolute;
+	z-index:1;
+}
+.gallery-cycler img.active-img {
+	z-index:3;
 }
 
 /* jetpack slideshow overwrite */
