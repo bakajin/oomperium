@@ -6,7 +6,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-	<!-- content.php -->
+	<!-- content-archive.php -->
 		<script>
 			postIDs.push(<?php the_ID(); ?>);
 		</script>
@@ -34,20 +34,20 @@
 			));
 */		
 			// Set (inside the loop) to display all content, including text below more.
-			$more = 1;
+			//$more = 1;
 
 			the_content( sprintf(
 				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperidev' ), 
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			) );
 
-			//$galleryArray = get_post_gallery_ids($post->ID); 
+			$galleryArray = get_post_gallery_ids($post->ID); 
 
-			//foreach ($galleryArray as $id) { 
+			foreach ($galleryArray as $id) { 
 					//this should only be rendered for the index
-    		//		echo '<img id="feat-gallery-'. $id .'" class="feat-gallery inactive-img" src=' . wp_get_attachment_url( $id ) .'>';
+    				echo '<img id="feat-gallery-'. $id .'" class="feat-gallery inactive-img" src=' . wp_get_attachment_url( $id ) .'>';
 
-			//}
+			}
 
 		?>
 

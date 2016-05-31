@@ -46,12 +46,19 @@
 			) );
 
 			$galleryArray = get_post_gallery_ids($post->ID); 
-
+			echo '<div id="gallery-cycler-' . $post->ID .'" class="gallery-cycler">';
+			$num = 0;
 			foreach ($galleryArray as $id) { 
 					//this should only be rendered for the index
-    				echo '<img id="feat-gallery-'. $id .'" class="feat-gallery inactive-img" src=' . wp_get_attachment_url( $id ) .'>';
+    				if($num == 0) {
+    						echo '<img id="feat-gallery-'. $id .'" class="active-img feat-gallery" src=' . wp_get_attachment_url( $id ) .'>';
+    				} else {
+    						echo '<img id="feat-gallery-'. $id .'" class="feat-gallery" src=' . wp_get_attachment_url( $id ) .'>';
+    				}
+    				$num++;
 
 			}
+			echo '</div>';
 
 		?>
 
