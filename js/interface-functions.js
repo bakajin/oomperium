@@ -324,9 +324,10 @@
 			switch(type) {
 				case "load":
 						console.log("logo load " + windowWidth, windowHeight);
-						
-						logo.attr({ x : "-5", y : "62"});
-						logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+						logoPaper.attr({ width : "300", height : "489"});
+
+						logo.attr({ x : "73", y : "42"});
+						logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
 				break;
 				case "down":
 						console.log("logo scroll down " + jQuery(window).scrollTop() );
@@ -516,35 +517,45 @@
 							var subIdx = menuItems[b].idx;
 						
 							var horizontal = 0;
+							var horizontalOffset = 0;
 								//console.log("subparent num: ",subParent);
 							switch(subParent) {
 								case "110":
 										horizontal += 19;
+										horizontalOffset = horizontal;
 								break;
 								case "114":
 										horizontal += 49;
+										horizontalOffset = horizontal / 1.3;
 								break;
 								case "33":
 										horizontal += 79;
+										horizontalOffset = horizontal / 1.3;
 								break;
 								//copy paste from here
 								case "286":
 										horizontal += 19;
+										horizontalOffset = horizontal;
 								break;
 								case "42":
 										horizontal += 49;
+										horizontalOffset = horizontal / 1.3;
 								break;
 								case "39":
 										horizontal += 79;
+										horizontalOffset = horizontal / 1.3;
 								break;
 								case "211":
 										horizontal += 79;
+										horizontalOffset = horizontal / 1.3;
 								break;
 								case "573":
 										horizontal += 79;
+										horizontalOffset = horizontal / 1.3;
 								break;
 							}
 								horizontal += "%";
+								horizontalOffset += "%";
 						
 							//lets check if this is a new group of submenus and reset the iteration
 							if(subParent !== lastIdx) {
@@ -563,7 +574,7 @@
 												});
 								subMenuTxt.addClass("main-menu-sub");
 
-							var	subMenuRect = paper.rect(horizontal, vertical, "9%", "5%").attr({
+							var	subMenuRect = paper.rect(horizontalOffset, vertical, "9%", "5%").attr({
 									id : "sub-coll-" + b,
 									opacity : 0
 								});
@@ -854,7 +865,21 @@ var loadCount = 0;
 
 			drawPostControls(container); // container, loaded
 		} else if(jQuery("body").hasClass("category")) {
+			console.log("category page! ")
+			wrapTextShape(stripIdx);
+			//fluidVideo(stripIdx);
+
+			drawMask(stripIdx);
+
+			// make a featured gallery slideshow
+			featuredGallery(stripIdx);
+			
+		//the only function which should load things
+			//console.log("stripped idx: ", stripIdx, container);
+
+			drawPostControls(container); // container, loaded
 		} else {
+			console.log("unrecognised page! ")
 			//hide the featured gallery
 				jQuery("article#post-" + stripIdx + " div.entry-content img.feat-gallery").each(function( index, element ) {
 				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
@@ -1122,7 +1147,13 @@ var loadCount = 0;
 														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
 														//lets tweak the size now
 														paper.select(cStr + " #" + ass).attr({"y" : "77%", "x" : "37%"});
-														paper.select(cStr + " #" + ass + " g").transform("s0.61");
+														
+														if(jQuery("body").hasClass("category")) {
+															paper.select(cStr + " #" + ass + " g").transform("s0.31");
+														} else {
+															paper.select(cStr + " #" + ass + " g").transform("s0.61");
+														}
+														
 														
 														paper.select(cStr + " #" + ass + " g").mouseover(moreHandle);
 														paper.select(cStr + " #" + ass + " g").mouseout(moreHandle);
@@ -1169,14 +1200,15 @@ var loadCount = 0;
 
 	function renderPaginator(idx, num) {
 			
-			//set up a paginator group if none exists
+			//set up a paginators group if none exists
 			if(Snap.select("#paginators-" + idx) == undefined) {
-						paper = Snap("#svg-gallery-controls-" + idx);
+							paper = Snap("#svg-gallery-controls-" + idx);
+						
 						var paginators = paper.group().attr({
 															"id" : "paginators-" + idx
 										});  
 			}
-		
+			
 			paper = Snap("#paginators-" + idx);//svg-gallery-controls-
 			var totItems = jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.feat-gallery").length;
 				//totItems += 1;
@@ -1209,8 +1241,14 @@ var loadCount = 0;
 					}
 					
 					var pWidth = (29) * num
-					paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
-				
+					
+					if(jQuery("body").hasClass("category")) {
+															//scale a little aswell
+															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
+													} else {
+															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
+													}
+														
 				//paper.attr();
 			} else {
 				console.log("WARNING:: paginator not complete timerloop needed ", externalAssets["post"]["paginator"]['loadstate'], idx);
