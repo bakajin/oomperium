@@ -574,7 +574,7 @@
 												});
 								subMenuTxt.addClass("main-menu-sub");
 
-							var	subMenuRect = paper.rect(horizontalOffset, vertical, "9%", "5%").attr({
+							var	subMenuRect = paper.rect(horizontal, vertical, "9%", "5%").attr({
 									id : "sub-coll-" + b,
 									opacity : 0
 								});
