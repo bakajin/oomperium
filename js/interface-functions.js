@@ -30,12 +30,14 @@
 	var viewBox;
 
 	var headerImg = new Array();
-	
+	var headerAssets = new Array();
+	var headerDimensons;
+
 	var loadList;
 	var assetObject;
 	var assetCount;
 
-	var headerAssets = new Array();
+	
 	var menuAssets;
 	var fluidMenuTimer;
 
@@ -157,15 +159,15 @@
 			//console.log("menu ids", menuIDs);
 			//console.log("social ids", socialIDs);
 			if(themePath) {
-					console.log("page type ", pageType);
-					console.log("theme path ", themePath);
-					console.log("done: ", externalAssets);
+					//console.log("page type ", pageType);
+					//console.log("theme path ", themePath);
+					//console.log("done: ", externalAssets);
 			}
 			//console.log("header img ", headerImg);
 			//renderMenu("#svg-menu");
 			//rerenderHeaderLogo();
 			
-			console.log("buglist: headerlogoBG looadstate, clean rendermenu func" );
+		//	console.log("buglist: headerlogoBG looadstate, clean rendermenu func" );
 			headerLogoInit();
 
 			renderMenuButtons("svg-menu", externalAssets["svg-menu"]['button-main']['asset']);
@@ -177,7 +179,7 @@
 				switch(assetWaitForLoad[f].container)	{
 					case "post":
 					//externalAssets[pStr][ass]["loadstate"]
-						console.log("WARNING:: post/paginator ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+						//console.log("WARNING:: post/paginator ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 							drawPostControls(assetWaitForLoad[f].container + "-" + assetWaitForLoad[f].id);
 							fIdx = 0;
 					break;
@@ -187,11 +189,11 @@
 					break;
 					case "svg-social-menu":
 							renderSocialMenu(assetWaitForLoad[f].container);
-							console.log("WARNING:: svg-social-menu ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+						//	console.log("WARNING:: svg-social-menu ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 							fIdx = 0;
 					break;
 					default:
-							console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+						//	console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 					break;
 
 				}
@@ -264,9 +266,11 @@
        			paper = Snap("#" + pStr);
        			paper.attr({ viewBox: "0 0 300 489" }); //400
 
-       		//					paper.append(headerImg[0].node.cloneNode(true));
-       		//					paper.append(headerImg[1].node.cloneNode(true));
-       		 
+       			headerDimensons = {
+       									"logo-background" : { "x" : 0, "y" : 0, "width" : }, 
+       									"logo" : {} 
+       								}
+
        		for(ass in externalAssets[pStr]) {
        			//console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
        				if(externalAssets[pStr][ass]["loadstate"] == "complete") {
@@ -275,7 +279,7 @@
 						//	paper.select("#" + ass).transform("s5");
 							
 					} else {
-							console.log("WARNING INTERVAL:: ", ass, externalAssets[pStr][ass]["loadstate"], fIdx);
+							//console.log("WARNING INTERVAL:: ", ass, externalAssets[pStr][ass]["loadstate"], fIdx);
 							assetWaitForLoad[fIdx] =  { "asset" : ass, "container" : pStr };
 							fIdx++;
 							
@@ -291,7 +295,7 @@
 			header event handlers
 	   ------------------------------------ */ 
 	   function logoLoadWait() {
-	   				console.log("TIMERLOOP");
+	   			//	console.log("TIMERLOOP");
 	   				headerLogoInit();
 	   				
 	   }
@@ -323,14 +327,14 @@
 
 			switch(type) {
 				case "load":
-						console.log("logo load " + windowWidth, windowHeight);
+					//	console.log("logo load " + windowWidth, windowHeight);
 						logoPaper.attr({ width : "300", height : "489"});
 
-						logo.attr({ x : "73", y : "42"});
-						logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+						logo.attr({ x : "73", y : "56"});
+						logoBg.attr({ x : "-62", y : "-61", width : "1200", height : "1200"});
 				break;
 				case "down":
-						console.log("logo scroll down " + jQuery(window).scrollTop() );
+					//	console.log("logo scroll down " + jQuery(window).scrollTop() );
 						coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
 						
 						yellowShard2.animate({ opacity : "0.35" }, 61);
@@ -347,7 +351,7 @@
 
 				break;
 				case "up":
-						console.log("logo scroll up " + jQuery(window).scrollTop() );
+					//	console.log("logo scroll up " + jQuery(window).scrollTop() );
 
 						coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
 						
@@ -369,13 +373,13 @@
 
 				break;
 				case "time":
-						console.log("logo timer " );
+					//	console.log("logo timer " );
 				break;
 				case "resize":
-						console.log("logo resize " + windowWidth, windowHeight);
+					//	console.log("logo resize " + windowWidth, windowHeight);
 						
-						logo.attr({ x : "-5", y : "62"});
-						logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+						logo.attr({ x : "73", y : "56"});
+						logoBg.attr({ x : "-62", y : "-61", width : "1200", height : "1200"});
 				break;
 			}
 
@@ -401,9 +405,10 @@
 		var mStr = "svg-menu";
 				/* select svg object */
 				paper = Snap("#" + mStr);
+				paper.attr({viewBox : "0 0 730 150"});
 
     	   	/* backgroundrender */
-       		var pWidth = "100%", pHeight = "100%", pX = "0%", pY = "17%", calcY = 100 - 17 + "%"; 
+       		var pWidth = "105%", pHeight = "100%", pX = "0%", pY = "17%", calcY = 100 - 17 + "%"; 
 			var bgRect = paper.rect(pX,pY,pWidth,calcY).attr({
 								fill : "#EDF0F5",
 								id : "menu-bg-rect"
@@ -574,7 +579,7 @@
 												});
 								subMenuTxt.addClass("main-menu-sub");
 
-							var	subMenuRect = paper.rect(horizontalOffset, vertical, "9%", "5%").attr({
+							var	subMenuRect = paper.rect(horizontal, vertical, "9%", "5%").attr({
 									id : "sub-coll-" + b,
 									opacity : 0
 								});
@@ -674,7 +679,7 @@
 								
 							}
 							if(el >= (subMenu.length - 2)) {
-								console.log("WARNING THIS 2 BREAKS THE 3rd MENU with more than 3 options")
+								//console.log("WARNING THIS 2 BREAKS THE 3rd MENU with more than 3 options")
 								subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);
 									
 							}
@@ -695,7 +700,7 @@
 
 	function horizontalFluidMenu() {
 
-		console.log("responsive minify horizontal:");
+		//console.log("responsive minify horizontal:");
 		/* on portrait screen and touch capable */
 		/* show only one option */
 		/* move button and unhide in accordance */
@@ -753,7 +758,7 @@
 							break;
 
 							case "touchstart":
-									console.log("touch start", event.type);
+									//console.log("touch start", event.type);
 							break;
 
 							case "touchend":
@@ -770,7 +775,7 @@
 							break;
 
 							default:
-									console.log("default ", event);
+									//console.log("default ", event);
 							break;
 
 
@@ -797,11 +802,11 @@
 							break;
 
 							case "touchstart":
-									console.log("touch ", event.type);
+									//console.log("touch ", event.type);
 							break;
 
 							case "touchend":
-									console.log("touch ", event.type);
+									//console.log("touch ", event.type);
 									jQuery("a:contains(" + event.target.firstChild.data	 + ")")[0].click();
 							break;
 
@@ -811,7 +816,7 @@
 							break;
 
 							default:
-									console.log("default ", event);
+									//console.log("default ", event);
 							break;
 
 
@@ -865,7 +870,7 @@ var loadCount = 0;
 
 			drawPostControls(container); // container, loaded
 		} else if(jQuery("body").hasClass("category")) {
-			console.log("category page! ")
+			//console.log("category page! ")
 			wrapTextShape(stripIdx);
 			//fluidVideo(stripIdx);
 
@@ -879,7 +884,7 @@ var loadCount = 0;
 
 			drawPostControls(container); // container, loaded
 		} else {
-			console.log("unrecognised page! ")
+			//console.log("unrecognised page! ")
 			//hide the featured gallery
 				jQuery("article#post-" + stripIdx + " div.entry-content img.feat-gallery").each(function( index, element ) {
 				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
@@ -1177,7 +1182,7 @@ var loadCount = 0;
 												
 										}
 									} else {
-										console.log("WARNING POST CONTROLS NOT LOADED YET TIMER LOOP NEEDED:: ", ass, externalAssets["post"][ass]['loadstate']);
+										//console.log("WARNING POST CONTROLS NOT LOADED YET TIMER LOOP NEEDED:: ", ass, externalAssets["post"][ass]['loadstate']);
 										assetWaitForLoad[fIdx] = {"asset" : ass, "container" : "post", "id" : elemId};
 										fIdx++;
 
@@ -1251,7 +1256,7 @@ var loadCount = 0;
 														
 				//paper.attr();
 			} else {
-				console.log("WARNING:: paginator not complete timerloop needed ", externalAssets["post"]["paginator"]['loadstate'], idx);
+				//console.log("WARNING:: paginator not complete timerloop needed ", externalAssets["post"]["paginator"]['loadstate'], idx);
 					assetWaitForLoad[fIdx] = {"asset" : "paginator", "container" : "post", "id" : idx};
 					fIdx++;
 			}
@@ -1416,7 +1421,7 @@ var loadCount = 0;
 			
 					*/
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
-					console.log("the post cover: ", event);
+				//	console.log("the post cover: ", event);
 			break;
 			case "touchstart":
 					mask.animate(
@@ -1693,7 +1698,7 @@ var socialIter = 0;
 							case "mouseup":
 								elem.select("#circleback").transform("s1.6");
 								elem.select("#circlefront").transform("s1");
-								console.log("click ", event.path[2].id);
+								//console.log("click ", event.path[2].id);
 								jQuery("a[title='" + event.path[2].id + "']")[0].click();
 									
 							break;
@@ -1708,7 +1713,7 @@ var socialIter = 0;
 							break;
 
 							default:
-									console.log("default ", event);
+								//	console.log("default ", event);
 							break;
 
 				}
