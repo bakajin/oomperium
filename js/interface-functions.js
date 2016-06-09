@@ -266,10 +266,10 @@
        			paper = Snap("#" + pStr);
        			paper.attr({ viewBox: "0 0 300 489" }); //400
 
-       			headerDimensons = {
+       			/*headerDimensons = {
        									"logo-background" : { "x" : 0, "y" : 0, "width" : }, 
        									"logo" : {} 
-       								}
+       								}*/
 
        		for(ass in externalAssets[pStr]) {
        			//console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
