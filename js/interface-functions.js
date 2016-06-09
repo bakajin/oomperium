@@ -197,6 +197,7 @@
 				}
 				
 			}
+
 			fluidHeaderLogo("load");
 	});
 
@@ -279,7 +280,7 @@
 							assetWaitForLoad[fIdx] =  { "asset" : ass, "container" : pStr };
 							fIdx++;
 							
-							setTimeout(logoLoadWait, 3000);
+							setTimeout(logoLoadWait, 4000);
 
 					}	
        		}
@@ -296,9 +297,12 @@
 	   				
 	   }
 
-	
+
 	function fluidHeaderLogo(type) {
 			//console.log("logo event ", type);
+			
+			
+						
 
 			var windowWidth = jQuery(window).width();
 			var windowHeight = jQuery(window).height();
@@ -323,59 +327,103 @@
 
 			switch(type) {
 				case "load":
-						console.log("logo load " + windowWidth, windowHeight);
-						logoPaper.attr({ width : "300", height : "489"});
-
-						logo.attr({ x : "73", y : "42"});
-						logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+							logoPaper.attr({ width : "300", height : "489"});
+							if(logo == null) {
+								console.log("No LOGO!! ");
+							} else {
+								logo.attr({ x : "73", y : "42"});
+							}
+							
+							if (logoBg == null) {
+									console.log("no BG LOGO ");	
+							} else {
+									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+							}
+							
+						
+						
 				break;
 				case "down":
-						console.log("logo scroll down " + jQuery(window).scrollTop() );
-						coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
+							if(logo == null) {
+								console.log("No LOGO!! ");
+							} else {
+								logo.attr({ x : "73", y : "42"});
+							}
+							
+							
+							if (logoBg == null) {
+									console.log("no BG LOGO ");	
+							} else {
+									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+			
+									coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
 						
-						yellowShard2.animate({ opacity : "0.35" }, 61);
+									yellowShard2.animate({ opacity : "0.35" }, 61);
 
-						yellowShard.animate({transform : "t0,-70", opacity : "0.35" }, 61);
-						//greenShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-						greenShard.animate({transform : "t0,-100", opacity : "0.35" }, 61);
-						//blueShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-						blueShard.animate({transform : "t0,-130", opacity : "0.35" }, 61);
-						//blackShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-						blackShard.animate({transform : "t0,-260", opacity : "0.35" }, 61);
-						//redShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-						redShard.animate({transform : "t0,-90", opacity : "0.35" }, 61);
-
+									yellowShard.animate({transform : "t0,-70", opacity : "0.35" }, 61);
+									//greenShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									greenShard.animate({transform : "t0,-100", opacity : "0.35" }, 61);
+									//blueShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									blueShard.animate({transform : "t0,-130", opacity : "0.35" }, 61);
+									//blackShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									blackShard.animate({transform : "t0,-260", opacity : "0.35" }, 61);
+									//redShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									redShard.animate({transform : "t0,-90", opacity : "0.35" }, 61);
+						
+							}
+							
+							
+					//	console.log("logo scroll down " + jQuery(window).scrollTop() );
+						
 				break;
 				case "up":
-						console.log("logo scroll up " + jQuery(window).scrollTop() );
+						//console.log("logo scroll up " + jQuery(window).scrollTop() );
+							if(logo == null) {
+								console.log("No LOGO!! ");
+							} else {
+								logo.attr({ x : "73", y : "42"});
+							}
 
-						coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
-						
-						yellowShard2.animate({ opacity : "1" }, 61);
+							if (logoBg == null) {
+									console.log("no BG LOGO ");	
+							} else {
+									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
 
-						yellowShard.animate({transform : "t0,0", opacity : "1" }, 61);
-						greenShard.animate({transform : "t0,0", opacity : "1" }, 61);
-						blueShard.animate({transform : "t0,0", opacity : "1" }, 61);
-						blackShard.animate({transform : "t0,0", opacity : "1" }, 61);
-						redShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
+					
+									yellowShard2.animate({ opacity : "1" }, 61);
 
-						/*
-						yellowShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
-						greenShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
-						blueShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
-						blackShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
-						redShard.animate({transform : "s1,1,0,130", opacity : "1" }, 42);
-						*/
+									yellowShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									greenShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									blueShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									blackShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									redShard.animate({transform : "t0,0", opacity : "1" }, 61);
+							}
+							
+
 
 				break;
 				case "time":
 						console.log("logo timer " );
 				break;
 				case "resize":
-						console.log("logo resize " + windowWidth, windowHeight);
-						
-						logo.attr({ x : "-5", y : "62"});
-						logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+							console.log("logo resize " + windowWidth, windowHeight);
+							logoPaper.attr({ width : "300", height : "489"});
+							//checking to see if the logo is complete when we try animate
+							if(logo == null) {
+								console.log("No LOGO!! ");
+							} else {
+								logo.attr({ x : "73", y : "42"});//logo.attr({ x : "-5", y : "62"});
+							}
+							
+							
+							if (logoBg == null) {
+									console.log("no BG LOGO ");	
+							} else {
+									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+							}
+							
+												
 				break;
 			}
 
