@@ -334,8 +334,19 @@
 					//	console.log("logo load " + windowWidth, windowHeight);
 						logoPaper.attr({ width : "300", height : "489"});
 
-						logo.attr({ x : "73", y : "56"});
-						logoBg.attr({ x : "-62", y : "-61", width : "1200", height : "1200"});
+						if(logo == null) {
+								console.log("No LOGO!! ");
+							} else {
+								logo.attr({ x : "73", y : "42"});//logo.attr({ x : "-5", y : "62"});
+							}
+							
+							
+							if (logoBg == null) {
+									console.log("no BG LOGO ");	
+							} else {
+									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+							}
+							
 				break;
 				case "down":
 							if(logo == null) {
@@ -418,6 +429,7 @@
 									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
 							}
 							
+
 				break;
 			}
 
