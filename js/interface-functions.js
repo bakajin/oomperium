@@ -947,13 +947,24 @@ var loadCount = 0;
 		/*	fix layout per post											*
 		 *												*
 		 *	attach this to reposition the post layout	*
-		 *	deprecate 									*/
+		 *			 									*/
 
 		
-		// lets reposition the first paragraph
-		var subtractVal = 0;//jQuery("#svg-post-" + idx).height();
 		
-		jQuery("#svg-gallery-controls-" + idx).css({
+		
+		//first lets make the container the height of only the text
+		jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").css({
+					height : jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight() + "px"
+			});
+
+		// a variable where various element heights and positions are collected to position content in the post
+		var subtractVal = jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").outerHeight();//jQuery("#svg-post-" + idx).height();
+		
+			jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx).css({
+					"top" : subtractVal * -1
+				});
+			
+			jQuery("#svg-gallery-controls-" + idx).css({
 					top : subtractVal * -1 + "px",
 					"overflow-x" : "overlay"
 
@@ -961,18 +972,12 @@ var loadCount = 0;
 
 			subtractVal += jQuery("#svg-gallery-controls-" + idx).height();
 
-			jQuery("#post-" + idx + " .entry-content p:first").css({
-					top : subtractVal * -1 + "px"
-			});
-
-			subtractVal += jQuery("#post-" + idx + " .entry-content p:first").height();
+			
 
 			//lets position the featured slideshow
 
 			//everything is in a div position the div not the images
-			jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx).css({
-					"top" : subtractVal * -1
-				});
+			
 
 /* deprecate? */
 
@@ -1074,7 +1079,7 @@ var loadCount = 0;
 	}
 
 	function drawMask(idx) {
-		/* dont worry we're just faking it */
+		/* dont worry we're just faking it with white fill overlays */
 
 		// select the svg object
 			paper = Snap('#svg-post-'+ idx);
@@ -1084,7 +1089,7 @@ var loadCount = 0;
 
 		//select the content, draw a mask polygon
 		//draw some points
-		var mPoints = [0,0, 0,75, 100,25, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
+		var mPoints = [0,0, 0,50, 100,1, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
 		
 			maskPolygon = paper.polygon(mPoints);								
 			/*
@@ -1126,7 +1131,7 @@ var loadCount = 0;
 				/* draw white bottom rect */		
 				if(paper.select("#white-overlay-" + elemId) == undefined) {
 				
-					var whiteOverlay = paper.rect("-0.5%","70%","101%","30%");
+					var whiteOverlay = paper.rect("-1","331","304","130");
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-overlay-" + elemId)
@@ -1134,7 +1139,13 @@ var loadCount = 0;
 
 							paper.prepend(whiteOverlay);
 					}
+				
+				if(paper.select("#white-paragraph-overlay-" + elemId) == undefined) {
+
+				}
+
 		/* draw transparent hotspot overlay trigger post link */
+		//move this to the other svg to regain controls
 				if(paper.select("#transparent-overlay-" + elemId) == undefined) {
 					var transparentOverlay = paper.rect("0","0","100%","80%");
 						transparentOverlay.attr({
@@ -1331,11 +1342,11 @@ var loadCount = 0;
 				var pHeight = 0;
 					//check the first character in the p element to see what is in there. 
 				var conCheck = '';
-
-				postElem.children("div.entry-content").children("p").each(function(){
+				postElem.children("div.entry-content").children("div.paragraph-container").children("p").each(function(){
 				
 				conCheck = postElem.html(); //str.charAt(0)
 				conCheck = conCheck.charAt(0);
+				//console.log("conCheck ", conCheck);
 				switch(conCheck) {
 					case '<':
 							// do nothing when imagetag or non tekst html is found
@@ -1348,9 +1359,10 @@ var loadCount = 0;
 							conCheck = '';
 						break;
 					default:
-							//console.log("p-content:" + conCheck);
+							
 							lineNum += Math.floor(postElem.height() / parseInt(postElem.css("line-height").replace('px','')));
 							pHeight += postElem.height(); 
+							//console.log("p-content: ", lineNum, pHeight);
 					break;
 				}
 								
@@ -1440,7 +1452,7 @@ var loadCount = 0;
 			case "mouseover":
 					/* animate to off :: clipping mask */
 					mask.animate(
-  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					{ points: [0,0, 0,1, 100,1, 100,0] },
   					61, mina.easeout);
   					
 					/* animate to off :: text-wrap divs */
@@ -1457,7 +1469,7 @@ var loadCount = 0;
 
 					/* animate to on :: clipping mask */
 					mask.animate(
-  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					{ points: [0,0, 0,50, 100,1, 100,0] },
   					161, mina.easein);
   					
 					/* animate to on :: text-wrap divs */
@@ -1481,7 +1493,7 @@ var loadCount = 0;
 			break;
 			case "touchstart":
 					mask.animate(
-  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					{ points: [0,0, 0,1, 100,1, 100,0] },
   					61, mina.easeout);
   					
 					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
@@ -1494,7 +1506,7 @@ var loadCount = 0;
 			
 					*/
 					mask.animate(
-  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					{ points: [0,0, 0,50, 100,1, 100,0] },
   					161, mina.easein);
 					
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
@@ -1518,7 +1530,7 @@ var loadCount = 0;
 			
 		switch(event.type) {
 			case "mouseover":
-					
+					//do some anim
 			break;
 			case "mouseout":
 
