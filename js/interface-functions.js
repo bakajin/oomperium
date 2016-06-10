@@ -481,7 +481,7 @@
 				
 				//prepend menu bg
 				paper.append(bg);
-			//	console.log("do menu? ", externalAssets[mStr]['button-main']['loadstate']);
+			console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 			
 			// lets collapse the menu after a while 
@@ -651,6 +651,7 @@
 						menubg.transform("s1,1,0");
 		
 		} else {
+			console.log("TIMEOUT FOR MENU");
 					setTimeout(menuButtonLoadWait, 3000, container, "button-main");//menuButtonLoadWait(container,asset); //container	
 		}
 		
@@ -950,7 +951,7 @@ var loadCount = 0;
 
 		
 		// lets reposition the first paragraph
-		var subtractVal = jQuery("#svg-post-" + idx).height();
+		var subtractVal = 0;//jQuery("#svg-post-" + idx).height();
 		
 		jQuery("#svg-gallery-controls-" + idx).css({
 					top : subtractVal * -1 + "px",
@@ -966,6 +967,15 @@ var loadCount = 0;
 
 			subtractVal += jQuery("#post-" + idx + " .entry-content p:first").height();
 
+			//lets position the featured slideshow
+
+			//everything is in a div position the div not the images
+			jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx).css({
+					"top" : subtractVal * -1
+				});
+
+/* deprecate? */
+
 			jQuery("#post-" + idx + " .entry-content div.video-wrap").css({
 					top : subtractVal * -0.9 + "px"
 			});
@@ -973,18 +983,19 @@ var loadCount = 0;
 					top : subtractVal * -0.9 + "px"
 			});
 			
-			subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").innerHeight();
-			subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").innerHeight();
+
+			//subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").innerHeight();
+			///subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").innerHeight();
 
 			//console.log("ratio 2.33333 ", jQuery("#post-" + idx).innerWidth());
 			var wRatio = jQuery("#post-" + idx).innerWidth() * 1.61; //2.1
 				wRatio = Math.ceil(wRatio / 10) * 10;
 
 			jQuery("#post-" + idx).css({
-					height :  wRatio + "px"
+					height :  wRatio * 0.93 + "px"
 			});
 			jQuery("#post-" + idx + " .entry-content").css({
-					height : wRatio * 0.9 + "px"
+					height : wRatio * 0.85 + "px"
 			});
 
 			//console.log("postLayout ", subtractVal, idx);
@@ -1007,46 +1018,48 @@ var loadCount = 0;
 		*/
 
 		/* to the content (div.slideshow-window, div.videowrapper) add numlines (8 or text.wrap >= 80%) multiplied by lineheight (27px) */	
-	}
-
-	function featuredGallery(idx){
-		/* make the featured gallery out of and img list */ 
-		
-			//subtract svg-post height
+/*
+		//subtract svg-post height
 			var resetHeight = 130; // 16 make this the margin top of .entry content
 				resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
-			
 			// subtract svg-gallery-controls-height
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").position().top;
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
 
 			// we need to position the gallery images to end up under the paragraph of text. So we well use half of the text height
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
-
+				
+			var pPos = jQuery("article#post-" + idx + " div.entry-content p").position();
+				resetHeight += pPos.top /2;
+				console.log( "pPOS  " + (pPos.top /2), jQuery("article#post-" + idx + " div.entry-content p").css("top") );
+				
 				//temp setting so i can see what i am doing
-			/*
+			
 				jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
 					"opacity" : 1
 				});
 				jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
 					"opacity" : 1
 				});
-			*/
-		
-			/* select the gallery images */
-			jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
-				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
-				
-				jQuery( element ).css({
-					"top" : resetHeight
-				});
+			
 
+			
+		*/
+		
+			
+	}
+
+	function featuredGallery(idx){
+		/* make the featured gallery out of an img list */ 
+			jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
+			
 				//add a fade in (and out) timer function
 				if(index == 0) {
 				
 					//let 's set the gIter counter for the first time for pagination iteration
 					gIter[idx] = 0;
 
+					//lets set a timer to cycle images
 					//setInterval(featuredGalleryCrossFade, 10000, idx);
 					setInterval(featuredGalleryCycle, 8000, idx);
 					
@@ -1054,8 +1067,6 @@ var loadCount = 0;
 
 				//render a paginator per instance
 				renderPaginator(idx, index);
-
-			
 			});
 
 		// render control buttons next and previous or not?
@@ -1435,10 +1446,11 @@ var loadCount = 0;
 					/* animate to off :: text-wrap divs */
 
 					/* animate clip-path on paragraph */
-					jQuery("article#post-" + idx + " div.entry-content p").css({
+				/*	jQuery("article#post-" + idx + " div.entry-content p").css({
 						"-webkit-clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)",
 						"clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)"
 					});
+				*/
 					/* animate to visible :: post control buttons */
 			break;
 			case "mouseout":
@@ -1451,17 +1463,18 @@ var loadCount = 0;
 					/* animate to on :: text-wrap divs */
 
 					/* animate clip-path on paragraph */
+					/*
 					jQuery("article#post-" + idx + " div.entry-content p").css({
 						"-webkit-clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)",
 						"clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)"
 					});
+*/
 					/* animate to invisible :: post control buttons */
 			break;
 			case "mouseup":
 					/* 
 						click() the link in ::
 							article > header.entry-header > h1.entry-title > a
-			
 					*/
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
 					console.log("the post cover: ", event);

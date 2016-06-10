@@ -24,9 +24,6 @@
 	
 	<div class="entry-content">
 		<!-- call a snap svg canvas for interactive animated svg masking -->
-		<svg class="svg-post" id="svg-post-<?php the_ID(); ?>">
-			<defs></defs>
-		</svg>
 		<!-- Some custom gallery controls from snap -->
 		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
 			<defs></defs>
@@ -47,6 +44,7 @@
 
 			$galleryArray = get_post_gallery_ids($post->ID); 
 			echo '<div id="gallery-cycler-' . $post->ID .'" class="gallery-cycler">';
+			echo '<svg class="svg-post" id="svg-post-' . $post->ID .'"><defs></defs></svg>';
 			$num = 0;
 			foreach ($galleryArray as $id) { 
 					//this should only be rendered for the index
