@@ -331,13 +331,13 @@
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});
+								logo.attr({ x : "73", y : "56"});
 							}
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 							}
 							
 						
@@ -347,14 +347,14 @@
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});
+								logo.attr({ x : "73", y : "56"});
 							}
 							
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 			
 									coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
 						
@@ -381,13 +381,13 @@
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});
+								logo.attr({ x : "73", y : "56"});
 							}
 
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 
 									coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
 					
@@ -413,14 +413,14 @@
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});//logo.attr({ x : "-5", y : "62"});
+								logo.attr({ x : "73", y : "56"});//logo.attr({ x : "-5", y : "62"});
 							}
 							
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
 							}
 							
 												
@@ -953,17 +953,34 @@ var loadCount = 0;
 		
 		
 		//first lets make the container the height of only the text
-		jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").css({
-					height : jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight() + "px"
-			});
-
+		
 		// a variable where various element heights and positions are collected to position content in the post
 		var subtractVal = jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").outerHeight();//jQuery("#svg-post-" + idx).height();
 		
+		var galleryPos = jQuery("article#post-" + idx + " div.entry-content div.paragraph-container div.text-wrapper div.text-wrap").length / 4; // gives us 7 lines
+			//multiply with lineheight
+			galleryPos *= parseInt(jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css("line-height"));
+		
+		jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").css({
+					height : galleryPos + "px"
+			});
+/*
+			jQuery("article#post-" + idx + " div.entry-content p").css({
+						"-webkit-clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)",
+						"clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)"
+					});
+*/
+			//jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight()
+
+			//divide by two
+			galleryPos /= 2;
+			//console.log("line height::: ", jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css("line-height"), jQuery("article#post-" + idx + " div.entry-content div.paragraph-container div.text-wrapper div.text-wrap").length);
+		
 			jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx).css({
-					"top" : subtractVal * -1
+					"top" : galleryPos * -1
 				});
 			
+		
 			jQuery("#svg-gallery-controls-" + idx).css({
 					top : subtractVal * -1 + "px",
 					"overflow-x" : "overlay"
