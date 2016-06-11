@@ -961,15 +961,26 @@ var loadCount = 0;
 			//multiply with lineheight
 			galleryPos *= parseInt(jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css("line-height"));
 		
-		jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").css({
-					height : galleryPos + "px"
-			});
-/*
-			jQuery("article#post-" + idx + " div.entry-content p").css({
-						"-webkit-clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)",
-						"clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)"
+			//setting the height to limit the text overflow and larger p messing up positions
+			jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").css({
+						height : galleryPos + "px"
+				});
+
+			//for firefox use the svg and position it
+		/*	jQuery("article#post-" + idx + " div.entry-content #svg-paragraph-cover-" + idx).css({ 
+						"position" : "relative",
+						"top" : (jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight() * -1) + "px" });
+		*/	
+			//add a clip path to hide the text overflow
+			jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css({
+						"-webkit-clip-path" : "polygon(0% 0%, 0% " + galleryPos + "px, 100% " + galleryPos + "px, 100% 0%)",
+						
 					});
-*/
+					//"clip-path" : "url(#svg-paragraph-cover-" + idx + ")",
+						
+					//"mask" : "url(#paragraph-mask-" + idx + ")"
+
+
 			//jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight()
 
 			//divide by two
@@ -1116,12 +1127,27 @@ var loadCount = 0;
 			maskPolygon.touchstart(maskHandle);
 			maskPolygon.touchend(maskHandle);
 			*/								
-		maskPolygon.attr({
-			fill : "#fff",
-			id : "clips-" + idx,
-		});
+			maskPolygon.attr({
+				fill : "#fff",
+				id : "clips-" + idx,
+			});
 
-		paper.append(maskPolygon);
+			paper.append(maskPolygon);
+
+
+			// make a mask for the paragraph
+			paper = Snap('#svg-paragraph-cover-'+ idx);
+			paper.attr({
+				"viewBox" : "0 0 100 100" 
+			});
+
+			maskPolygon = paper.polygon(mPoints);
+			maskPolygon.attr({
+				fill : "#ffffff",
+				id : "paragraph-mask-" + idx,
+			});
+			//var paraMask = paper.mask(maskPolygon);
+			paper.append(maskPolygon);
 
 	}
 
