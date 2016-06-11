@@ -993,7 +993,7 @@ var loadCount = 0;
 			
 		
 			jQuery("#svg-gallery-controls-" + idx).css({
-					top : subtractVal * -1 + "px",
+					top : subtractVal * -2 + "px",
 					"overflow-x" : "overlay"
 
 			});
