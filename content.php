@@ -39,7 +39,7 @@
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			) );
 			echo '<svg class="svg-paragraph-cover" id="svg-paragraph-cover-' . $post->ID .'"><defs></defs></svg>';
-			
+
 			echo '</div>';
 			$galleryArray = get_post_gallery_ids($post->ID); 
 			echo '<div id="gallery-cycler-' . $post->ID .'" class="gallery-cycler">';
@@ -55,10 +55,11 @@
     				$num++;
 
 			}
+			echo '<svg class="svg-gallery-controls" id="svg-gallery-controls-' . $post->ID .'">';
 			echo '</div>';
 
 		?>
-		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
+		
 			<defs></defs>
 		</svg>
 		<?php

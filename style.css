@@ -985,7 +985,7 @@ div.slideshow-controls {
 
 .svg-gallery-controls {
 	position : relative;
-	z-index : 1;
+	z-index : 9!important;
 	
 }
 
@@ -1154,6 +1154,9 @@ article:nth-child(n+9) p {
 	z-index: 10;
 	left : -0.5%;
 	
+}
+body.category .svg-post {
+	opacity : 0;
 }
 /*--------------------------------------------------------------
 10.11 CV styling

@@ -991,9 +991,12 @@ var loadCount = 0;
 					"top" : galleryPos * -1
 				});
 			
-		
+		console.log("" + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
+
+			subtractVal = parseInt( jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() );
+
 			jQuery("#svg-gallery-controls-" + idx).css({
-					top : subtractVal * -2 + "px",
+					top : subtractVal * -1 + "px",
 					"overflow-x" : "overlay"
 
 			});
