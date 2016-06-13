@@ -24,29 +24,26 @@
 	
 	<div class="entry-content">
 		<!-- call a snap svg canvas for interactive animated svg masking -->
-		<svg class="svg-post" id="svg-post-<?php the_ID(); ?>">
-			<defs></defs>
-		</svg>
 		<!-- Some custom gallery controls from snap -->
-		<svg class="svg-gallery-controls" id="svg-gallery-controls-<?php the_ID(); ?>">
-			<defs></defs>
-		</svg>
-
+		<div class="paragraph-container">
 		<?php
 			/* translators: %s: Name of current post */
-			/*
+		/*
 			the_excerpt(sprintf(
 				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'oomperium' ), 
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			));
-*/
+		*/
 			the_content( sprintf(
 				__( 'more %s <span class="meta-nav">&rarr;</span>', 'oomperium' ), 
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			) );
+			echo '<svg class="svg-paragraph-cover" id="svg-paragraph-cover-' . $post->ID .'"><defs></defs></svg>';
 
+			echo '</div>';
 			$galleryArray = get_post_gallery_ids($post->ID); 
 			echo '<div id="gallery-cycler-' . $post->ID .'" class="gallery-cycler">';
+			echo '<svg class="svg-post" id="svg-post-' . $post->ID .'"><defs></defs></svg>';
 			$num = 0;
 			foreach ($galleryArray as $id) { 
 					//this should only be rendered for the index
@@ -58,10 +55,13 @@
     				$num++;
 
 			}
+			echo '<svg class="svg-gallery-controls" id="svg-gallery-controls-' . $post->ID .'">';
 			echo '</div>';
 
 		?>
-
+		
+			<defs></defs>
+		</svg>
 		<?php
 			wp_link_pages( array(
 				'before' => '<div class="page-links">' . __( 'Pages:', 'oomperium' ),

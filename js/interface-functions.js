@@ -337,14 +337,14 @@
 						if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});//logo.attr({ x : "-5", y : "62"});
+								logo.attr({ x : "73", y : "56"});
 							}
 							
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 							}
 							
 				break;
@@ -352,14 +352,14 @@
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});
+								logo.attr({ x : "73", y : "56"});
 							}
 							
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 			
 									coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
 						
@@ -385,13 +385,13 @@
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});
+								logo.attr({ x : "73", y : "56"});
 							}
 
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 
 									coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
 					
@@ -419,14 +419,14 @@
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "42"});//logo.attr({ x : "-5", y : "62"});
+								logo.attr({ x : "73", y : "56"});//logo.attr({ x : "-5", y : "62"});
 							}
 							
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-73", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
 							}
 							
 
@@ -488,7 +488,7 @@
 				
 				//prepend menu bg
 				paper.append(bg);
-			//	console.log("do menu? ", externalAssets[mStr]['button-main']['loadstate']);
+			console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 			
 			// lets collapse the menu after a while 
@@ -658,6 +658,7 @@
 						menubg.transform("s1,1,0");
 		
 		} else {
+			console.log("TIMEOUT FOR MENU");
 					setTimeout(menuButtonLoadWait, 3000, container, "button-main");//menuButtonLoadWait(container,asset); //container	
 		}
 		
@@ -953,13 +954,55 @@ var loadCount = 0;
 		/*	fix layout per post											*
 		 *												*
 		 *	attach this to reposition the post layout	*
-		 *	deprecate 									*/
+		 *			 									*/
 
 		
-		// lets reposition the first paragraph
-		var subtractVal = jQuery("#svg-post-" + idx).height();
 		
-		jQuery("#svg-gallery-controls-" + idx).css({
+		
+		//first lets make the container the height of only the text
+		
+		// a variable where various element heights and positions are collected to position content in the post
+		var subtractVal = jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").outerHeight();//jQuery("#svg-post-" + idx).height();
+		
+		var galleryPos = jQuery("article#post-" + idx + " div.entry-content div.paragraph-container div.text-wrapper div.text-wrap").length / 4; // gives us 7 lines
+			//multiply with lineheight
+			galleryPos *= parseInt(jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css("line-height"));
+		
+			//setting the height to limit the text overflow and larger p messing up positions
+			jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").css({
+						height : galleryPos + "px"
+				});
+
+			//for firefox use the svg and position it
+		/*	jQuery("article#post-" + idx + " div.entry-content #svg-paragraph-cover-" + idx).css({ 
+						"position" : "relative",
+						"top" : (jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight() * -1) + "px" });
+		*/	
+			//add a clip path to hide the text overflow
+			jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css({
+						"-webkit-clip-path" : "polygon(0% 0%, 0% " + galleryPos + "px, 100% " + galleryPos + "px, 100% 0%)",
+						
+					});
+					//"clip-path" : "url(#svg-paragraph-cover-" + idx + ")",
+						
+					//"mask" : "url(#paragraph-mask-" + idx + ")"
+
+
+			//jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight()
+
+			//divide by two
+			galleryPos /= 2;
+			//console.log("line height::: ", jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css("line-height"), jQuery("article#post-" + idx + " div.entry-content div.paragraph-container div.text-wrapper div.text-wrap").length);
+		
+			jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx).css({
+					"top" : galleryPos * -1
+				});
+			
+		console.log("" + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
+
+			subtractVal = parseInt( jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() );
+
+			jQuery("#svg-gallery-controls-" + idx).css({
 					top : subtractVal * -1 + "px",
 					"overflow-x" : "overlay"
 
@@ -967,11 +1010,14 @@ var loadCount = 0;
 
 			subtractVal += jQuery("#svg-gallery-controls-" + idx).height();
 
-			jQuery("#post-" + idx + " .entry-content p:first").css({
-					top : subtractVal * -1 + "px"
-			});
+			
 
-			subtractVal += jQuery("#post-" + idx + " .entry-content p:first").height();
+			//lets position the featured slideshow
+
+			//everything is in a div position the div not the images
+			
+
+/* deprecate? */
 
 			jQuery("#post-" + idx + " .entry-content div.video-wrap").css({
 					top : subtractVal * -0.9 + "px"
@@ -980,18 +1026,19 @@ var loadCount = 0;
 					top : subtractVal * -0.9 + "px"
 			});
 			
-			subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").innerHeight();
-			subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").innerHeight();
+
+			//subtractVal += jQuery("#post-" + idx + " .entry-content div.video-wrap").innerHeight();
+			///subtractVal += jQuery("#post-" + idx + " .entry-content div.slideshow-window").innerHeight();
 
 			//console.log("ratio 2.33333 ", jQuery("#post-" + idx).innerWidth());
 			var wRatio = jQuery("#post-" + idx).innerWidth() * 1.61; //2.1
 				wRatio = Math.ceil(wRatio / 10) * 10;
 
 			jQuery("#post-" + idx).css({
-					height :  wRatio + "px"
+					height :  wRatio * 0.93 + "px"
 			});
 			jQuery("#post-" + idx + " .entry-content").css({
-					height : wRatio * 0.9 + "px"
+					height : wRatio * 0.85 + "px"
 			});
 
 			//console.log("postLayout ", subtractVal, idx);
@@ -1014,46 +1061,48 @@ var loadCount = 0;
 		*/
 
 		/* to the content (div.slideshow-window, div.videowrapper) add numlines (8 or text.wrap >= 80%) multiplied by lineheight (27px) */	
-	}
-
-	function featuredGallery(idx){
-		/* make the featured gallery out of and img list */ 
-		
-			//subtract svg-post height
+/*
+		//subtract svg-post height
 			var resetHeight = 130; // 16 make this the margin top of .entry content
 				resetHeight -=  jQuery("article#post-" + idx + " div.entry-content .svg-post").outerHeight();
-			
 			// subtract svg-gallery-controls-height
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").position().top;
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").outerHeight();
 
 			// we need to position the gallery images to end up under the paragraph of text. So we well use half of the text height
 				resetHeight -= jQuery("article#post-" + idx + " div.entry-content p").innerHeight() / 2;
-
+				
+			var pPos = jQuery("article#post-" + idx + " div.entry-content p").position();
+				resetHeight += pPos.top /2;
+				console.log( "pPOS  " + (pPos.top /2), jQuery("article#post-" + idx + " div.entry-content p").css("top") );
+				
 				//temp setting so i can see what i am doing
-			/*
+			
 				jQuery("article#post-" + idx + " div.entry-content .svg-gallery-controls").css({
 					"opacity" : 1
 				});
 				jQuery("article#post-" + idx + " div.entry-content .svg-post").css({
 					"opacity" : 1
 				});
-			*/
-		
-			/* select the gallery images */
-			jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
-				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
-				
-				jQuery( element ).css({
-					"top" : resetHeight
-				});
+			
 
+			
+		*/
+		
+			
+	}
+
+	function featuredGallery(idx){
+		/* make the featured gallery out of an img list */ 
+			jQuery("article#post-" + idx + " div.entry-content img.feat-gallery").each(function( index, element ) {
+			
 				//add a fade in (and out) timer function
 				if(index == 0) {
 				
 					//let 's set the gIter counter for the first time for pagination iteration
 					gIter[idx] = 0;
 
+					//lets set a timer to cycle images
 					//setInterval(featuredGalleryCrossFade, 10000, idx);
 					setInterval(featuredGalleryCycle, 8000, idx);
 					
@@ -1061,8 +1110,6 @@ var loadCount = 0;
 
 				//render a paginator per instance
 				renderPaginator(idx, index);
-
-			
 			});
 
 		// render control buttons next and previous or not?
@@ -1070,7 +1117,7 @@ var loadCount = 0;
 	}
 
 	function drawMask(idx) {
-		/* dont worry we're just faking it */
+		/* dont worry we're just faking it with white fill overlays */
 
 		// select the svg object
 			paper = Snap('#svg-post-'+ idx);
@@ -1080,7 +1127,7 @@ var loadCount = 0;
 
 		//select the content, draw a mask polygon
 		//draw some points
-		var mPoints = [0,0, 0,75, 100,25, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
+		var mPoints = [0,0, 0,50, 100,1, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
 		
 			maskPolygon = paper.polygon(mPoints);								
 			/*
@@ -1090,12 +1137,27 @@ var loadCount = 0;
 			maskPolygon.touchstart(maskHandle);
 			maskPolygon.touchend(maskHandle);
 			*/								
-		maskPolygon.attr({
-			fill : "#fff",
-			id : "clips-" + idx,
-		});
+			maskPolygon.attr({
+				fill : "#fff",
+				id : "clips-" + idx,
+			});
 
-		paper.append(maskPolygon);
+			paper.append(maskPolygon);
+
+
+			// make a mask for the paragraph
+			paper = Snap('#svg-paragraph-cover-'+ idx);
+			paper.attr({
+				"viewBox" : "0 0 100 100" 
+			});
+
+			maskPolygon = paper.polygon(mPoints);
+			maskPolygon.attr({
+				fill : "#ffffff",
+				id : "paragraph-mask-" + idx,
+			});
+			//var paraMask = paper.mask(maskPolygon);
+			paper.append(maskPolygon);
 
 	}
 
@@ -1122,7 +1184,7 @@ var loadCount = 0;
 				/* draw white bottom rect */		
 				if(paper.select("#white-overlay-" + elemId) == undefined) {
 				
-					var whiteOverlay = paper.rect("-0.5%","70%","101%","30%");
+					var whiteOverlay = paper.rect("-1","331","304","130");
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-overlay-" + elemId)
@@ -1130,7 +1192,13 @@ var loadCount = 0;
 
 							paper.prepend(whiteOverlay);
 					}
+				
+				if(paper.select("#white-paragraph-overlay-" + elemId) == undefined) {
+
+				}
+
 		/* draw transparent hotspot overlay trigger post link */
+		//move this to the other svg to regain controls
 				if(paper.select("#transparent-overlay-" + elemId) == undefined) {
 					var transparentOverlay = paper.rect("0","0","100%","80%");
 						transparentOverlay.attr({
@@ -1327,11 +1395,11 @@ var loadCount = 0;
 				var pHeight = 0;
 					//check the first character in the p element to see what is in there. 
 				var conCheck = '';
-
-				postElem.children("div.entry-content").children("p").each(function(){
+				postElem.children("div.entry-content").children("div.paragraph-container").children("p").each(function(){
 				
 				conCheck = postElem.html(); //str.charAt(0)
 				conCheck = conCheck.charAt(0);
+				//console.log("conCheck ", conCheck);
 				switch(conCheck) {
 					case '<':
 							// do nothing when imagetag or non tekst html is found
@@ -1344,9 +1412,10 @@ var loadCount = 0;
 							conCheck = '';
 						break;
 					default:
-							//console.log("p-content:" + conCheck);
+							
 							lineNum += Math.floor(postElem.height() / parseInt(postElem.css("line-height").replace('px','')));
 							pHeight += postElem.height(); 
+							//console.log("p-content: ", lineNum, pHeight);
 					break;
 				}
 								
@@ -1436,46 +1505,48 @@ var loadCount = 0;
 			case "mouseover":
 					/* animate to off :: clipping mask */
 					mask.animate(
-  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					{ points: [0,0, 0,1, 100,1, 100,0] },
   					61, mina.easeout);
   					
 					/* animate to off :: text-wrap divs */
 
 					/* animate clip-path on paragraph */
-					jQuery("article#post-" + idx + " div.entry-content p").css({
+				/*	jQuery("article#post-" + idx + " div.entry-content p").css({
 						"-webkit-clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)",
 						"clip-path" : "polygon(0% 0%, 0% 4.2em, 100% 4.2em, 100% 0%)"
 					});
+				*/
 					/* animate to visible :: post control buttons */
 			break;
 			case "mouseout":
 
 					/* animate to on :: clipping mask */
 					mask.animate(
-  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					{ points: [0,0, 0,50, 100,1, 100,0] },
   					161, mina.easein);
   					
 					/* animate to on :: text-wrap divs */
 
 					/* animate clip-path on paragraph */
+					/*
 					jQuery("article#post-" + idx + " div.entry-content p").css({
 						"-webkit-clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)",
 						"clip-path" : "polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%)"
 					});
+*/
 					/* animate to invisible :: post control buttons */
 			break;
 			case "mouseup":
 					/* 
 						click() the link in ::
 							article > header.entry-header > h1.entry-title > a
-			
 					*/
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
 				//	console.log("the post cover: ", event);
 			break;
 			case "touchstart":
 					mask.animate(
-  					{ points: [0,0, 0,20, 100,20, 100,0] },
+  					{ points: [0,0, 0,1, 100,1, 100,0] },
   					61, mina.easeout);
   					
 					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
@@ -1488,7 +1559,7 @@ var loadCount = 0;
 			
 					*/
 					mask.animate(
-  					{ points: [0,0, 0,80, 100,20, 100,0] },
+  					{ points: [0,0, 0,50, 100,1, 100,0] },
   					161, mina.easein);
 					
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
@@ -1512,7 +1583,7 @@ var loadCount = 0;
 			
 		switch(event.type) {
 			case "mouseover":
-					
+					//do some anim
 			break;
 			case "mouseout":
 
