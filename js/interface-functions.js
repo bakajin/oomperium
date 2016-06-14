@@ -1025,10 +1025,10 @@ var loadCount = 0;
 				wRatio = Math.ceil(wRatio / 10) * 10;
 
 			jQuery("#post-" + idx).css({
-					height :  wRatio * 0.93 + "px"
+					height :  wRatio * 1.05 + "px"
 			});
 			jQuery("#post-" + idx + " .entry-content").css({
-					height : wRatio * 0.85 + "px"
+					height : wRatio * 1 + "px"
 			});
 
 			//console.log("postLayout ", subtractVal, idx);
