@@ -335,14 +335,14 @@
 						logoPaper.attr({ width : "300", height : "489"});
 
 						if(logo == null) {
-								console.log("No LOGO!! ");
+								//console.log("No LOGO!! ");
 							} else {
 								logo.attr({ x : "73", y : "56"});
 							}
 							
 							
 							if (logoBg == null) {
-									console.log("no BG LOGO ");	
+									//console.log("no BG LOGO ");	
 							} else {
 									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 							}
@@ -350,14 +350,14 @@
 				break;
 				case "down":
 							if(logo == null) {
-								console.log("No LOGO!! ");
+								//console.log("No LOGO!! ");
 							} else {
 								logo.attr({ x : "73", y : "56"});
 							}
 							
 							
 							if (logoBg == null) {
-									console.log("no BG LOGO ");	
+									//console.log("no BG LOGO ");	
 							} else {
 									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 			
@@ -383,13 +383,13 @@
 				case "up":
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
 							if(logo == null) {
-								console.log("No LOGO!! ");
+								//console.log("No LOGO!! ");
 							} else {
 								logo.attr({ x : "73", y : "56"});
 							}
 
 							if (logoBg == null) {
-									console.log("no BG LOGO ");	
+									//console.log("no BG LOGO ");	
 							} else {
 									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
 
@@ -413,18 +413,18 @@
 					//	console.log("logo resize " + windowWidth, windowHeight);
 						
 						
-							console.log("logo resize " + windowWidth, windowHeight);
+							//console.log("logo resize " + windowWidth, windowHeight);
 							logoPaper.attr({ width : "300", height : "489"});
 							//checking to see if the logo is complete when we try animate
 							if(logo == null) {
-								console.log("No LOGO!! ");
+								//console.log("No LOGO!! ");
 							} else {
 								logo.attr({ x : "73", y : "56"});//logo.attr({ x : "-5", y : "62"});
 							}
 							
 							
 							if (logoBg == null) {
-									console.log("no BG LOGO ");	
+									//console.log("no BG LOGO ");	
 							} else {
 									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
 							}
@@ -488,7 +488,7 @@
 				
 				//prepend menu bg
 				paper.append(bg);
-			console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
+			//console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 			
 			// lets collapse the menu after a while 
@@ -658,7 +658,7 @@
 						menubg.transform("s1,1,0");
 		
 		} else {
-			console.log("TIMEOUT FOR MENU");
+			//console.log("TIMEOUT FOR MENU");
 					setTimeout(menuButtonLoadWait, 3000, container, "button-main");//menuButtonLoadWait(container,asset); //container	
 		}
 		
@@ -996,7 +996,7 @@ var loadCount = 0;
 					"top" : galleryPos * -1
 				});
 			
-		console.log("" + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
+		//console.log("" + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
 
 			subtractVal = parseInt( jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").height() );
 			subtractVal *= 0.8;
@@ -1502,7 +1502,7 @@ var loadCount = 0;
 		//concat the last idx string from the id
 			idx = idx.substr(idx.lastIndexOf("-") + 1);
 
-			console.log("ev: ", idx, event.target.farthestViewportElement.id);
+			//console.log("ev: ", idx, event.target.farthestViewportElement.id);
 			var mask = Snap("#white-tri-overlay-" + idx);	
 
 		switch(event.type) {
