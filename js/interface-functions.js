@@ -949,9 +949,6 @@ var loadCount = 0;
 		 *	attach this to reposition the post layout	*
 		 *			 									*/
 
-		
-		
-		
 		//first lets make the container the height of only the text
 		
 		// a variable where various element heights and positions are collected to position content in the post
@@ -974,6 +971,7 @@ var loadCount = 0;
 			//add a clip path to hide the text overflow
 			jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css({
 						"-webkit-clip-path" : "polygon(0% 0%, 0% " + galleryPos + "px, 100% " + galleryPos + "px, 100% 0%)",
+						"clip-path" : "polygon(0% 0%, 0% " + galleryPos + "px, 100% " + galleryPos + "px, 100% 0%)"
 						
 					});
 					//"clip-path" : "url(#svg-paragraph-cover-" + idx + ")",
@@ -984,7 +982,7 @@ var loadCount = 0;
 			//jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").outerHeight()
 
 			//divide by two
-			galleryPos /= 2;
+			galleryPos /= 1.9;
 			//console.log("line height::: ", jQuery("article#post-" + idx + " div.entry-content div.paragraph-container p").css("line-height"), jQuery("article#post-" + idx + " div.entry-content div.paragraph-container div.text-wrapper div.text-wrap").length);
 		
 			jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx).css({
@@ -993,13 +991,12 @@ var loadCount = 0;
 			
 		console.log("" + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
 
-			subtractVal = parseInt( jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() );
-
+			subtractVal = parseInt( jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").height() );
+			subtractVal *= 0.8;
 			jQuery("#svg-gallery-controls-" + idx).css({
-					top : subtractVal * -1 + "px",
-					"overflow-x" : "overlay"
-
-			});
+					"overflow-x" : "overlay",
+					"top" : subtractVal * -1 + "px"
+			});//
 
 			subtractVal += jQuery("#svg-gallery-controls-" + idx).height();
 
@@ -1113,29 +1110,29 @@ var loadCount = 0;
 		/* dont worry we're just faking it with white fill overlays */
 
 		// select the svg object
-			paper = Snap('#svg-post-'+ idx);
+			/*paper = Snap('#svg-post-'+ idx);
 			paper.attr({
 				"viewBox" : "0 0 100 100"
-			});
+			});*/
 
 		//select the content, draw a mask polygon
 		//draw some points
-		var mPoints = [0,0, 0,50, 100,1, 100,0]; //0,0, 0,100, 100,50, 100,0, 0,0
+		var mPoints = [0,0, 0,50, 100,1, 100,0]; // 0,0, 0,100, 100,50, 100,0, 0,0
 		
-			maskPolygon = paper.polygon(mPoints);								
+			//maskPolygon = paper.polygon(mPoints);								
 			/*
 			maskPolygon.mouseover(maskHandle);
 			maskPolygon.mouseout(maskHandle);
 			maskPolygon.mouseup(maskHandle);
 			maskPolygon.touchstart(maskHandle);
 			maskPolygon.touchend(maskHandle);
-			*/								
 			maskPolygon.attr({
 				fill : "#fff",
 				id : "clips-" + idx,
 			});
-
-			paper.append(maskPolygon);
+			*/								
+			
+			//.append(maskPolygon);
 
 
 			// make a mask for the paragraph
@@ -1174,26 +1171,33 @@ var loadCount = 0;
 					width : "100%"
 				});//500
 
+					//points="0,0,0,261,300,100,300,0" 0,0, 0,261, 300,100, 300,0
+				var mPoints = [0,-20,0,161,300,-20,300,-20];
+				if(paper.select("#white-tri-overlay-" + elemId) == undefined ) {
+					var whiteTriangle = paper.polygon(mPoints);
+						whiteTriangle.attr({
+							fill : "#ffffff",
+							id : ("white-tri-overlay-" + elemId)
+						});
+
+							paper.append(whiteTriangle);
+				}
 				/* draw white bottom rect */		
-				if(paper.select("#white-overlay-" + elemId) == undefined) {
+				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
 				
 					var whiteOverlay = paper.rect("-1","331","304","130");
 						whiteOverlay.attr({
 							fill : "#ffffff",
-							id : ("white-overlay-" + elemId)
+							id : ("white-rect-overlay-" + elemId)
 						});
 
 							paper.prepend(whiteOverlay);
 					}
 				
-				if(paper.select("#white-paragraph-overlay-" + elemId) == undefined) {
-
-				}
-
 		/* draw transparent hotspot overlay trigger post link */
 		//move this to the other svg to regain controls
 				if(paper.select("#transparent-overlay-" + elemId) == undefined) {
-					var transparentOverlay = paper.rect("0","0","100%","80%");
+					var transparentOverlay = paper.rect("0","0","300","470");
 						transparentOverlay.attr({
 							opacity : "0",
 							id : ("transparent-overlay-" + elemId)
@@ -1489,18 +1493,22 @@ var loadCount = 0;
 		/* control text clipping wrap? */
 		var idx = event.target.farthestViewportElement.id;
 		//concat the last idx string from the id
-			idx = idx.substr(idx.lastIndexOf("-")+1);
+			idx = idx.substr(idx.lastIndexOf("-") + 1);
 
-			//console.log("ev: ", idx, event.target.farthestViewportElement.id);
-			var mask = Snap("#clips-" + idx);	
+			console.log("ev: ", idx, event.target.farthestViewportElement.id);
+			var mask = Snap("#white-tri-overlay-" + idx);	
 
 		switch(event.type) {
 			case "mouseover":
 					/* animate to off :: clipping mask */
 					mask.animate(
-  					{ points: [0,0, 0,1, 100,1, 100,0] },
+  					{ points: [0,-20, 0,-20, 300,-20, 300,-20] },
   					61, mina.easeout);
-  					
+
+  					//lets also switch z-index quick to fake some things
+  					jQuery("#gallery-cycler-" + idx).css({ "z-index" : 5});
+  					//[0,0, 0,261, 300,100, 300,0]
+  					//[0,0, 0,1, 100,1, 100,0]
 					/* animate to off :: text-wrap divs */
 
 					/* animate clip-path on paragraph */
@@ -1515,9 +1523,10 @@ var loadCount = 0;
 
 					/* animate to on :: clipping mask */
 					mask.animate(
-  					{ points: [0,0, 0,50, 100,1, 100,0] },
+  					{ points: [0,-20,0,161,300,-20,300,-20] },
   					161, mina.easein);
   					
+  					jQuery("#gallery-cycler-" + idx).css({ "z-index" : 1});
 					/* animate to on :: text-wrap divs */
 
 					/* animate clip-path on paragraph */
@@ -1539,7 +1548,7 @@ var loadCount = 0;
 			break;
 			case "touchstart":
 					mask.animate(
-  					{ points: [0,0, 0,1, 100,1, 100,0] },
+  					{ points: [0,0, 0,1, 300,100, 300,0] },
   					61, mina.easeout);
   					
 					//console.log("mask mouseover: ", event.target.farthestViewportElement.id);
@@ -1552,7 +1561,7 @@ var loadCount = 0;
 			
 					*/
 					mask.animate(
-  					{ points: [0,0, 0,50, 100,1, 100,0] },
+  					{ points: [0,0, 0,261, 300,100, 300,0] },
   					161, mina.easein);
 					
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
@@ -1623,8 +1632,7 @@ var loadCount = 0;
 
       				//current paginator
       				var paginators = Snap.select("#svg-gallery-controls-" + idx);
-      					paginators.select("#paginators-" + idx + " #paginator-" + (gIter[idx]) + " g#paginator-radio circle#paginator-selected").animate({ r : 0.1 }, 101, mina.easein);	
-      																
+      					paginators.select("#paginators-" + idx + " #paginator-" + (gIter[idx]) + " g#paginator-radio circle#paginator-selected").animate({ r : 0.1 }, 101, mina.easein);										
 																	
       				// track iteration per idx for paginator and button control
       				if(gIter[idx] == (jQuery('#gallery-cycler-' + idx + ' img.feat-gallery').length -1)) {

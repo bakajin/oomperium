@@ -1153,6 +1153,7 @@ article:nth-child(n+9) p {
 	position: absolute;
 	z-index: 10;
 	left : -0.5%;
+	display : none;
 	
 }
 body.category .svg-post {
