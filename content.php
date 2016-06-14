@@ -55,7 +55,7 @@
     				$num++;
 
 			}
-			echo '<svg class="svg-gallery-controls" id="svg-gallery-controls-' . $post->ID .'">';
+			echo '<div><svg class="svg-gallery-controls" id="svg-gallery-controls-' . $post->ID .'"></div>';
 			echo '</div>';
 
 		?>
