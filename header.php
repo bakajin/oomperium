@@ -37,9 +37,6 @@
 	//lets start loading all the assets for the svg overwrite
 	
 </script>
-<!-- Type kit definition of fonts -->
-<script src="https://use.typekit.net/ewr0nac.js"></script>
-<script>try{Typekit.load({ async: true });}catch(e){}</script>
 <?php wp_head(); ?>
 <!-- OOMP custom nav menu code !-->
 <!-- send vars to external javascript files -->

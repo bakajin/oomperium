@@ -73,17 +73,6 @@
 			externalAssets["post"] = {};
 			externalAssets["svg-social-menu"] = {};
 			
-			containerKey = "site-logo";
-
-			externalAssets[containerKey] = {};
-			loadList = ["logo-background", "logo"];
-
-			for (i = 0; i < loadList.length; i++) {
-				externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
-
-				parentAsset[loadList[i]] = containerKey;
-			}
-			
 			containerKey = "svg-menu";
 			externalAssets[containerKey] = {};
 			loadList = ["button-main"];
@@ -103,6 +92,16 @@
 					externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
 					parentAsset[loadList[i]] = containerKey;
 			}
+			containerKey = "site-logo";
+
+			externalAssets[containerKey] = {};
+			loadList = ["logo-background", "logo"];
+
+			for (i = 0; i < loadList.length; i++) {
+				externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
+
+				parentAsset[loadList[i]] = containerKey;
+			}//logo-bg-tst 
 			
 			containerKey = "svg-social-menu";
 			externalAssets[containerKey] = {};
@@ -136,10 +135,11 @@
 	}
 
 	function loadEvent(fragment) {
+		console.log("frag: ", fragment.node.id, parentAsset[fragment.node.id]);
 						externalAssets[parentAsset[fragment.node.id]][ fragment.node.id ]["asset"] = fragment;
 						externalAssets[parentAsset[ fragment.node.id ]][ fragment.node.id ]["loadstate"] = "complete";
 								
-								//console.log("frag: ", fragment.node.id, parentAsset[fragment.node.id]);
+								
 								
 	}
 	/* ------------------------------------

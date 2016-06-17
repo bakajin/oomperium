@@ -197,14 +197,19 @@ img.header-logo {
 	position: fixed;
 	bottom: 0;
 	background-color : #faeeee;
-	height : 8rem;
+	height : 3.5rem;
 	width : 100%;
 	z-index : 97;
 }
 
 @keyframes footer-over {
-	from { height : 8rem; }
-	to { height : 28rem; }
+	from { height : 3.5rem; }
+	to { height : 5.5rem; }
+}
+
+@keyframes footer-active {
+	from { height : 5.5rem; }
+	to { height : 20rem; }
 }
 .site-footer:hover {
 	animation-name: footer-over;
@@ -213,6 +218,15 @@ img.header-logo {
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-delay: 2s; /* Chrome, Safari, Opera */
     animation-delay: 2s;
+   
+}
+.site-footer:active, .site-footer:focus {
+	animation-name: footer-active;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-delay: 1s; /* Chrome, Safari, Opera */
+    animation-delay: 1s;
    
 }
 
