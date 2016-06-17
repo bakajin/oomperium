@@ -135,7 +135,7 @@
 	}
 
 	function loadEvent(fragment) {
-		console.log("frag: ", fragment.node.id, parentAsset[fragment.node.id]);
+		//console.log("frag: ", fragment.node.id, parentAsset[fragment.node.id]);
 						externalAssets[parentAsset[fragment.node.id]][ fragment.node.id ]["asset"] = fragment;
 						externalAssets[parentAsset[ fragment.node.id ]][ fragment.node.id ]["loadstate"] = "complete";
 								
