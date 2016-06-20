@@ -101,7 +101,7 @@
 				externalAssets[containerKey][loadList[i]] = { asset : "", loadstate : "start" };
 
 				parentAsset[loadList[i]] = containerKey;
-			}//logo-bg-tst 
+			}// logo-background / logo-bg-tst
 			
 			containerKey = "svg-social-menu";
 			externalAssets[containerKey] = {};
@@ -316,6 +316,7 @@
 			var logoPaper = Snap("#site-logo");
 
 			var logoBg = logoPaper.select("#logo-background");
+			//var logoBg = logoPaper.select("#logo-bg-tst");
 			var logo = logoPaper.select("#logo");
 
 			var coverShards = logoPaper.select("#cover");
@@ -1699,7 +1700,7 @@ var socialIter = 0;
 						
 						//paper.append(bgR)
 						//var coverRect = paper.rect( (window.innerWidth * -2),0,(window.innerWidth * 4),130).attr({
-						var coverRect = paper.rect( 0,0,(window.innerWidth * 4),30).attr({
+						var coverRect = paper.rect( 0,0,(window.innerWidth * 4),60).attr({
 							fill : "#ffffff",
 							opacity : "0",
 							id : "background-cover"
