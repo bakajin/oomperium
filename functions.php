@@ -219,7 +219,8 @@ function oomperium_custom_scripts() {
 	wp_enqueue_script('modernizr');
 */
 	// snap library script to animate svgs
-	wp_register_script('snap-svg', get_template_directory_uri() . '/js/snap.svg.js');
+	//wp_register_script('snap-svg', get_template_directory_uri() . '/js/snap.svg.js');
+	wp_register_script('snap-svg', get_template_directory_uri() . '/js/snap.svg_min.js');
 	wp_enqueue_script('snap-svg');
 	
 	//snap ui overwrite
