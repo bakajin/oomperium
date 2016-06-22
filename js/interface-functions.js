@@ -214,6 +214,7 @@
 			}
 			//console.log("done: ", externalAssets);
 			fluidHeaderLogo("resize");
+			horizontalFluidMenu();
 	});
 
 	var scrollValue = 0;
@@ -239,7 +240,7 @@
      	scrollValue = newScroll;
 		 //scrollValue += 1;
 	// minify menu horizontally
-		verticalFluidMenu(direction);
+		//verticalFluidMenu(direction);
 		fluidHeaderLogo(direction);
 	});
 
@@ -449,11 +450,17 @@
 		/* select svg object string */	
 		var mStr = "svg-menu";
 				/* select svg object */
-				paper = Snap("#" + mStr);
+			paper = Snap("#" + mStr);	
+			
+
 
     	   	/* backgroundrender */
-       		var pWidth = "100%", pHeight = "100%", pX = "0%", pY = "17%", calcY = 100 - 17 + "%"; 
-			var bgRect = paper.rect(pX,pY,pWidth,calcY).attr({
+       		var pWidth = 1000, pHeight = 130, pX = 0, pY = 21; 
+			
+			paper.attr({
+				"viewBox" : pX + " " + pX + " " + pWidth + " " + pHeight
+			});
+			var bgRect = paper.rect(pX,pY,pWidth,pHeight).attr({
 								fill : "#EDF0F5",
 								id : "menu-bg-rect"
 							});
@@ -464,7 +471,8 @@
 								strokeWidth : 0.25,
 								id : "menu-bg-line-top"
 							});
-			var lineBottom = paper.line(pX,pHeight, pWidth,pHeight).attr({
+
+			var lineBottom = paper.line(pX,pHeight + pY, pWidth,pHeight + pY).attr({
 									fill : "none",
 									stroke : "#D47878",
 									strokeWidth : 0.25,
@@ -482,11 +490,11 @@
 				
 				//prepend menu bg
 				paper.append(bg);
-			console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
+			//console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 			
 			// lets collapse the menu after a while 
-			fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
+			//fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
 					
 	}
 
@@ -508,7 +516,7 @@
 
 					for(b = 0; b < menuItems.length; b++) { 			
 					//if parent == 0 it's a main menu item. Parent contains the parent idx
-					if(menuItems[b].parent == 0) {
+						if(menuItems[b].parent == 0) {
 						//main menu
 		
 							//set the button text
@@ -523,6 +531,7 @@
 							// lets give it an id so we can find it later
 								asset.select("g").attr({
 									id : "button-" + menuItems[b].idx,
+									"class" : "button-text-group"
 								
 								});
 
@@ -543,20 +552,20 @@
 							
 							// tweak asset display on stage
 								paper.select("#" + buttonAsset.id).attr({
-										x : (30 * mIter + 5 + "%"),
-										width : "22%",
+										x : (300 * mIter + 50),
+										y : -5,
 										class : "main-menu-button"
 									});
 							
 							//add handlers for functionality
-								paper.select("#" +buttonAsset.id).mousedown(onMainMenu);
-								paper.select("#" +buttonAsset.id).mouseup(onMainMenu);
+								paper.select("#" + buttonAsset.id).mousedown(onMainMenu);
+								paper.select("#" + buttonAsset.id).mouseup(onMainMenu);
 							
 							//select the cover to prevent multiple fires of the event and animation problems
-								paper.select("#" +buttonAsset.id + " #button-" + menuItems[b].idx + " #hit-cover").mouseover(onMainMenu);
-								paper.select("#" +buttonAsset.id).mouseout(onMainMenu);
-								paper.select("#" +buttonAsset.id).touchstart(onMainMenu);
-								paper.select("#" +buttonAsset.id).touchend(onMainMenu);
+								paper.select("#" + buttonAsset.id + " #button-" + menuItems[b].idx + " #hit-cover").mouseover(onMainMenu);
+								paper.select("#" + buttonAsset.id).mouseout(onMainMenu);
+								paper.select("#" + buttonAsset.id).touchstart(onMainMenu);
+								paper.select("#" + buttonAsset.id).touchend(onMainMenu);
 							
 								mIter++;
 
@@ -570,49 +579,49 @@
 								//console.log("subparent num: ",subParent);
 							switch(subParent) {
 								case "110":
-										horizontal += 19;
+										horizontal += 141; //19
 										horizontalOffset = horizontal;
 								break;
 								case "114":
-										horizontal += 49;
+										horizontal += 451; // 49
 										horizontalOffset = horizontal / 1.3;
 								break;
 								case "33":
-										horizontal += 79;
+										horizontal += 761; //79%
 										horizontalOffset = horizontal / 1.3;
 								break;
 								//copy paste from here
 								case "286":
-										horizontal += 19;
+										horizontal += 141; //19%
 										horizontalOffset = horizontal;
 								break;
 								case "42":
-										horizontal += 49;
+										horizontal += 451; //49%
 										horizontalOffset = horizontal / 1.3;
 								break;
 								case "39":
-										horizontal += 79;
+										horizontal += 761; //79
 										horizontalOffset = horizontal / 1.3;
 								break;
 								case "211":
-										horizontal += 79;
+										horizontal += 761; //79
 										horizontalOffset = horizontal / 1.3;
 								break;
 								case "573":
-										horizontal += 79;
+										horizontal += 761; //79
 										horizontalOffset = horizontal / 1.3;
 								break;
 							}
-								horizontal += "%";
-								horizontalOffset += "%";
+								//horizontal += "%";
+								//horizontalOffset += "%";
 						
 							//lets check if this is a new group of submenus and reset the iteration
 							if(subParent !== lastIdx) {
 									sIter = 0;
 								}
 
-							var vertical = 40 + (15 * sIter);
-								vertical += "%";
+							var vertical = 56 + (21 * sIter);
+							//	vertical += "%";
 
 							var subMenuTxt = paper.text(horizontal, vertical, menuItems[b].title);
 								subMenuTxt.attr({
@@ -623,11 +632,11 @@
 												});
 								subMenuTxt.addClass("main-menu-sub");
 
-							var	subMenuRect = paper.rect(horizontal, vertical, "9%", "5%").attr({
+							var	subMenuRect = paper.rect(horizontal + 61, vertical, 90, 9).attr({
 									id : "sub-coll-" + b,
 									opacity : 0
 								});
-								subMenuRect.transform("t0,-6");
+								//subMenuRect.transform("t0,-6");
 
 							var subMenuItem = paper.group(subMenuRect, subMenuTxt);
 								subMenuItem.attr({
@@ -745,10 +754,51 @@
 
 	function horizontalFluidMenu() {
 
-		console.log("responsive minify horizontal:");
+		console.log("responsive minify horizontal: dont forget to turn the vertical fluid resize back on");
+		paper = Snap("#svg-menu");
+		paper.attr({
+			"viewBox" : "0 0 1000 500"
+		});
+
+		paper.select("#menu-bg rect").animate({
+			"height" : 500,
+			"x" : 120,
+		}, 161, mina.easein);
+		paper.select("#menu-bg line#menu-bg-line-bottom").animate({
+			"x1" : 120,
+			"y1" : 516,
+			"y2" : 516,
+		}, 161, mina.easein);
+
+
+		paper.selectAll("svg.main-menu-button g path#half-button-bg").attr({
+			"display" : "none"
+		});
+		
+		paper.selectAll("svg.main-menu-button g path#quarter-button-bg").attr({
+			"display" : "block"
+		});
+
+		paper.selectAll("svg.main-menu-button").animate({
+			"x" : 250,
+		}, 161, mina.easein);
+		
+		paper.selectAll("svg.main-menu-button g.button-text-group").animate({
+			"transform" : "s5,5"
+		}, 161, mina.easein);
+		
+		
 		/* on portrait screen and touch capable */
 		/* show only one option */
+			//#quarter-button-bg display to block
+				//also set up rollover anim and visited
+
+			//#mobile-collapse to block
+			//#half-button-bg display to none
+
 		/* move button and unhide in accordance */
+			// svg#main-button-idx x = -25
+
 
 	}
 
