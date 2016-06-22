@@ -732,7 +732,7 @@ a.more-link {
 @media screen and (max-width: 600px) {
 	/* make the logo bigger */ 
 	svg#site-logo {
-		width : 50%;
+		width : 36%;
 		/* height : 200%;
 		left : -5.1%;
 		top : 1.61em;*/

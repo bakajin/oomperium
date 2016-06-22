@@ -10,6 +10,8 @@
 /* global variables */ 
 	//for some responsive love, chache initial window width
 	var initialWidth = jQuery(window).width();
+	var initialHeight = jQuery(window).height();
+	var deviceOrientation;
 	// to store the page type we are one
 	var pageType;
 	// set the theme path to the path
@@ -114,6 +116,9 @@
 			
 			/* with the object defined lets start loading the assets */
 			loadAssets();
+
+			// lets check what device we re dealing with
+			setDeviceDimensions();
 	}
 
 	/* load an asset list and return it as a named object */
@@ -139,6 +144,17 @@
 								
 								
 								
+	}
+
+	function setDeviceDimensions() {
+		if(initialHeight > initialWidth) {
+				//console.log("portrait");
+				deviceOrientation = "portrait";
+
+			} else if (initialWidth > initialHeight) {
+				//console.log("landscape");
+				deviceOrientation = "landscape";
+			}
 	}
 	/* ------------------------------------
 			global event handlers
@@ -292,7 +308,7 @@
 	/* ------------------------------------
 			header event handlers
 	   ------------------------------------ */ 
-	   function logoLoadWait() {
+	function logoLoadWait() {
 	   				console.log("TIMERLOOP");
 	   				headerLogoInit();
 	   				
@@ -302,19 +318,35 @@
 	function fluidHeaderLogo(type) {
 			//console.log("logo event ", type);
 			
+			/* set up the header logo for mobile and portrait modes */
+				// bg y = -172 logo y = -61
+				console.log("what sort of resolution are we at:: ", initialWidth, initialHeight);
+			/* set up the header logo for desktop and landscape modes */
 			
-						
-
 			var windowWidth = jQuery(window).width();
 			var windowHeight = jQuery(window).height();
 			//var devicePixelRatio = window.devicePixelRatio;
-
+			
+			var logoPos;
+			var logoBgPos
+			switch(deviceOrientation) {
+				case "portrait":
+						console.log("portrait", deviceOrientation);
+						logoPos = { x : "73", y : "-141" };
+						logoBgPos = { x : "-62", y : "-261" };
+				break;
+				case "landscape":
+						logoPos = { x : "73", y : "56" };
+						logoBgPos = { x : "-62", y : "-52" };
+						console.log("landscape", deviceOrientation);
+				break;
+			}
 			var opacityVal = 1;
 			var logoPaper = Snap("#site-logo");
 
 			var logoBg = logoPaper.select("#logo-background");
 			//var logoBg = logoPaper.select("#logo-bg-tst");
-			var logo = logoPaper.select("#logo");
+			var logo = logoPaper.select("svg#logo");
 
 			var coverShards = logoPaper.select("#cover");
 			var yellowShard = logoPaper.select("#shard-yellow");
@@ -327,37 +359,33 @@
 			var logoOO = logoPaper.select("g#logo g#oo");
 			var logoMP = logoPaper.select("g#logo g#mp");
 
-			switch(type) {
-				case "load":
-							logoPaper.attr({ width : "300", height : "489"});
+				logoPaper.attr({ width : "300", height : "489"});
 							if(logo == null) {
 								console.log("No LOGO!! ");
 							} else {
-								logo.attr({ x : "73", y : "56"});
+								logo.attr({ x : logoPos.x, y : logoPos.y});
 							}
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
+									logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
 							}
+
+			switch(type) {
+				case "load":
+							
 							
 						
 						
 				break;
 				case "down":
-							if(logo == null) {
-								console.log("No LOGO!! ");
-							} else {
-								logo.attr({ x : "73", y : "56"});
-							}
+							logo.animate({ transform : "s3" }, 61);
 							
 							
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
-			
 									coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
 						
 									yellowShard2.animate({ opacity : "0.35" }, 61);
@@ -380,17 +408,12 @@
 				break;
 				case "up":
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
-							if(logo == null) {
-								console.log("No LOGO!! ");
-							} else {
-								logo.attr({ x : "73", y : "56"});
-							}
-
+							logo.animate({ transform : "s2" }, 61);
+						
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
-
+					
 									coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
 					
 									yellowShard2.animate({ opacity : "1" }, 61);
@@ -410,20 +433,9 @@
 				break;
 				case "resize":
 							console.log("logo resize " + windowWidth, windowHeight);
-							logoPaper.attr({ width : "300", height : "489"});
 							//checking to see if the logo is complete when we try animate
-							if(logo == null) {
-								console.log("No LOGO!! ");
-							} else {
-								logo.attr({ x : "73", y : "56"});//logo.attr({ x : "-5", y : "62"});
-							}
 							
 							
-							if (logoBg == null) {
-									console.log("no BG LOGO ");	
-							} else {
-									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});//logoBg.attr({ x : "-161", y : "-45", width : "1200", height : "1200"});
-							}
 							
 												
 				break;
@@ -754,51 +766,62 @@
 
 	function horizontalFluidMenu() {
 
+		switch(deviceOrientation) {
+			case "portrait":
+							paper = Snap("#svg-menu");
+							paper.attr({
+										"viewBox" : "0 0 1000 500"
+							});
+
+							paper.select("#menu-bg rect").animate({
+																	"height" : 500,
+																	"x" : 120,
+							}, 161, mina.easein);
+							paper.select("#menu-bg line#menu-bg-line-bottom").animate({
+																						"x1" : 120,
+																						"y1" : 516,
+																						"y2" : 516,
+							}, 161, mina.easein);
+
+							paper.selectAll("svg.main-menu-button g#mobile-collapse").attr({
+																							"display" : "block"
+							});
+		
+							paper.selectAll("svg.main-menu-button g path#half-button-bg").attr({
+																								"display" : "none"
+							});
+	
+							paper.selectAll("svg.main-menu-button g path#quarter-button-bg").attr({
+																									"display" : "block"
+							});
+
+							paper.selectAll("svg.main-menu-button").animate({
+																			"x" : 250,
+							}, 161, mina.easein);
+		
+							paper.selectAll("svg.main-menu-button g.button-text-group").animate({
+																								"transform" : "s5,5"
+							}, 161, mina.easein);
+		
+		
+							/* on portrait screen and touch capable */
+							/* show only one option */
+							//#quarter-button-bg display to block
+							//also set up rollover anim and visited
+
+							//#mobile-collapse to block
+							//#half-button-bg display to none
+
+							/* move button and unhide in accordance */
+							// svg#main-button-idx x = -25
+
+			break;
+			case "landscape":
+
+			break;
+		}
 		console.log("responsive minify horizontal: dont forget to turn the vertical fluid resize back on");
-		paper = Snap("#svg-menu");
-		paper.attr({
-			"viewBox" : "0 0 1000 500"
-		});
-
-		paper.select("#menu-bg rect").animate({
-			"height" : 500,
-			"x" : 120,
-		}, 161, mina.easein);
-		paper.select("#menu-bg line#menu-bg-line-bottom").animate({
-			"x1" : 120,
-			"y1" : 516,
-			"y2" : 516,
-		}, 161, mina.easein);
-
-
-		paper.selectAll("svg.main-menu-button g path#half-button-bg").attr({
-			"display" : "none"
-		});
 		
-		paper.selectAll("svg.main-menu-button g path#quarter-button-bg").attr({
-			"display" : "block"
-		});
-
-		paper.selectAll("svg.main-menu-button").animate({
-			"x" : 250,
-		}, 161, mina.easein);
-		
-		paper.selectAll("svg.main-menu-button g.button-text-group").animate({
-			"transform" : "s5,5"
-		}, 161, mina.easein);
-		
-		
-		/* on portrait screen and touch capable */
-		/* show only one option */
-			//#quarter-button-bg display to block
-				//also set up rollover anim and visited
-
-			//#mobile-collapse to block
-			//#half-button-bg display to none
-
-		/* move button and unhide in accordance */
-			// svg#main-button-idx x = -25
-
 
 	}
 
