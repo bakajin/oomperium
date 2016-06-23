@@ -215,6 +215,7 @@
 			}
 
 			fluidHeaderLogo("load");
+			horizontalFluidMenu();
 	});
 
 	jQuery(window).resize(function(){
@@ -256,7 +257,7 @@
      	scrollValue = newScroll;
 		 //scrollValue += 1;
 	// minify menu horizontally
-		//verticalFluidMenu(direction);
+		verticalFluidMenu(direction);
 		fluidHeaderLogo(direction);
 	});
 
@@ -332,8 +333,8 @@
 			switch(deviceOrientation) {
 				case "portrait":
 						console.log("portrait", deviceOrientation);
-						logoPos = { x : "73", y : "-141" };
-						logoBgPos = { x : "-62", y : "-261" };
+						logoPos = { x : "73", y : "-271" };
+						logoBgPos = { x : "-62", y : "-271" };
 				break;
 				case "landscape":
 						logoPos = { x : "73", y : "56" };
@@ -359,55 +360,65 @@
 			var logoOO = logoPaper.select("g#logo g#oo");
 			var logoMP = logoPaper.select("g#logo g#mp");
 
+			var transformStr;
 				logoPaper.attr({ width : "300", height : "489"});
-							if(logo == null) {
-								console.log("No LOGO!! ");
-							} else {
+				console.log("logo calls: ", type);
+				
+				if(logo == null) {
+								console.log("No LOGO ");
+				} else {
 								logo.attr({ x : logoPos.x, y : logoPos.y});
-							}
+				}
 							
-							if (logoBg == null) {
-									console.log("no BG LOGO ");	
-							} else {
-									logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
-							}
+				if (logoBg == null) {
+								console.log("no logo BG ");	
+				} else {
+								logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
+				}
 
 			switch(type) {
 				case "load":
-							
-							
-						
-						
+
 				break;
 				case "down":
 							logo.animate({ transform : "s3" }, 61);
 							
+										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-260", red :"t0,-90" };
 							
+							if(jQuery(window).scrollTop() > 350) {
+										transformStr = { cover : "t0,-160", yellow : "t0,-100", green : "t0,-130", blue : "t0,-160", black : "t0,-290", red :"t0,-120" };
+							}
+
+							if(jQuery(window).scrollTop() > 850) {
+										transformStr = { cover : "t0,-190", yellow : "t0,-130", green : "t0,-160", blue : "t0,-190", black : "t0,-320", red :"t0,-150" };
+							}
+
 							if (logoBg == null) {
 									console.log("no BG LOGO ");	
 							} else {
-									coverShards.animate({transform : "t0,-130", opacity : "0" }, 61);
+									coverShards.animate({transform : transformStr.cover, opacity : "0" }, 61);
 						
 									yellowShard2.animate({ opacity : "0.35" }, 61);
 
-									yellowShard.animate({transform : "t0,-70", opacity : "0.35" }, 61);
+									yellowShard.animate({transform : transformStr.yellow, opacity : "0.35" }, 61);
 									//greenShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-									greenShard.animate({transform : "t0,-100", opacity : "0.35" }, 61);
+									greenShard.animate({transform : transformStr.green, opacity : "0.35" }, 61);
 									//blueShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-									blueShard.animate({transform : "t0,-130", opacity : "0.35" }, 61);
+									blueShard.animate({transform : transformStr.blue, opacity : "0.35" }, 61);
 									//blackShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-									blackShard.animate({transform : "t0,-260", opacity : "0.35" }, 61);
+									blackShard.animate({transform : transformStr.black, opacity : "0.35" }, 61);
 									//redShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
-									redShard.animate({transform : "t0,-90", opacity : "0.35" }, 61);
+									redShard.animate({transform : transformStr.red, opacity : "0.35" }, 61);
 						
 							}
 							
 							
-					//	console.log("logo scroll down " + jQuery(window).scrollTop() );
+						console.log("logo scroll down " + jQuery(window).scrollTop() );
 						
 				break;
 				case "up":
-						//console.log("logo scroll up " + jQuery(window).scrollTop() );
+						
+						console.log("logo scroll up " + jQuery(window).scrollTop() );
 							logo.animate({ transform : "s2" }, 61);
 						
 							if (logoBg == null) {
@@ -429,12 +440,23 @@
 
 				break;
 				case "time":
+
 						console.log("logo timer " );
 				break;
 				case "resize":
 							console.log("logo resize " + windowWidth, windowHeight);
 							//checking to see if the logo is complete when we try animate
+							if(logo == null) {
+								console.log("No LOGO ");
+							} else {
+								logo.attr({ x : logoPos.x, y : logoPos.y});
+							}
 							
+							if (logoBg == null) {
+									console.log("no logo BG ");	
+							} else {
+									logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
+							}
 							
 							
 												
@@ -506,7 +528,7 @@
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 			
 			// lets collapse the menu after a while 
-			//fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
+			fluidMenuTimer = setTimeout(function(){ verticalFluidMenu("down"); }, 10000);
 					
 	}
 
@@ -585,10 +607,17 @@
 							//sub menu
 							var subParent = menuItems[b].parent;
 							var subIdx = menuItems[b].idx;
-						
+							
+							if(paper.select("#submenu-group-" + subParent) == undefined) {
+								var subParentGroup = paper.group();
+									subParentGroup.attr({
+														"id" : "submenu-group-" + subParent,
+														"class" : "submenu-group"
+									});
+							}
 							var horizontal = 0;
 							var horizontalOffset = 0;
-								//console.log("subparent num: ",subParent);
+								console.log("subparent num: ",subParent);
 							switch(subParent) {
 								case "110":
 										horizontal += 141; //19
@@ -635,20 +664,18 @@
 							var vertical = 56 + (21 * sIter);
 							//	vertical += "%";
 
-							var subMenuTxt = paper.text(horizontal, vertical, menuItems[b].title);
+							var subMenuTxt = paper.text(0, vertical, menuItems[b].title);
 								subMenuTxt.attr({
-													"font-size" : "95%",
 													"font-weight" : "400",
 													"font-family" : "Source Sans Pro, sans-serif",
 													id : "sub-" + b
-												});
+												}); //"font-size" : "2rem",
 								subMenuTxt.addClass("main-menu-sub");
 
-							var	subMenuRect = paper.rect(horizontal + 61, vertical, 90, 9).attr({
+							var	subMenuRect = paper.rect(61, vertical, 90, 9).attr({
 									id : "sub-coll-" + b,
 									opacity : 0
-								});
-								//subMenuRect.transform("t0,-6");
+								}); //subMenuRect.transform("t0,-6");
 
 							var subMenuItem = paper.group(subMenuRect, subMenuTxt);
 								subMenuItem.attr({
@@ -656,7 +683,10 @@
 									"class" : "sub-option",
 									fill : "#D47878"
 								});
-											
+
+								paper.select("#submenu-group-" + subParent).append(subMenuItem);
+								paper.select("#submenu-group-" + subParent).transform("t" + horizontal + ",0");
+
 								paper.select( "#sub-option-" + subIdx ).click(onSubMenu);
 								paper.select( "#sub-option-" + subIdx ).mouseover(onSubMenu);
 								paper.select( "#sub-option-" + subIdx ).mouseout(onSubMenu);
@@ -735,16 +765,18 @@
 					//	background = paper.select("#menu-bg-line-bottom");
 					//	background.attr({"y1" : "99%", "y2" : "99%"}, 21);
 
-						subMenu = paper.selectAll("#svg-menu g.sub-option");
+						//subMenu = paper.selectAll("#svg-menu g.sub-option");
+						subMenu = paper.selectAll("#svg-menu g.submenu-group");
+
 						for(el = 0; el < subMenu.length; el++) {
 							if(el >= 0) {
 								subMenu[el].animate({ transform : "t0s0.35,0.33,110,52" }, 18);	
 							}
-							if(el >= 3) {
+							if(el >= 1) {
 								subMenu[el].animate({ transform : "t190s0.35,0.33,110,52" }, 18);
 								
 							}
-							if(el >= (subMenu.length - 2)) {
+							if(el >= (subMenu.length)) {
 								console.log("WARNING THIS 2 BREAKS THE 3rd MENU with more than 3 options")
 								subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);
 									
@@ -766,9 +798,10 @@
 
 	function horizontalFluidMenu() {
 
+		paper = Snap("#svg-menu");
+
 		switch(deviceOrientation) {
 			case "portrait":
-							paper = Snap("#svg-menu");
 							paper.attr({
 										"viewBox" : "0 0 1000 500"
 							});
@@ -780,7 +813,7 @@
 							paper.select("#menu-bg line#menu-bg-line-bottom").animate({
 																						"x1" : 120,
 																						"y1" : 516,
-																						"y2" : 516,
+																						"y2" : 516
 							}, 161, mina.easein);
 
 							paper.selectAll("svg.main-menu-button g#mobile-collapse").attr({
@@ -800,9 +833,12 @@
 							}, 161, mina.easein);
 		
 							paper.selectAll("svg.main-menu-button g.button-text-group").animate({
-																								"transform" : "s5,5"
+																								"transform" : "s6,6"
 							}, 161, mina.easein);
-		
+							
+							paper.selectAll("g.submenu-group").animate({
+																			"transform" : "t760,180s3.5,3.5",
+							}, 161, mina.easein);
 		
 							/* on portrait screen and touch capable */
 							/* show only one option */
@@ -817,10 +853,49 @@
 
 			break;
 			case "landscape":
+					/* put it all back */
+					paper.attr({
+										"viewBox" : "0 0 1000 130"
+							});
+
+							paper.select("#menu-bg rect").animate({
+																	"height" : 130,
+																	"x" : 0,
+							}, 161, mina.easein);
+							paper.select("#menu-bg line#menu-bg-line-bottom").animate({
+																						"x1" : 0,
+																						"y1" : 151,
+																						"y2" : 151
+							}, 161, mina.easein);
+
+							paper.selectAll("svg.main-menu-button g#mobile-collapse").attr({
+																							"display" : "none"
+							});
+		
+							paper.selectAll("svg.main-menu-button g path#half-button-bg").attr({
+																								"display" : "block"
+							});
+	
+							paper.selectAll("svg.main-menu-button g path#quarter-button-bg").attr({
+																									"display" : "none"
+							});
+
+							paper.selectAll("svg.main-menu-button").animate({
+																			"x" : 250,
+							}, 161, mina.easein);
+		
+							paper.selectAll("svg.main-menu-button g.button-text-group").animate({
+																								"transform" : "s1,1"
+							}, 161, mina.easein);
+							
+							paper.selectAll("g.submenu-group").animate({
+																			"transform" : "t760,180s3.5,3.5",
+							}, 161, mina.easein);
+		
 
 			break;
 		}
-		console.log("responsive minify horizontal: dont forget to turn the vertical fluid resize back on");
+		console.log("responsive minify horizontal: dont forget to turn the vertical fluid resize back on ", deviceOrientation);
 		
 
 	}
@@ -1259,7 +1334,7 @@ var loadCount = 0;
 				/* draw white bottom rect */		
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
 				
-					var whiteOverlay = paper.rect("-1","331","304","130");
+					var whiteOverlay = paper.rect("-1","331","304","70");
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)

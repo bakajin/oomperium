@@ -732,14 +732,14 @@ a.more-link {
 @media screen and (max-width: 600px) {
 	/* make the logo bigger */ 
 	svg#site-logo {
-		width : 36%;
+		width : 27%;
 		/* height : 200%;
 		left : -5.1%;
 		top : 1.61em;*/
 	}
 	/* make the menu smaller / more narrow */
 	.main-navigation {
-		width : 40%;
+		width : 33%;
 		margin-right: 8%;
 		/*top : -0.7em;*/
 	}
@@ -747,6 +747,7 @@ a.more-link {
 	article {
 		width : 95%!important;
 		margin-left: 6%!important;
+		margin-top : 7%!important;
 	}
 
 	.menu-toggle,
