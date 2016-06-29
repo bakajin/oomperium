@@ -147,11 +147,11 @@
 	}
 
 	function setDeviceDimensions() {
-		if(initialHeight > initialWidth) {
+		if(jQuery(window).height() > jQuery(window).width()) {
 				//console.log("portrait");
 				deviceOrientation = "portrait";
 
-			} else if (initialWidth > initialHeight) {
+			} else if (jQuery(window).width() > jQuery(window).height()) {
 				//console.log("landscape");
 				deviceOrientation = "landscape";
 			}
@@ -215,7 +215,7 @@
 			}
 
 			fluidHeaderLogo("load");
-			horizontalFluidMenu();
+			//horizontalFluidMenu();
 	});
 
 	jQuery(window).resize(function(){
@@ -225,13 +225,15 @@
 
 		reposition stuff, scale things
 	*/
+	setDeviceDimensions();
 			//lets double check this event is never fired on a mobile device
 			if(jQuery(window).width() != initialWidth) {
   						//Do something
 			}
 			//console.log("done: ", externalAssets);
 			fluidHeaderLogo("resize");
-			horizontalFluidMenu();
+			//horizontalFluidMenu();
+
 	});
 
 	var scrollValue = 0;
@@ -684,8 +686,9 @@
 									fill : "#D47878"
 								});
 
-								paper.select("#submenu-group-" + subParent).append(subMenuItem);
-								paper.select("#submenu-group-" + subParent).transform("t" + horizontal + ",0");
+								paper.select("g#submenu-group-" + subParent).append(subMenuItem);
+								//paper.select("#submenu-group-" + subParent).transform("t" + horizontal + ",0");
+								paper.select("g#submenu-group-" + subParent + " g.sub-option > *").attr({ "x" : horizontal });
 
 								paper.select( "#sub-option-" + subIdx ).click(onSubMenu);
 								paper.select( "#sub-option-" + subIdx ).mouseover(onSubMenu);
