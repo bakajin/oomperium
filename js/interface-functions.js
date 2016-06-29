@@ -44,7 +44,7 @@
 	var postAssets = new Object();
 	var socialAssets = new Object();
 	
-	var postControlsViewBoxStr = "0 0 300 470";
+	var postControlsViewBoxStr = "0 0 300 350"; //470
 	//featured gallery post specific counter
 	var gIter = {};
 
@@ -215,7 +215,7 @@
 			}
 
 			fluidHeaderLogo("load");
-			//horizontalFluidMenu();
+			horizontalFluidMenu();
 	});
 
 	jQuery(window).resize(function(){
@@ -232,7 +232,7 @@
 			}
 			//console.log("done: ", externalAssets);
 			fluidHeaderLogo("resize");
-			//horizontalFluidMenu();
+			horizontalFluidMenu();
 
 	});
 
@@ -579,20 +579,30 @@
 								asset.select("#mobile-collapse").attr({
 									"display" : "none"
 								});
-							
+
 							// clone asset & append to stage
 							var buttonAsset = asset.node.cloneNode(true);
 								buttonAsset.id = "main-button-" + menuItems[b].idx;
-						
+								
+								
+
+									//"portfolio"
 								paper.append( buttonAsset ); 
 							
 							// tweak asset display on stage
+							if(menuItems[b].title == "CASES") {	
+								paper.select("#" + buttonAsset.id).attr({
+										x : (300 * mIter + 50),
+										y : -5,
+										class : "main-menu-button active"
+									});
+							} else {
 								paper.select("#" + buttonAsset.id).attr({
 										x : (300 * mIter + 50),
 										y : -5,
 										class : "main-menu-button"
 									});
-							
+							}
 							//add handlers for functionality
 								paper.select("#" + buttonAsset.id).mousedown(onMainMenu);
 								paper.select("#" + buttonAsset.id).mouseup(onMainMenu);
@@ -674,7 +684,7 @@
 												}); //"font-size" : "2rem",
 								subMenuTxt.addClass("main-menu-sub");
 
-							var	subMenuRect = paper.rect(61, vertical, 90, 9).attr({
+							var	subMenuRect = paper.rect(0, vertical, 90, 9).attr({
 									id : "sub-coll-" + b,
 									opacity : 0
 								}); //subMenuRect.transform("t0,-6");
@@ -688,7 +698,8 @@
 
 								paper.select("g#submenu-group-" + subParent).append(subMenuItem);
 								//paper.select("#submenu-group-" + subParent).transform("t" + horizontal + ",0");
-								paper.select("g#submenu-group-" + subParent + " g.sub-option > *").attr({ "x" : horizontal });
+								paper.selectAll("g#submenu-group-" + subParent + " g.sub-option > text").attr({ "x" : horizontal });
+								paper.selectAll("g#submenu-group-" + subParent + " g.sub-option > rect").attr({ "x" : horizontal + 53 });
 
 								paper.select( "#sub-option-" + subIdx ).click(onSubMenu);
 								paper.select( "#sub-option-" + subIdx ).mouseover(onSubMenu);
@@ -719,11 +730,13 @@
 
 	function verticalFluidMenu(val) {
 		
+
 		
 		if(val.target !== undefined) {
 			//console.log("responsive minify vertical ", val.target);
 			val = "mouse";
 		}
+
 		/* on scroll, on timer, on mouseover!, on touchstart! */
 		/* collapse the menu, scale down tekst, crossfade to bars */
 		/* scale bg vertical */
@@ -734,17 +747,17 @@
 			case "mouse":
 						background = paper.select("#menu-bg");
 						background.animate({transform : "s1,1,0,26" }, 21);
-
 					
-						subMenu = paper.selectAll("#svg-menu g.sub-option");
+						//subMenu = paper.selectAll("#svg-menu g.sub-option");
+						subMenu = paper.selectAll("#svg-menu g.submenu-group");
 						for(el = 0; el < subMenu.length; el++) {
 							if(el >= 0) {
 								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
 							}
-							if(el >= 3) {
+							if(el >= 31) {
 								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
 							}
-							if(el >= (subMenu.length - 2)) {
+							if(el >= (subMenu.length - 1)) {
 								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
 							}
 						}
@@ -770,21 +783,29 @@
 
 						//subMenu = paper.selectAll("#svg-menu g.sub-option");
 						subMenu = paper.selectAll("#svg-menu g.submenu-group");
-
-						for(el = 0; el < subMenu.length; el++) {
-							if(el >= 0) {
-								subMenu[el].animate({ transform : "t0s0.35,0.33,110,52" }, 18);	
-							}
-							if(el >= 1) {
-								subMenu[el].animate({ transform : "t190s0.35,0.33,110,52" }, 18);
+						switch(deviceOrientation) {
+							case "portrait":
+												subMenu.animate({ transform : "t-190,80s1.25,1.23,110,52" }, 18);
+							break;
+							case "landscape":
+												for(el = 0; el < subMenu.length; el++) {
+															if(el >= 0) {
+																		subMenu[el].animate({ transform : "t0s0.35,0.33,110,52" }, 18);	
+															}
+															if(el >= 1) {
+																		subMenu[el].animate({ transform : "t190s0.35,0.33,110,52" }, 18);
 								
-							}
-							if(el >= (subMenu.length)) {
-								console.log("WARNING THIS 2 BREAKS THE 3rd MENU with more than 3 options")
-								subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);
+															}
+															if(el >= (subMenu.length -1)) {
+																		console.log("WARNING THIS 2 BREAKS THE 3rd MENU with more than 3 options")
+																		subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);
 									
-							}
+															}
+												}
+						
+							break;
 						}
+
 							
 						subMenu = paper.selectAll("#svg-menu g.sub-option text").animate({
 							opacity : "0"
@@ -801,10 +822,13 @@
 
 	function horizontalFluidMenu() {
 
+		/* on portrait screen and touch capable */
+							
 		paper = Snap("#svg-menu");
 
 		switch(deviceOrientation) {
 			case "portrait":
+							/* set menu viewbox */
 							paper.attr({
 										"viewBox" : "0 0 1000 500"
 							});
@@ -819,41 +843,64 @@
 																						"y2" : 516
 							}, 161, mina.easein);
 
+							//#mobile-collapse to block
+							
 							paper.selectAll("svg.main-menu-button g#mobile-collapse").attr({
 																							"display" : "block"
 							});
-		
+
+							//#half-button-bg display to none
 							paper.selectAll("svg.main-menu-button g path#half-button-bg").attr({
 																								"display" : "none"
 							});
-	
+							
+							//#quarter-button-bg display to block
 							paper.selectAll("svg.main-menu-button g path#quarter-button-bg").attr({
 																									"display" : "block"
 							});
-
-							paper.selectAll("svg.main-menu-button").animate({
-																			"x" : 250,
-							}, 161, mina.easein);
-		
-							paper.selectAll("svg.main-menu-button g.button-text-group").animate({
-																								"transform" : "s6,6"
-							}, 161, mina.easein);
-							
-							paper.selectAll("g.submenu-group").animate({
-																			"transform" : "t760,180s3.5,3.5",
-							}, 161, mina.easein);
-		
-							/* on portrait screen and touch capable */
 							/* show only one option */
-							//#quarter-button-bg display to block
 							//also set up rollover anim and visited
-
-							//#mobile-collapse to block
-							//#half-button-bg display to none
+							var allOptions = paper.selectAll("svg.main-menu-button");
 
 							/* move button and unhide in accordance */
 							// svg#main-button-idx x = -25
 
+
+							allOptions.animate({
+												"x" : 250
+							}, 161, mina.easein);
+
+							var trackIndex = 0;
+							for(all = 0; all < allOptions.length; all++) {
+									console.log("active? " + allOptions[all].attr("id"), jQuery("svg#" + allOptions[all].attr("id")).hasClass("active"));
+									if(jQuery("svg#" + allOptions[all].attr("id")).hasClass("active")){
+										//
+										allOptions[all].attr({ "opacity" : 1 });
+										trackIndex = all;
+									} else {
+										allOptions[all].attr({ "opacity" : 0 });
+									}
+
+							}
+
+							paper.selectAll("svg.main-menu-button g.button-text-group").animate({
+																								"transform" : "s6,6"
+							}, 161, mina.easein);
+							
+							
+						
+							paper.selectAll("g.submenu-group g.sub-option > text").animate({
+																			"x" : 750
+							}, 161, mina.easein);
+							paper.selectAll("g.submenu-group g.sub-option > rect").animate({
+																			"x" : 753
+							}, 161, mina.easein);
+
+							paper.selectAll("g.submenu-group").animate({
+																			"transform" : "t0,200s4,4"
+							}, 161, mina.easein);
+		
+							
 			break;
 			case "landscape":
 					/* put it all back */
@@ -882,9 +929,9 @@
 							paper.selectAll("svg.main-menu-button g path#quarter-button-bg").attr({
 																									"display" : "none"
 							});
-
+/*
 							paper.selectAll("svg.main-menu-button").animate({
-																			"x" : 250,
+																			//"x" : 250,
 							}, 161, mina.easein);
 		
 							paper.selectAll("svg.main-menu-button g.button-text-group").animate({
@@ -895,7 +942,7 @@
 																			"transform" : "t760,180s3.5,3.5",
 							}, 161, mina.easein);
 		
-
+*/
 			break;
 		}
 		console.log("responsive minify horizontal: dont forget to turn the vertical fluid resize back on ", deviceOrientation);
@@ -1079,6 +1126,7 @@ var loadCount = 0;
 			//console.log("stripped idx: ", stripIdx, container);
 
 			drawPostControls(container); // container, loaded
+
 		} else {
 			console.log("unrecognised page! ")
 			//hide the featured gallery
@@ -1141,7 +1189,7 @@ var loadCount = 0;
 					"top" : galleryPos * -1
 				});
 			
-		console.log("" + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
+			//console.log("active image height:: " + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
 
 			subtractVal = parseInt( jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").height() );
 			subtractVal *= 0.8;
@@ -1179,6 +1227,7 @@ var loadCount = 0;
 			jQuery("#post-" + idx).css({
 					height :  wRatio * 1.05 + "px"
 			});
+
 			jQuery("#post-" + idx + " .entry-content").css({
 					height : wRatio * 1 + "px"
 			});
@@ -1249,7 +1298,6 @@ var loadCount = 0;
 					setInterval(featuredGalleryCycle, 8000, idx);
 					
 				}
-
 				//render a paginator per instance
 				renderPaginator(idx, index);
 			});
@@ -1336,8 +1384,9 @@ var loadCount = 0;
 				}
 				/* draw white bottom rect */		
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
-				
-					var whiteOverlay = paper.rect("-1","331","304","70");
+					console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
+					var rectPos = jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height(); //331
+					var whiteOverlay = paper.rect("-1",rectPos,"304", "150"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)
@@ -1794,17 +1843,17 @@ var loadCount = 0;
 																	paginators = Snap.select("#svg-gallery-controls-" + idx);
 																	paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein);	
 					
-															} else {
+					} else {
 																	gIter[idx] += 1;
 																	// next paginator
 																	paginators = Snap.select("#svg-gallery-controls-" + idx);
 																	paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein);	
 					
 																	//console.log("plus gIter: " + idx + " ::" + gIter[idx], jQuery('#gallery-cycler-' + idx + ' img.feat-gallery').length);
-															}
+					}
       				
       			});
-
+	
 	}
 
 /*  ============================================================================
