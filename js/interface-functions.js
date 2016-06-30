@@ -314,6 +314,7 @@
 	function logoLoadWait() {
 	   				console.log("TIMERLOOP");
 	   				headerLogoInit();
+	   				fluidHeaderLogo("load")
 	   				
 	   }
 
@@ -335,8 +336,8 @@
 			switch(deviceOrientation) {
 				case "portrait":
 						console.log("portrait", deviceOrientation);
-						logoPos = { x : "73", y : "-271" };
-						logoBgPos = { x : "-62", y : "-271" };
+						logoPos = { x : "73", y : "-181" };
+						logoBgPos = { x : "-62", y : "-281" };
 				break;
 				case "landscape":
 						logoPos = { x : "73", y : "56" };
@@ -380,7 +381,8 @@
 
 			switch(type) {
 				case "load":
-
+								//logo.attr({ x : logoPos.x, y : logoPos.y});
+								//logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
 				break;
 				case "down":
 							logo.animate({ transform : "s3" }, 61);
@@ -401,15 +403,23 @@
 									coverShards.animate({transform : transformStr.cover, opacity : "0" }, 61);
 						
 									yellowShard2.animate({ opacity : "0.35" }, 61);
-
+									// temporary removal of multiply for firefox
+									yellowShard2.removeClass("background-logo-cls-3");
+									// temporary removal of multiply for firefox
+									yellowShard.removeClass("background-logo-cls-3");
 									yellowShard.animate({transform : transformStr.yellow, opacity : "0.35" }, 61);
 									//greenShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									// temporary removal of multiply for firefox
+									greenShard.removeClass("background-logo-cls-3");
 									greenShard.animate({transform : transformStr.green, opacity : "0.35" }, 61);
 									//blueShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									blueShard.removeClass("background-logo-cls-3");
 									blueShard.animate({transform : transformStr.blue, opacity : "0.35" }, 61);
 									//blackShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									blackShard.removeClass("background-logo-cls-3");
 									blackShard.animate({transform : transformStr.black, opacity : "0.35" }, 61);
 									//redShard.animate({transform : "s1,0.72,0,130", opacity : "0.35" }, 61);
+									redShard.removeClass("background-logo-cls-3");
 									redShard.animate({transform : transformStr.red, opacity : "0.35" }, 61);
 						
 							}
@@ -428,14 +438,19 @@
 							} else {
 					
 									coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
-					
+									
 									yellowShard2.animate({ opacity : "1" }, 61);
-
+									yellowShard2.addClass("background-logo-cls-3");
 									yellowShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									yellowShard.addClass("background-logo-cls-3");
 									greenShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									greenShard.addClass("background-logo-cls-3");
 									blueShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									blueShard.addClass("background-logo-cls-3");
 									blackShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									blackShard.addClass("background-logo-cls-3");
 									redShard.animate({transform : "t0,0", opacity : "1" }, 61);
+									redShard.addClass("background-logo-cls-3");
 							}
 							
 
@@ -750,16 +765,25 @@
 					
 						//subMenu = paper.selectAll("#svg-menu g.sub-option");
 						subMenu = paper.selectAll("#svg-menu g.submenu-group");
-						for(el = 0; el < subMenu.length; el++) {
-							if(el >= 0) {
-								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
-							}
-							if(el >= 31) {
-								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
-							}
-							if(el >= (subMenu.length - 1)) {
-								subMenu[el].animate({ transform : "t0s1,1" }, 21);	
-							}
+						
+						switch(deviceOrientation) {
+							case "portrait":
+												subMenu.animate({ transform : "t-190,80s1.25,1.23,110,52" }, 18);
+							break;
+							case "landscape":
+											for(el = 0; el < subMenu.length; el++) {
+												if(el >= 0) {
+													subMenu[el].animate({ transform : "t0s1,1" }, 21);	
+												}
+												if(el >= 31) {
+													subMenu[el].animate({ transform : "t0s1,1" }, 21);	
+												}
+												if(el >= (subMenu.length - 1)) {
+													subMenu[el].animate({ transform : "t0s1,1" }, 21);	
+												}
+											}
+
+							break;
 						}
 
 						subMenu = paper.selectAll("#svg-menu g.sub-option text").animate({
@@ -872,13 +896,17 @@
 
 							var trackIndex = 0;
 							for(all = 0; all < allOptions.length; all++) {
-									console.log("active? " + allOptions[all].attr("id"), jQuery("svg#" + allOptions[all].attr("id")).hasClass("active"));
+									var index = allOptions[all].attr("id").substr(allOptions[all].attr("id").lastIndexOf("-") + 1);
+									
+									console.log("active? " + allOptions[all].attr("id"), jQuery("svg#" + allOptions[all].attr("id")).hasClass("active"), index);
 									if(jQuery("svg#" + allOptions[all].attr("id")).hasClass("active")){
 										//
 										allOptions[all].attr({ "opacity" : 1 });
+										paper.select("#submenu-group-" + index).attr({ "opacity" : 1});
 										trackIndex = all;
 									} else {
 										allOptions[all].attr({ "opacity" : 0 });
+										paper.select("#submenu-group-" + index).attr({ "opacity" : 0});
 									}
 
 							}
