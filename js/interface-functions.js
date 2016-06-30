@@ -1413,7 +1413,7 @@ var loadCount = 0;
 				/* draw white bottom rect */		
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
 					console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
-					var rectPos = jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height(); //331
+					var rectPos = jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333; // assuming a 4:3 resolution
 					var whiteOverlay = paper.rect("-1",rectPos,"304", "150"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
