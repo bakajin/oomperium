@@ -319,7 +319,7 @@
 	   function logoLoadWait() {
 	   			//	console.log("TIMERLOOP");
 	   				headerLogoInit();
-	   				fluidHeaderLogo("load")
+	   				fluidHeaderLogo("load");
 	   				
 	   }
 
@@ -341,8 +341,8 @@
 			switch(deviceOrientation) {
 				case "portrait":
 						//console.log("portrait", deviceOrientation);
-						logoPos = { x : "73", y : "-181" };
-						logoBgPos = { x : "-62", y : "-281" };
+						logoPos = { x : "73", y : "-381" };
+						logoBgPos = { x : "-62", y : "-481" };
 				break;
 				case "landscape":
 						logoPos = { x : "73", y : "56" };
@@ -373,13 +373,13 @@
 				//console.log("logo calls: ", type);
 				
 				if(logo == null) {
-								console.log("No LOGO ");
+								//console.log("No LOGO ");
 				} else {
 								logo.attr({ x : logoPos.x, y : logoPos.y});
 				}
 							
 				if (logoBg == null) {
-								console.log("no logo BG ");	
+								//console.log("no logo BG ");	
 				} else {
 								logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
 				}
@@ -405,16 +405,17 @@
 				break;
 
 				case "down":
+				console.log("logo scroll down " + jQuery(window).scrollTop() );
 							logo.animate({ transform : "s3" }, 61);
 							
-										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-260", red :"t0,-90" };
+										transformStr = { cover : "t0,-230", yellow : "t0,-170", green : "t0,-200", blue : "t0,-230", black : "t0,-460", red :"t0,-190" };
 							
 							if(jQuery(window).scrollTop() > 350) {
-										transformStr = { cover : "t0,-160", yellow : "t0,-100", green : "t0,-130", blue : "t0,-160", black : "t0,-290", red :"t0,-120" };
+										transformStr = { cover : "t0,-360", yellow : "t0,-300", green : "t0,-330", blue : "t0,-360", black : "t0,-590", red :"t0,-320" };
 							}
 
 							if(jQuery(window).scrollTop() > 850) {
-										transformStr = { cover : "t0,-190", yellow : "t0,-130", green : "t0,-160", blue : "t0,-190", black : "t0,-320", red :"t0,-150" };
+										transformStr = { cover : "t0,-590", yellow : "t0,-530", green : "t0,-560", blue : "t0,-590", black : "t0,-920", red :"t0,-550" };
 							}
 
 							if (logoBg == null) {
@@ -446,7 +447,7 @@
 		
 				case "up":
 						
-						//console.log("logo scroll up " + jQuery(window).scrollTop() );
+						console.log("logo scroll up " + jQuery(window).scrollTop() );
 							logo.animate({ transform : "s2" }, 61);
 							if (logoBg == null) {
 									//console.log("no BG LOGO ");	
@@ -615,7 +616,7 @@
 								paper.append( buttonAsset ); 
 							
 							// tweak asset display on stage
-							if(menuItems[b].title == "CASES") {	
+							if(menuItems[b].title == "PORTFOLIO") {	
 								paper.select("#" + buttonAsset.id).attr({
 										x : (300 * mIter + 50),
 										y : -5,
@@ -654,7 +655,7 @@
 							}
 							var horizontal = 0;
 							var horizontalOffset = 0;
-								console.log("subparent num: ",subParent);
+								//console.log("subparent num: ",subParent);
 							switch(subParent) {
 								case "110":
 										horizontal += 141; //19
@@ -1417,9 +1418,9 @@ var loadCount = 0;
 				}
 				/* draw white bottom rect */		
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
-					console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
+					//console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
 					var rectPos = jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333; // assuming a 4:3 resolution
-					var whiteOverlay = paper.rect("-1",rectPos,"304", "150"); //70 //300 - rectPos
+					var whiteOverlay = paper.rect("-1",rectPos,"304", "170"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)
