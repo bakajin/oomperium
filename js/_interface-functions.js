@@ -32,12 +32,14 @@
 	var viewBox;
 
 	var headerImg = new Array();
-	
+	var headerAssets = new Array();
+	var headerDimensons;
+
 	var loadList;
 	var assetObject;
 	var assetCount;
 
-	var headerAssets = new Array();
+	
 	var menuAssets;
 	var fluidMenuTimer;
 
@@ -125,7 +127,7 @@
 	function loadAssets() {
 			
 			for(mod in externalAssets) {
-					// ("module: ", mod);
+					//console.log("module: ", mod);
 					for(ass in externalAssets[mod]) {
 						//console.log("	assets: ", themePath + ass + ".svg");
 							
@@ -181,7 +183,7 @@
 			//renderMenu("#svg-menu");
 			//rerenderHeaderLogo();
 			
-			//console.log("buglist: headerlogoBG looadstate, clean rendermenu func" );
+		//	console.log("buglist: headerlogoBG looadstate, clean rendermenu func" );
 			headerLogoInit();
 
 			renderMenuButtons("svg-menu", externalAssets["svg-menu"]['button-main']['asset']);
@@ -203,11 +205,11 @@
 					break;
 					case "svg-social-menu":
 							renderSocialMenu(assetWaitForLoad[f].container);
-							//console.log("WARNING:: svg-social-menu ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+						//	console.log("WARNING:: svg-social-menu ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 							fIdx = 0;
 					break;
 					default:
-							//console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+						//	console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 					break;
 
 				}
@@ -285,9 +287,11 @@
        			paper = Snap("#" + pStr);
        			paper.attr({ viewBox: "0 0 300 489" }); //400
 
-       		//					paper.append(headerImg[0].node.cloneNode(true));
-       		//					paper.append(headerImg[1].node.cloneNode(true));
-       		 
+       			/*headerDimensons = {
+       									"logo-background" : { "x" : 0, "y" : 0, "width" : }, 
+       									"logo" : {} 
+       								}*/
+
        		for(ass in externalAssets[pStr]) {
        			//console.log("header asset: ", ass, externalAssets[pStr][ass]["loadstate"]);
        				if(externalAssets[pStr][ass]["loadstate"] == "complete") {
@@ -311,10 +315,11 @@
 	/* ------------------------------------
 			header event handlers
 	   ------------------------------------ */ 
-	function logoLoadWait() {
+
+	   function logoLoadWait() {
 	   			//	console.log("TIMERLOOP");
 	   				headerLogoInit();
-	   				fluidHeaderLogo("load")
+	   				fluidHeaderLogo("load");
 	   				
 	   }
 
@@ -336,8 +341,8 @@
 			switch(deviceOrientation) {
 				case "portrait":
 						//console.log("portrait", deviceOrientation);
-						logoPos = { x : "73", y : "-181" };
-						logoBgPos = { x : "-62", y : "-281" };
+						logoPos = { x : "73", y : "-381" };
+						logoBgPos = { x : "-62", y : "-481" };
 				break;
 				case "landscape":
 						logoPos = { x : "73", y : "56" };
@@ -381,20 +386,36 @@
 
 			switch(type) {
 				case "load":
-								//logo.attr({ x : logoPos.x, y : logoPos.y});
-								//logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
+					//	console.log("logo load " + windowWidth, windowHeight);
+						logoPaper.attr({ width : "300", height : "489"});
+
+						if(logo == null) {
+								//console.log("No LOGO!! ");
+							} else {
+								logo.attr({ x : "73", y : "56"});
+							}
+							
+							
+							if (logoBg == null) {
+									//console.log("no BG LOGO ");	
+							} else {
+									logoBg.attr({ x : "-62", y : "-52", width : "1200", height : "1200"});
+							}
+							
 				break;
+
 				case "down":
+				//console.log("logo scroll down " + jQuery(window).scrollTop() );
 							logo.animate({ transform : "s3" }, 61);
 							
-										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-260", red :"t0,-90" };
+										transformStr = { cover : "t0,-230", yellow : "t0,-170", green : "t0,-200", blue : "t0,-230", black : "t0,-460", red :"t0,-190" };
 							
 							if(jQuery(window).scrollTop() > 350) {
-										transformStr = { cover : "t0,-160", yellow : "t0,-100", green : "t0,-130", blue : "t0,-160", black : "t0,-290", red :"t0,-120" };
+										transformStr = { cover : "t0,-360", yellow : "t0,-300", green : "t0,-330", blue : "t0,-360", black : "t0,-590", red :"t0,-320" };
 							}
 
 							if(jQuery(window).scrollTop() > 850) {
-										transformStr = { cover : "t0,-190", yellow : "t0,-130", green : "t0,-160", blue : "t0,-190", black : "t0,-320", red :"t0,-150" };
+										transformStr = { cover : "t0,-590", yellow : "t0,-530", green : "t0,-560", blue : "t0,-590", black : "t0,-920", red :"t0,-550" };
 							}
 
 							if (logoBg == null) {
@@ -423,16 +444,11 @@
 									redShard.animate({transform : transformStr.red, opacity : "0.35" }, 61);
 						
 							}
-							
-							
-						//console.log("logo scroll down " + jQuery(window).scrollTop() );
-						
-				break;
+		
 				case "up":
 						
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
 							logo.animate({ transform : "s2" }, 61);
-						
 							if (logoBg == null) {
 									//console.log("no BG LOGO ");	
 							} else {
@@ -453,15 +469,12 @@
 									redShard.addClass("background-logo-cls-3");
 							}
 							
-
-
 				break;
 				case "time":
-
-						//console.log("logo timer " );
+					//	console.log("logo timer " );
 				break;
 				case "resize":
-							//console.log("logo resize " + windowWidth, windowHeight);
+						//	console.log("logo resize " + windowWidth, windowHeight);
 							//checking to see if the logo is complete when we try animate
 							if(logo == null) {
 								//console.log("No LOGO ");
@@ -470,13 +483,12 @@
 							}
 							
 							if (logoBg == null) {
-									//console.log("no logo BG ");	
+									//console.log("no BG LOGO ");	
+								//	console.log("no logo BG ");	
 							} else {
 									logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
 							}
 							
-							
-												
 				break;
 			}
 
@@ -501,10 +513,9 @@
 		/* select svg object string */	
 		var mStr = "svg-menu";
 				/* select svg object */
+
 			paper = Snap("#" + mStr);	
 			
-
-
     	   	/* backgroundrender */
        		var pWidth = 1000, pHeight = 130, pX = 0, pY = 21; 
 			
@@ -541,7 +552,7 @@
 				
 				//prepend menu bg
 				paper.append(bg);
-			////console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
+			//console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 			
 			// lets collapse the menu after a while 
@@ -605,7 +616,7 @@
 								paper.append( buttonAsset ); 
 							
 							// tweak asset display on stage
-							if(menuItems[b].title == "CASES") {	
+							if(menuItems[b].title == "PORTFOLIO") {	
 								paper.select("#" + buttonAsset.id).attr({
 										x : (300 * mIter + 50),
 										y : -5,
@@ -727,7 +738,7 @@
 								lastIdx = subParent;			
 						}
 					}
-						////console.log("WARN menu bg corrected in renderMenuButtons ");
+						//console.log("WARN menu bg corrected in renderMenuButtons ");
 					var menubg = paper.select("#menu-bg");
 						menubg.transform("s1,1,0");
 		
@@ -818,12 +829,10 @@
 															}
 															if(el >= 1) {
 																		subMenu[el].animate({ transform : "t190s0.35,0.33,110,52" }, 18);
-								
 															}
 															if(el >= (subMenu.length -1)) {
 																		//console.log("WARNING THIS 2 BREAKS THE 3rd MENU with more than 3 options")
 																		subMenu[el].animate({ transform : "t380s0.35,0.33,110,52" }, 18);
-									
 															}
 												}
 						
@@ -845,7 +854,6 @@
 	}
 
 	function horizontalFluidMenu() {
-
 		/* on portrait screen and touch capable */
 							
 		paper = Snap("#svg-menu");
@@ -898,7 +906,7 @@
 							for(all = 0; all < allOptions.length; all++) {
 									var index = allOptions[all].attr("id").substr(allOptions[all].attr("id").lastIndexOf("-") + 1);
 									
-									//console.log("active? " + allOptions[all].attr("id"), jQuery("svg#" + allOptions[all].attr("id")).hasClass("active"), index);
+								//	console.log("active? " + allOptions[all].attr("id"), jQuery("svg#" + allOptions[all].attr("id")).hasClass("active"), index);
 									if(jQuery("svg#" + allOptions[all].attr("id")).hasClass("active")){
 										//
 										allOptions[all].attr({ "opacity" : 1 });
@@ -1046,7 +1054,7 @@
 							break;
 
 							default:
-									console.log("default ", event);
+									//console.log("default ", event);
 							break;
 
 
@@ -1087,7 +1095,7 @@
 							break;
 
 							default:
-									console.log("default ", event);
+									//console.log("default ", event);
 							break;
 
 
@@ -1156,7 +1164,7 @@ var loadCount = 0;
 			drawPostControls(container); // container, loaded
 
 		} else {
-			console.log("unrecognised page! ")
+			//console.log("unrecognised page! ")
 			//hide the featured gallery
 				jQuery("article#post-" + stripIdx + " div.entry-content img.feat-gallery").each(function( index, element ) {
 				//jQuery("article#post-" + idx + " div.entry-content img.feat-gallery")[img].height;
@@ -1216,9 +1224,7 @@ var loadCount = 0;
 			jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx).css({
 					"top" : galleryPos * -1
 				});
-			
 			//console.log("active image height:: " + jQuery("article#post-" + idx + " div.entry-content div#gallery-cycler-" + idx + " img.active-img").height() * -1 + "px");
-
 			subtractVal = parseInt( jQuery("article#post-" + idx + " div.entry-content div.paragraph-container").height() );
 			subtractVal *= 0.8;
 			jQuery("#svg-gallery-controls-" + idx).css({
@@ -1414,7 +1420,7 @@ var loadCount = 0;
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
 					//console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
 					var rectPos = jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333; // assuming a 4:3 resolution
-					var whiteOverlay = paper.rect("-1",rectPos,"304", "180"); //70 //300 - rectPos
+					var whiteOverlay = paper.rect("-1",rectPos,"304", "170"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)
@@ -1773,7 +1779,7 @@ var loadCount = 0;
 							article > header.entry-header > h1.entry-title > a
 					*/
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
-					//console.log("the post cover: ", event);
+				//	console.log("the post cover: ", event);
 			break;
 			case "touchstart":
 					mask.animate(
@@ -2064,7 +2070,7 @@ var socialIter = 0;
 							break;
 
 							default:
-									console.log("default ", event);
+								//	console.log("default ", event);
 							break;
 
 				}

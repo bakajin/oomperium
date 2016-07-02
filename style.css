@@ -960,7 +960,7 @@ body.single .text-wrap, body.category .text-wrap {
 
 #content {
 	padding : 0% 4.6% 0% 4.6%;
-	top : 18rem;
+	top : 8rem;
 	position: relative;
 }
 
@@ -1021,7 +1021,7 @@ iframe .player .video-wrapper {
 body.blog .entry-footer, body.category .entry-footer {
 	position : relative;
 	/* move to js ? */
-	top : -3.25em;
+	top : -4.25em;
 }
  /*--------------------------------------------------------------
 }
