@@ -1176,7 +1176,7 @@ article:nth-child(n+9) p {
 	
 }
 body.category .svg-post, body.category .svg-gallery-controls {
-	visibility : hidden;
+	/*visibility : hidden;*/
 }
 /*--------------------------------------------------------------
 10.11 CV styling

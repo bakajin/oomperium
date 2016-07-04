@@ -1151,6 +1151,7 @@ var loadCount = 0;
 			//console.log("stripped idx: ", stripIdx, container);
 
 			drawPostControls(container); // container, loaded
+
 		} else if(jQuery("body").hasClass("category")) {
 			//console.log("category page! ")
 			wrapTextShape(stripIdx);
@@ -1507,11 +1508,11 @@ var loadCount = 0;
 														//lets tweak the size now
 														paper.select(cStr + " #" + ass).attr({"y" : "77%", "x" : "37%"});
 														
-														if(jQuery("body").hasClass("category")) {
-															paper.select(cStr + " #" + ass + " g").transform("s0.31");
-														} else {
+														//if(jQuery("body").hasClass("category")) {
+														//	paper.select(cStr + " #" + ass + " g").transform("s0.31");
+														//} else {
 															paper.select(cStr + " #" + ass + " g").transform("s0.61");
-														}
+														//}
 														
 														
 														paper.select(cStr + " #" + ass + " g").mouseover(moreHandle);
@@ -1601,12 +1602,12 @@ var loadCount = 0;
 					
 					var pWidth = (29) * num
 					
-					if(jQuery("body").hasClass("category")) {
-															//scale a little aswell
+					/*if(jQuery("body").hasClass("category")) {
+															//scale a little aswell*/
 															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
-													} else {
+													/*} else {
 															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
-													}
+													}*/
 														
 				//paper.attr();
 			} else {
