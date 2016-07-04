@@ -407,14 +407,14 @@
 				console.log("logo scroll down " + jQuery(window).scrollTop() );
 							logo.animate({ transform : "s3" }, 61);
 							
-										transformStr = { cover : "t0,-230", yellow : "t0,-170", green : "t0,-200", blue : "t0,-230", black : "t0,-460", red :"t0,-190" };
+										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-160", red :"t0,-90" };
 							
 							if(jQuery(window).scrollTop() > 350) {
-										transformStr = { cover : "t0,-360", yellow : "t0,-300", green : "t0,-330", blue : "t0,-360", black : "t0,-590", red :"t0,-320" };
+										transformStr = { cover : "t0,-260", yellow : "t0,-170", green : "t0,-230", blue : "t0,-260", black : "t0,-290", red :"t0,-220" };
 							}
 
 							if(jQuery(window).scrollTop() > 850) {
-										transformStr = { cover : "t0,-590", yellow : "t0,-530", green : "t0,-560", blue : "t0,-590", black : "t0,-920", red :"t0,-550" };
+										transformStr = { cover : "t0,-390", yellow : "t0,-230", green : "t0,-360", blue : "t0,-390", black : "t0,-320", red :"t0,-350" };
 							}
 
 							if (logoBg == null) {
@@ -520,7 +520,7 @@
 			paper = Snap("#" + mStr);	
 			
     	   	/* backgroundrender */
-       		var pWidth = 1000, pHeight = 130, pX = 0, pY = 21; 
+       		var pWidth = 1000, pHeight = 100, pX = 0, pY = 21; 
 			
 			paper.attr({
 				"viewBox" : pX + " " + pX + " " + pWidth + " " + pHeight
@@ -742,8 +742,8 @@
 						}
 					}
 						////console.log("WARN menu bg corrected in renderMenuButtons ");
-					var menubg = paper.select("#menu-bg");
-						menubg.transform("s1,1,0");
+					//var menubg = paper.select("#menu-bg");
+					//	menubg.transform("s1,1,0");
 		
 		} else {
 			//console.log("TIMEOUT FOR MENU");
@@ -814,7 +814,7 @@
 			case "down":
 				// lets scale the menu-bg as a whole
 						background = paper.select("#menu-bg");
-						background.animate({transform : "s1,0.5,0,26" }, 18);
+						background.animate({transform : "s1,0.6,0,26" }, 18);
 
 					//	background = paper.select("#menu-bg-line-bottom");
 					//	background.attr({"y1" : "99%", "y2" : "99%"}, 21);
@@ -944,17 +944,17 @@
 			case "landscape":
 					/* put it all back */
 					paper.attr({
-										"viewBox" : "0 0 1000 130"
+										"viewBox" : "0 0 1000 100"
 							});
 
 							paper.select("#menu-bg rect").animate({
-																	"height" : 130,
+																	"height" : 100,
 																	"x" : 0,
 							}, 161, mina.easein);
 							paper.select("#menu-bg line#menu-bg-line-bottom").animate({
 																						"x1" : 0,
-																						"y1" : 151,
-																						"y2" : 151
+																						"y1" : 121,
+																						"y2" : 121
 							}, 161, mina.easein);
 
 							paper.selectAll("svg.main-menu-button g#mobile-collapse").attr({
@@ -1423,9 +1423,9 @@ var loadCount = 0;
 				/* draw white bottom rect */		
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
 					//console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
-					var rectPos = jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333; // assuming a 4:3 resolution
+					var rectPos = Math.ceil(jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333 - 80); // assuming a 4:3 resolution
 
-					var whiteOverlay = paper.rect("-1",rectPos,"304", "180"); //70 //300 - rectPos
+					var whiteOverlay = paper.rect("-1",rectPos,"304", "220"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)
@@ -1437,7 +1437,7 @@ var loadCount = 0;
 		/* draw transparent hotspot overlay trigger post link */
 		//move this to the other svg to regain controls
 				if(paper.select("#transparent-overlay-" + elemId) == undefined) {
-					var transparentOverlay = paper.rect("0","0","300","470");
+					var transparentOverlay = paper.rect("0","0","300","430");
 						transparentOverlay.attr({
 							opacity : "0",
 							id : ("transparent-overlay-" + elemId)
@@ -1603,11 +1603,11 @@ var loadCount = 0;
 					var pWidth = (29) * num
 					
 					/*if(jQuery("body").hasClass("category")) {
-															//scale a little aswell*/
+															//scale a little aswell
 															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
-													/*} else {
-															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
-													}*/
+													} else {*/
+															paper.transform("s0.8t" + (wVal / 2 - pWidth / 2) * 1.25 + "," + (hVal * 0.8) );
+												//	}
 														
 				//paper.attr();
 			} else {
