@@ -102,7 +102,7 @@ section {
 
 /* article layout (post) for main page page (blog) */ 
 
-body.blog article {
+body.blog article, body.category article {
 	float : left;
 	width : 30%;
 	margin : 2% 0 2% 2%; /* !important */
@@ -113,7 +113,7 @@ body.single article {
 	margin-left : 30%;
 }
 body.category #content, body.error404 #content, body.page #content {
-	padding-left: 30%;
+	/* padding-left: 30%; */
 }
 
 ol,
@@ -961,7 +961,7 @@ body.single .text-wrap, body.category .text-wrap {
 
 #content {
 	padding : 0% 4.6% 0% 4.6%;
-	top : 18rem;
+	top : 8rem;
 	position: relative;
 }
 
@@ -1022,7 +1022,7 @@ iframe .player .video-wrapper {
 body.blog .entry-footer, body.category .entry-footer {
 	position : relative;
 	/* move to js ? */
-	top : -3.25em;
+	top : -4.25em;
 }
  /*--------------------------------------------------------------
 }
@@ -1053,10 +1053,19 @@ body.blog .entry-footer, body.category .entry-footer {
 .entry-summary {
 	margin: 1em 0 0;
 }
-.blog article:first-child {
+body.blog article:first-child{
 	margin-left: 33%; /* !important */
 }
-.blog div.infinite-wrap article:first-child {
+
+body.archive article:first-of-type {
+	margin-left: 33%; /* !important */
+}
+
+body.category article:first-of-type {
+	margin-left: 33%; /* !important */
+}
+
+body.blog div.infinite-wrap article:first-child {
 	margin-left: 3%!important;
 }
 
@@ -1091,12 +1100,6 @@ article p strong {
 	color : #61665e; /* #b8a5a5 */
 	position : relative;
 	z-index : 3;
-}
-
-body.blog .entry-content p {
-/*	-webkit-clip-path : polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%); 
-	clip-path : polygon(0% 0%, 0% 14em, 100% 4em, 100% 0%);
-*/
 }
 
 body.blog .entry-content div {
@@ -1462,21 +1465,6 @@ body.blog .gallery-item {
 	vertical-align: top;*/
 	width: 100%;
 }
-
-/* on the main page (blog) show only one pic 
-body.blog .gallery-item {
-
-}
-
-body.blog .gallery-item:first-child, body.blog .gallery-item#featured {
-	height : auto;
-	display: inline-block;
-}
-*/
-
-
-/* on the gallery page (after click) show one pic featured pic large and the rest as thumbs */
-/* single-format-gallery */
 
 body.single-format-gallery .gallery-item {
 	float : right;

@@ -127,7 +127,7 @@
 	function loadAssets() {
 			
 			for(mod in externalAssets) {
-					// ("module: ", mod);
+					//console.log("module: ", mod);
 					for(ass in externalAssets[mod]) {
 						//console.log("	assets: ", themePath + ass + ".svg");
 							
@@ -183,7 +183,7 @@
 			//renderMenu("#svg-menu");
 			//rerenderHeaderLogo();
 			
-			//console.log("buglist: headerlogoBG looadstate, clean rendermenu func" );
+		//	console.log("buglist: headerlogoBG looadstate, clean rendermenu func" );
 			headerLogoInit();
 
 			renderMenuButtons("svg-menu", externalAssets["svg-menu"]['button-main']['asset']);
@@ -205,10 +205,11 @@
 					break;
 					case "svg-social-menu":
 							renderSocialMenu(assetWaitForLoad[f].container);
+						//	console.log("WARNING:: svg-social-menu ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 							fIdx = 0;
 					break;
 					default:
-							//console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
+						//	console.log("WARNING:: ", assetWaitForLoad[f].asset, assetWaitForLoad[f].container, assetWaitForLoad[f].id, fIdx);
 					break;
 
 				}
@@ -314,7 +315,8 @@
 	/* ------------------------------------
 			header event handlers
 	   ------------------------------------ */ 
-	function logoLoadWait() {
+
+	   function logoLoadWait() {
 	   			//	console.log("TIMERLOOP");
 	   				headerLogoInit();
 	   				fluidHeaderLogo("load");
@@ -341,7 +343,6 @@
 						//console.log("portrait", deviceOrientation);
 						logoPos = { x : "73", y : "-381" };
 						logoBgPos = { x : "-62", y : "-481" };
-
 				break;
 				case "landscape":
 						logoPos = { x : "73", y : "56" };
@@ -404,7 +405,7 @@
 				break;
 
 				case "down":
-				console.log("logo scroll down " + jQuery(window).scrollTop() );
+				//console.log("logo scroll down " + jQuery(window).scrollTop() );
 							logo.animate({ transform : "s3" }, 61);
 							
 										transformStr = { cover : "t0,-230", yellow : "t0,-170", green : "t0,-200", blue : "t0,-230", black : "t0,-460", red :"t0,-190" };
@@ -443,12 +444,7 @@
 									redShard.animate({transform : transformStr.red, opacity : "0.35" }, 61);
 						
 							}
-
-							
-							
-						//console.log("logo scroll down " + jQuery(window).scrollTop() );
-						
-				break;
+		
 				case "up":
 						
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
@@ -478,7 +474,7 @@
 					//	console.log("logo timer " );
 				break;
 				case "resize":
-							//console.log("logo resize " + windowWidth, windowHeight);
+						//	console.log("logo resize " + windowWidth, windowHeight);
 							//checking to see if the logo is complete when we try animate
 							if(logo == null) {
 								//console.log("No LOGO ");
@@ -487,7 +483,8 @@
 							}
 							
 							if (logoBg == null) {
-									//console.log("no logo BG ");	
+									//console.log("no BG LOGO ");	
+								//	console.log("no logo BG ");	
 							} else {
 									logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
 							}
@@ -555,7 +552,7 @@
 				
 				//prepend menu bg
 				paper.append(bg);
-			////console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
+			//console.log("SEE ME ONCE? do menu? ", externalAssets[mStr]['button-main']['loadstate']);
 			//renderMenuButtons(mStr, externalAssets[mStr]['button-main']['asset']);
 			
 			// lets collapse the menu after a while 
@@ -741,7 +738,7 @@
 								lastIdx = subParent;			
 						}
 					}
-						////console.log("WARN menu bg corrected in renderMenuButtons ");
+						//console.log("WARN menu bg corrected in renderMenuButtons ");
 					var menubg = paper.select("#menu-bg");
 						menubg.transform("s1,1,0");
 		
@@ -909,7 +906,7 @@
 							for(all = 0; all < allOptions.length; all++) {
 									var index = allOptions[all].attr("id").substr(allOptions[all].attr("id").lastIndexOf("-") + 1);
 									
-									//console.log("active? " + allOptions[all].attr("id"), jQuery("svg#" + allOptions[all].attr("id")).hasClass("active"), index);
+								//	console.log("active? " + allOptions[all].attr("id"), jQuery("svg#" + allOptions[all].attr("id")).hasClass("active"), index);
 									if(jQuery("svg#" + allOptions[all].attr("id")).hasClass("active")){
 										//
 										allOptions[all].attr({ "opacity" : 1 });
@@ -1423,8 +1420,7 @@ var loadCount = 0;
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
 					//console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
 					var rectPos = jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333; // assuming a 4:3 resolution
-
-					var whiteOverlay = paper.rect("-1",rectPos,"304", "180"); //70 //300 - rectPos
+					var whiteOverlay = paper.rect("-1",rectPos,"304", "170"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)
@@ -1783,7 +1779,7 @@ var loadCount = 0;
 							article > header.entry-header > h1.entry-title > a
 					*/
 					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
-					//console.log("the post cover: ", event);
+				//	console.log("the post cover: ", event);
 			break;
 			case "touchstart":
 					mask.animate(
