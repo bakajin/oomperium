@@ -314,7 +314,7 @@
 	function logoLoadWait() {
 	   			//	console.log("TIMERLOOP");
 	   				headerLogoInit();
-	   				fluidHeaderLogo("load")
+	   				fluidHeaderLogo("load");
 	   				
 	   }
 
@@ -385,7 +385,9 @@
 								//logoBg.attr({ x : logoBgPos.x, y : logoBgPos.y, width : "1200", height : "1200"});
 				break;
 				case "down":
-							logo.animate({ transform : "s3" }, 61);
+							//logo.animate({ transform : "s3" }, 61);
+							logoOO.animate({ transform : "s0.75" }, 61);
+							logoMP.animate({ transform : "s0.8" }, 61);
 							
 										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-260", red :"t0,-90" };
 							
@@ -431,8 +433,10 @@
 				case "up":
 						
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
-							logo.animate({ transform : "s2" }, 61);
-						
+						//	logo.animate({ transform : "s2" }, 61);
+							logoOO.animate({ transform : "s1" }, 61);
+							logoMP.animate({ transform : "s1" }, 61);
+							
 							if (logoBg == null) {
 									//console.log("no BG LOGO ");	
 							} else {
@@ -506,7 +510,7 @@
 
 
     	   	/* backgroundrender */
-       		var pWidth = 1000, pHeight = 130, pX = 0, pY = 21; 
+       		var pWidth = 1000, pHeight = 100, pX = 0, pY = 21; 
 			
 			paper.attr({
 				"viewBox" : pX + " " + pX + " " + pWidth + " " + pHeight
@@ -937,13 +941,13 @@
 							});
 
 							paper.select("#menu-bg rect").animate({
-																	"height" : 130,
+																	"height" : 100,
 																	"x" : 0,
 							}, 161, mina.easein);
 							paper.select("#menu-bg line#menu-bg-line-bottom").animate({
 																						"x1" : 0,
-																						"y1" : 151,
-																						"y2" : 151
+																						"y1" : 121,
+																						"y2" : 121
 							}, 161, mina.easein);
 
 							paper.selectAll("svg.main-menu-button g#mobile-collapse").attr({
