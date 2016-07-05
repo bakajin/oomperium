@@ -1257,11 +1257,11 @@ var loadCount = 0;
 				wRatio = Math.ceil(wRatio / 10) * 10;
 
 			jQuery("#post-" + idx).css({
-					height :  wRatio * 1.05 + "px"
+					height :  wRatio * 0.9 + "px"
 			});
 
 			jQuery("#post-" + idx + " .entry-content").css({
-					height : wRatio * 1 + "px"
+					height : wRatio * 0.85 + "px"
 			});
 
 			//console.log("postLayout ", subtractVal, idx);
@@ -1499,7 +1499,7 @@ var loadCount = 0;
 														//more-button or next-button or previous-button
 														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
 														//lets tweak the size now
-														paper.select(cStr + " #" + ass).attr({"y" : "77%", "x" : "37%"});
+														paper.select(cStr + " #" + ass).attr({"y" : "82%", "x" : "37%"});
 														
 														if(jQuery("body").hasClass("category")) {
 															paper.select(cStr + " #" + ass + " g").transform("s0.31");
@@ -1599,7 +1599,7 @@ var loadCount = 0;
 															//scale a little aswell
 															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
 													} else {
-															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.69) );
+															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.76) );
 													}
 														
 				//paper.attr();

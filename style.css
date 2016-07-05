@@ -1052,7 +1052,7 @@ body.blog .entry-footer, body.category .entry-footer {
 .entry-summary {
 	margin: 1em 0 0;
 }
-body.blog article:first-child{
+body.blog article:first-of-type {
 	margin-left: 33%; /* !important */
 }
 
