@@ -360,8 +360,8 @@
 			var blackShard = logoPaper.select("#shard-black");
 			var redShard = logoPaper.select("#shard-red");
 
-			var logoOO = logoPaper.select("g#logo g#oo");
-			var logoMP = logoPaper.select("g#logo g#mp");
+			var logoOOMP = logoPaper.select("#oo");
+			//var logoMP = logoPaper.select("g#logoOOMP");
 
 			var transformStr;
 				logoPaper.attr({ width : "300", height : "489"});
@@ -386,8 +386,8 @@
 				break;
 				case "down":
 							//logo.animate({ transform : "s3" }, 61);
-							logoOO.animate({ transform : "s0.75" }, 61);
-							logoMP.animate({ transform : "s0.8" }, 61);
+							logoOOMP.animate({ transform : "s0.75" }, 61);
+						//	logoMP.animate({ transform : "s0.8" }, 61);
 							
 										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-260", red :"t0,-90" };
 							
@@ -434,8 +434,8 @@
 						
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
 						//	logo.animate({ transform : "s2" }, 61);
-							logoOO.animate({ transform : "s1" }, 61);
-							logoMP.animate({ transform : "s1" }, 61);
+							logoOOMP.animate({ transform : "s1" }, 61);
+						//	logoMP.animate({ transform : "s1" }, 61);
 							
 							if (logoBg == null) {
 									//console.log("no BG LOGO ");	
