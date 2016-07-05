@@ -364,8 +364,8 @@
 			var blackShard = logoPaper.select("#shard-black");
 			var redShard = logoPaper.select("#shard-red");
 
-			var logoOO = logoPaper.select("g#logo g#oo");
-			var logoMP = logoPaper.select("g#logo g#mp");
+			var logoOOMP = logoPaper.select("#oo");
+			//var logoMP = logoPaper.select("g#logoOOMP");
 
 			var transformStr;
 				logoPaper.attr({ width : "300", height : "489"});
@@ -404,10 +404,11 @@
 				break;
 
 				case "down":
-				console.log("logo scroll down " + jQuery(window).scrollTop() );
-							logo.animate({ transform : "s3" }, 61);
+							//logo.animate({ transform : "s3" }, 61);
+							logoOOMP.animate({ transform : "s0.75" }, 61);
+						//	logoMP.animate({ transform : "s0.8" }, 61);
 							
-										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-160", red :"t0,-90" };
+							transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-160", red :"t0,-90" };
 							
 							if(jQuery(window).scrollTop() > 350) {
 										transformStr = { cover : "t0,-260", yellow : "t0,-170", green : "t0,-230", blue : "t0,-260", black : "t0,-290", red :"t0,-220" };
@@ -452,7 +453,10 @@
 				case "up":
 						
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
-							logo.animate({ transform : "s2" }, 61);
+						//	logo.animate({ transform : "s2" }, 61);
+							logoOOMP.animate({ transform : "s1" }, 61);
+						//	logoMP.animate({ transform : "s1" }, 61);
+							
 							if (logoBg == null) {
 									//console.log("no BG LOGO ");	
 							} else {
@@ -1263,11 +1267,11 @@ var loadCount = 0;
 				wRatio = Math.ceil(wRatio / 10) * 10;
 
 			jQuery("#post-" + idx).css({
-					height :  wRatio * 1.05 + "px"
+					height :  wRatio * 0.9 + "px"
 			});
 
 			jQuery("#post-" + idx + " .entry-content").css({
-					height : wRatio * 1 + "px"
+					height : wRatio * 0.85 + "px"
 			});
 
 			//console.log("postLayout ", subtractVal, idx);
@@ -1506,7 +1510,7 @@ var loadCount = 0;
 														//more-button or next-button or previous-button
 														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
 														//lets tweak the size now
-														paper.select(cStr + " #" + ass).attr({"y" : "77%", "x" : "37%"});
+														paper.select(cStr + " #" + ass).attr({"y" : "82%", "x" : "37%"});
 														
 														//if(jQuery("body").hasClass("category")) {
 														//	paper.select(cStr + " #" + ass + " g").transform("s0.31");
@@ -1602,12 +1606,9 @@ var loadCount = 0;
 					
 					var pWidth = (29) * num
 					
-					/*if(jQuery("body").hasClass("category")) {
-															//scale a little aswell
-															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
-													} else {*/
-															paper.transform("s0.8t" + (wVal / 2 - pWidth / 2) * 1.25 + "," + (hVal * 0.8) );
-												//	}
+					//scale a little aswell
+															
+					paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.76) );
 														
 				//paper.attr();
 			} else {
