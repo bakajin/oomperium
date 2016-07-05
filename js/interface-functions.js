@@ -1429,7 +1429,7 @@ var loadCount = 0;
 					//console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
 					var rectPos = Math.ceil(jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333 - 80); // assuming a 4:3 resolution
 
-					var whiteOverlay = paper.rect("-1",rectPos,"304", "220"); //70 //300 - rectPos
+					var whiteOverlay = paper.rect("-1",rectPos,"304", "1305"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)

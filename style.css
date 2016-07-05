@@ -958,6 +958,9 @@ body.single .text-wrap, body.category .text-wrap {
 	display : none;
 	*/
 }
+body.single #content {
+	top : 11rem;
+}
 
 #content {
 	padding : 0% 4.6% 0% 4.6%;
@@ -1370,6 +1373,7 @@ object {
 	padding-bottom: 56.25%; /* 16:9 */
 	padding-top: 25px;
 	height: 0;
+	margin-bottom : 1.31%;
 } 
 	
 .video-wrap iframe  { 
