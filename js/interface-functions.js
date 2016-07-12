@@ -340,8 +340,10 @@
 						logoBgPos = { x : "-62", y : "-281" };
 				break;
 				case "landscape":
-						logoPos = { x : "73", y : "56" };
-						logoBgPos = { x : "-62", y : "-52" };
+						//x = windowiwdth / 33?
+						logoPos = { x : (windowWidth / 33), y : "56" };
+						//x = windowiwdth / 15?
+						logoBgPos = { x : (windowWidth / -15), y : "-52" };
 						//console.log("landscape", deviceOrientation);
 				break;
 			}
@@ -361,7 +363,7 @@
 			var redShard = logoPaper.select("#shard-red");
 
 			var logoOOMP = logoPaper.select("#oo");
-			//var logoMP = logoPaper.select("g#logoOOMP");
+			var logoMP = logoPaper.select("#mp");
 
 			var transformStr;
 				logoPaper.attr({ width : "300", height : "489"});
@@ -386,8 +388,8 @@
 				break;
 				case "down":
 							//logo.animate({ transform : "s3" }, 61);
-							logoOOMP.animate({ transform : "s0.75" }, 61);
-						//	logoMP.animate({ transform : "s0.8" }, 61);
+							logoOOMP.animate({ transform : "t0 -42 s0.61 0.61" }, 61);
+							logoMP.animate({ transform : "t0 -62 s0.66 0.66" }, 61);
 							
 										transformStr = { cover : "t0,-130", yellow : "t0,-70", green : "t0,-100", blue : "t0,-130", black : "t0,-260", red :"t0,-90" };
 							
@@ -395,8 +397,8 @@
 										transformStr = { cover : "t0,-160", yellow : "t0,-100", green : "t0,-130", blue : "t0,-160", black : "t0,-290", red :"t0,-120" };
 							}
 
-							if(jQuery(window).scrollTop() > 850) {
-										transformStr = { cover : "t0,-190", yellow : "t0,-130", green : "t0,-160", blue : "t0,-190", black : "t0,-320", red :"t0,-150" };
+							if(jQuery(window).scrollTop() > 550) {
+										transformStr = { cover : "t0,-290", yellow : "t0,-230", green : "t0,-260", blue : "t0,-290", black : "t0,-420", red :"t0,-250" };
 							}
 
 							if (logoBg == null) {
@@ -434,27 +436,28 @@
 						
 						//console.log("logo scroll up " + jQuery(window).scrollTop() );
 						//	logo.animate({ transform : "s2" }, 61);
-							logoOOMP.animate({ transform : "s1" }, 61);
-						//	logoMP.animate({ transform : "s1" }, 61);
+							logoOOMP.animate({ transform : "t0 0 s1 1" }, 61);
+							logoMP.animate({ transform : "t0 0 s1 1" }, 61);
 							
 							if (logoBg == null) {
 									//console.log("no BG LOGO ");	
 							} else {
-					
-									coverShards.animate({transform : "t0,0", opacity : "1" }, 61);
+									if(jQuery(window).scrollTop() < 500) {
+										coverShards.animate({transform : "t0,0", opacity : "1" }, 201);
 									
-									yellowShard2.animate({ opacity : "1" }, 61);
-									yellowShard2.addClass("background-logo-cls-3");
-									yellowShard.animate({transform : "t0,0", opacity : "1" }, 61);
-									yellowShard.addClass("background-logo-cls-3");
-									greenShard.animate({transform : "t0,0", opacity : "1" }, 61);
-									greenShard.addClass("background-logo-cls-3");
-									blueShard.animate({transform : "t0,0", opacity : "1" }, 61);
-									blueShard.addClass("background-logo-cls-3");
-									blackShard.animate({transform : "t0,0", opacity : "1" }, 61);
-									blackShard.addClass("background-logo-cls-3");
-									redShard.animate({transform : "t0,0", opacity : "1" }, 61);
-									redShard.addClass("background-logo-cls-3");
+										yellowShard2.animate({ opacity : "1" }, 201);
+										yellowShard2.addClass("background-logo-cls-3");
+										yellowShard.animate({transform : "t0,0", opacity : "1" }, 201);
+										yellowShard.addClass("background-logo-cls-3");
+										greenShard.animate({transform : "t0,0", opacity : "1" }, 201);
+										greenShard.addClass("background-logo-cls-3");
+										blueShard.animate({transform : "t0,0", opacity : "1" }, 201);
+										blueShard.addClass("background-logo-cls-3");
+										blackShard.animate({transform : "t0,0", opacity : "1" }, 201);
+										blackShard.addClass("background-logo-cls-3");
+										redShard.animate({transform : "t0,0", opacity : "1" }, 201);
+										redShard.addClass("background-logo-cls-3");
+								}
 							}
 							
 
@@ -1404,7 +1407,7 @@ var loadCount = 0;
 				});//500
 
 					//points="0,0,0,261,300,100,300,0" 0,0, 0,261, 300,100, 300,0
-				var mPoints = [0,-20,0,161,300,-20,300,-20];
+				var mPoints = [0,-35, 0,181, 300,0, 300,-35];
 				if(paper.select("#white-tri-overlay-" + elemId) == undefined ) {
 					var whiteTriangle = paper.polygon(mPoints);
 						whiteTriangle.attr({
@@ -1418,7 +1421,7 @@ var loadCount = 0;
 				if(paper.select("#white-rect-overlay-" + elemId) == undefined) {
 					//console.log("active image height:: " + jQuery("article#post-" + elemId + " div.entry-content div#gallery-cycler-" + elemId + " img.active-img").height() );
 					var rectPos = jQuery("article#post-" + elemId + " div.entry-content").innerWidth() / 1.333333; // assuming a 4:3 resolution
-					var whiteOverlay = paper.rect("-1",rectPos,"304", "180"); //70 //300 - rectPos
+					var whiteOverlay = paper.rect("-1",rectPos,"304", "85"); //70 //300 - rectPos
 						whiteOverlay.attr({
 							fill : "#ffffff",
 							id : ("white-rect-overlay-" + elemId)
@@ -1430,7 +1433,7 @@ var loadCount = 0;
 		/* draw transparent hotspot overlay trigger post link */
 		//move this to the other svg to regain controls
 				if(paper.select("#transparent-overlay-" + elemId) == undefined) {
-					var transparentOverlay = paper.rect("0","0","300","470");
+					var transparentOverlay = paper.rect("0","0","300","210");
 						transparentOverlay.attr({
 							opacity : "0",
 							id : ("transparent-overlay-" + elemId)
@@ -1499,7 +1502,7 @@ var loadCount = 0;
 														//more-button or next-button or previous-button
 														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
 														//lets tweak the size now
-														paper.select(cStr + " #" + ass).attr({"y" : "82%", "x" : "37%"});
+														paper.select(cStr + " #" + ass).attr({"y" : "72%", "x" : "37%"});
 														
 														if(jQuery("body").hasClass("category")) {
 															paper.select(cStr + " #" + ass + " g").transform("s0.31");
@@ -1577,14 +1580,23 @@ var loadCount = 0;
 		
 				var paginatorAsset = externalAssets["post"]["paginator"]['asset'].node.cloneNode(true)
 					paginatorAsset.id = "paginator-" + num;
-
+					
 					paper.append(paginatorAsset);
 
 					
-					paper.select("#paginator-" + num).attr({
-						"x" : ( num * 25 )
+					var paginator = paper.select("#paginator-" + num).attr({
+						"x" : ( num * 25 ),
+						"cursor" : "pointer"
 					});
+						paginator.mouseover(paginate);
+						paginator.mouseout(paginate);
 
+						paginator.mousedown(paginate);
+						paginator.mouseup(paginate);
+
+						paginator.touchstart(paginate);
+						paginator.touchend(paginate);
+				
 					if(num == 0) {
 							//leave selected
 					} else {
@@ -1599,7 +1611,7 @@ var loadCount = 0;
 															//scale a little aswell
 															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
 													} else {
-															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.76) );
+															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.61) );
 													}
 														
 				//paper.attr();
@@ -1717,7 +1729,35 @@ var loadCount = 0;
 
 		
 	}
+	function paginate(event) {
+		//console.log("paginate", event);
+		switch(event.type){
+			case "mouseover":
+						console.log("paginate over: ", event.fromElement.nearestViewportElement.id);
+			break;
+			case "mousedown":
+						console.log("paginate mousedown: ", event.srcElement.nearestViewportElement.id);
+			break;
+			case "mouseup":
 
+						var parentId = event.srcElement.farthestViewportElement.id;
+						var imgId = event.srcElement.nearestViewportElement.id;
+						//var slideImages 
+						console.log("paginate mouseup: ", parentId, imgId);
+			break;
+			default:
+						console.log("paginate default: ", event.type, event.fromElement.nearestViewportElement.id);
+			break;
+		}
+/*
+		var active = jQuery('#gallery-cycler-' + idx + ' .active-img');
+				var next = (active.next().length > 0) ? active.next() : jQuery('#gallery-cycler-' + idx + ' img:first');
+      				next.css('z-index',2);//move the next image up the pile
+      				active.fadeOut(1100,function(){//fade out the top image
+      				active.css('z-index',1).show().removeClass('active-img');//reset the z-index and unhide the image
+      				next.css('z-index',3).addClass('active-img');//make the next image the top one
+      				*/
+	}
 	function postHandle(event) {
 		/* 
 				the handler for the post cover :: svg-gallery-controls 
@@ -1756,7 +1796,7 @@ var loadCount = 0;
 
 					/* animate to on :: clipping mask */
 					mask.animate(
-  					{ points: [0,-20,0,161,300,-20,300,-20] },
+  					{ points: [0,-35, 0,181, 300,0, 300,-35] },
   					161, mina.easein);
   					
   					jQuery("#gallery-cycler-" + idx).css({ "z-index" : 1});
@@ -1918,14 +1958,14 @@ var socialIter = 0;
 							paper = Snap.select("#" + container);
 					
 						//var bgRect = paper.rect( (window.innerWidth * -2),50,(window.innerWidth * 4),5).attr({
-						var bgRect = paper.rect( 0,10,(window.innerWidth * 4),5).attr({
+					/*	var bgRect = paper.rect( 0,10,(window.innerWidth * 4),5).attr({
 								fill : "#e6dcdc",
 								id : "background-line"
 						});
-						
+					*/	
 						//paper.append(bgR)
 						//var coverRect = paper.rect( (window.innerWidth * -2),0,(window.innerWidth * 4),130).attr({
-						var coverRect = paper.rect( 0,0,(window.innerWidth * 4),60).attr({
+						var coverRect = paper.rect( 0,0,(window.innerWidth * 4),26).attr({
 							fill : "#ffffff",
 							opacity : "0",
 							id : "background-cover"
@@ -1971,7 +2011,7 @@ var socialIter = 0;
 
       	jQuery("#map-canvas").css({ 
       		"width" : (window.innerWidth + "px"),
-      		"height" : "600px"
+      		"height" : "340px"
       	});
       	
       	var mapstyle = [
@@ -2010,7 +2050,7 @@ var socialIter = 0;
 
         var mapOptions = {
           center: { lat: 52.3670513, lng: 4.9024593}, 
-          zoom: 15,
+          zoom: 14,
           styles : mapstyle,
           zoomControl: true,
     	  zoomControlOptions: {
