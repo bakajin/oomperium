@@ -967,7 +967,7 @@ body.single #content {
 #content {
 	padding : 0% 4.6% 0% 4.6%;
 	margin-bottom: 1rem;
-	top : 8rem;
+	top : 12rem; /* 8rem */
 	position: relative;
 }
 

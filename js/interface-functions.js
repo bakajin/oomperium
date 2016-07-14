@@ -1512,7 +1512,7 @@ var loadCount = 0;
 														//more-button or next-button or previous-button
 														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
 														//lets tweak the size now
-														paper.select(cStr + " #" + ass).attr({"y" : "72%", "x" : "37%"});
+														paper.select(cStr + " #" + ass).attr({"y" : "86%", "x" : "37%"});
 														
 														//if(jQuery("body").hasClass("category")) {
 														//	paper.select(cStr + " #" + ass + " g").transform("s0.31");
@@ -1618,10 +1618,11 @@ var loadCount = 0;
 					var pWidth = (29) * num
 					
 					if(jQuery("body").hasClass("category")) {
-															//scale a little aswell
-															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
+															//scale a little aswell s0.5
+															//paper.transform("t" + (wVal - pWidth) + "," + (hVal * 0.76) );
+															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.76) );
 													} else {
-															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.61) );
+															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.76) );
 													}														
 				//paper.attr();
 			} else {
