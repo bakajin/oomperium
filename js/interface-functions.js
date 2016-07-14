@@ -75,7 +75,7 @@
 			
 			containerKey = "svg-menu";
 			externalAssets[containerKey] = {};
-			loadList = ["button-main"];
+			loadList = ["button-main", "vertical-menu"];
 			
 			for (i = 0; i < loadList.length; i++) {
 
@@ -185,6 +185,7 @@
 			headerLogoInit();
 
 			renderMenuButtons("svg-menu", externalAssets["svg-menu"]['button-main']['asset']);
+			renderVerticalMenu("svg-vertical-menu", externalAssets["svg-menu"]['vertical-menu']['asset']);
 			renderGoogleMap();
 
 			//console.log("WARNING:: ", assetWaitForLoad.length);
@@ -556,6 +557,41 @@
 					
 	}
 
+	function renderVerticalMenu(container, asset) {
+		//render the vertical menu ()
+			paper = Snap("#" + container);
+			
+			var buttons = new Array();
+
+			var mIter = 0;
+			var sIter = 0;
+
+			var lastIdx;
+
+			//check the lazy loader first	
+			if(externalAssets["svg-menu"]["vertical-menu"]["loadstate"] == "complete") {
+					for(b = 0; b < menuItems.length; b++) { 			
+					//if parent == 0 it's a main menu item. Parent contains the parent idx
+						if(menuItems[b].parent == 0) {
+							//main menu
+								// clone asset & append to stage
+							var buttonAsset = asset;
+								//buttonAsset.id = "main-button-" + menuItems[b].idx;
+								
+								
+
+									//"portfolio"
+								paper.append( buttonAsset ); 
+							
+						}
+					
+					}
+
+
+			}
+
+	}
+
 	function renderMenuButtons(container, asset) {
 		//render the menu ()
 			paper = Snap("#" + container);
@@ -568,6 +604,8 @@
 				var mIter = 0;
 				var sIter = 0;
 				var lastIdx;
+
+
 				
 			//check the lazy loader first	
 				if(externalAssets[container]["button-main"]["loadstate"] == "complete") {
@@ -1443,6 +1481,7 @@ var loadCount = 0;
 					transparentOverlay.mouseout(postHandle);
 					transparentOverlay.mousedown(postHandle);
 					transparentOverlay.mouseup(postHandle);
+					transparentOverlay.click(postHandle);
 					transparentOverlay.touchstart(postHandle);
 					transparentOverlay.touchend(postHandle);
 				
@@ -1502,10 +1541,10 @@ var loadCount = 0;
 														//more-button or next-button or previous-button
 														paper.append(externalAssets["post"][ass]['asset'].node.cloneNode(true));	
 														//lets tweak the size now
-														paper.select(cStr + " #" + ass).attr({"y" : "72%", "x" : "37%"});
+														paper.select(cStr + " #" + ass).attr({"y" : "86%", "x" : "37%"}); //y = 72%
 														
 														if(jQuery("body").hasClass("category")) {
-															paper.select(cStr + " #" + ass + " g").transform("s0.31");
+															paper.select(cStr + " #" + ass + " g").transform("s0.61");
 														} else {
 															paper.select(cStr + " #" + ass + " g").transform("s0.61");
 														}
@@ -1608,10 +1647,11 @@ var loadCount = 0;
 					var pWidth = (29) * num
 					
 					if(jQuery("body").hasClass("category")) {
-															//scale a little aswell
-															paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
+															//not scaling a little aswell 
+															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.76) ); //0.61
+															//paper.transform("s0.5t" + (wVal - pWidth) + "," + (hVal * 1.42) );
 													} else {
-															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.61) );
+															paper.transform("t" + (wVal / 2 - pWidth / 2) + "," + (hVal * 0.76) );
 													}
 														
 				//paper.attr();
@@ -1729,19 +1769,51 @@ var loadCount = 0;
 
 		
 	}
+
 	function paginate(event) {
 		//console.log("paginate", event);
+		var paginatorInstance;
+		var paginatorContainer;
+
+		var parentId;
+		var imgId;
+
 		switch(event.type){
 			case "mouseover":
-						console.log("paginate over: ", event.fromElement.nearestViewportElement.id);
+						console.log("paginate over: ", event.fromElement.nearestViewportElement);
+			break;
+			case "mouseout":
+						console.log("paginate out: ", event.fromElement.nearestViewportElement);
 			break;
 			case "mousedown":
-						console.log("paginate mousedown: ", event.srcElement.nearestViewportElement.id);
+						console.log("paginate mousedown: ", event)//.srcElement.nearestViewportElement.id);
 			break;
 			case "mouseup":
 
-						var parentId = event.srcElement.farthestViewportElement.id;
-						var imgId = event.srcElement.nearestViewportElement.id;
+							parentId = event.srcElement.farthestViewportElement.id;
+							parentId = parentId.substr( parentId.lastIndexOf("-") + 1 );
+
+						
+						var active = jQuery('#gallery-cycler-' + parentId + ' .active-img');
+
+							imgId = event.srcElement.nearestViewportElement.id;
+							imgId = imgId.substr( imgId.lastIndexOf("-") + 1);
+
+						var activate = jQuery("#gallery-cycler-" + parentId + " img").eq(imgId);
+							activate.css("z-index", 2);
+							activate.addClass("active-image");
+
+							active.fadeOut(1100,function(){//fade out the top image
+      						active.css('z-index',1).show().removeClass('active-img');//reset the z-index and unhide the image
+      						activate.css('z-index',3).addClass('active-img');//make the next image the top one
+      						paginatorInstance = Snap.select("#paginators-" + parentId + " .active-paginator g#paginator-radio circle#paginator-selected").animate({ r : 0.1 }, 101, mina.easein);
+      						paginatorInstance = Snap.select("#paginators-" + parentId + " .active-paginator").removeClass("active-paginator");
+      						
+      						//paginatorContainer.
+      						//paginatorContainer = paginatorContainer.select();
+      						paginatorInstance = Snap.select("#paginators-" + parentId + " #paginator-" + imgId).addClass('active-paginator');	
+      						paginatorInstance = Snap.select("#paginators-" + parentId + " #paginator-" + imgId + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein);
+      					});
 						//var slideImages 
 						console.log("paginate mouseup: ", parentId, imgId);
 			break;
@@ -1758,6 +1830,7 @@ var loadCount = 0;
       				next.css('z-index',3).addClass('active-img');//make the next image the top one
       				*/
 	}
+
 	function postHandle(event) {
 		/* 
 				the handler for the post cover :: svg-gallery-controls 
@@ -1811,7 +1884,7 @@ var loadCount = 0;
 */
 					/* animate to invisible :: post control buttons */
 			break;
-			case "mouseup":
+			case "click":
 					/* 
 						click() the link in ::
 							article > header.entry-header > h1.entry-title > a
@@ -1837,7 +1910,7 @@ var loadCount = 0;
   					{ points: [0,0, 0,261, 300,100, 300,0] },
   					161, mina.easein);
 					
-					jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
+					//jQuery("#post-" + idx + " .entry-header .entry-title a")[0].click();
 					
 			break;
 			default:
@@ -1904,22 +1977,25 @@ var loadCount = 0;
       				next.css('z-index',3).addClass('active-img');//make the next image the top one
 
       				//current paginator
-      				var paginators = Snap.select("#svg-gallery-controls-" + idx);
-      					paginators.select("#paginators-" + idx + " #paginator-" + (gIter[idx]) + " g#paginator-radio circle#paginator-selected").animate({ r : 0.1 }, 101, mina.easein);										
+      				var paginators = Snap.select("#paginators-" + idx + " #paginator-" + (gIter[idx]) + " g#paginator-radio circle#paginator-selected").animate({ r : 0.1 }, 101, mina.easein, function(){ paginators.removeClass('active-paginator')} );
+      					//paginators.select("#paginators-" + idx + " #paginator-" + (gIter[idx]) + " g#paginator-radio circle#paginator-selected").animate({ r : 0.1 }, 101, mina.easein, function(){ paginators.removeClass('active-paginator')} );
+      					//paginators.select("#paginators-" + idx + " #paginator-" + (gIter[idx])).removeClass('active-paginator');			
 																	
       				// track iteration per idx for paginator and button control
       				if(gIter[idx] == (jQuery('#gallery-cycler-' + idx + ' img.feat-gallery').length -1)) {
 											
 																	gIter[idx] = 0;
 																	// next paginator
-																	paginators = Snap.select("#svg-gallery-controls-" + idx);
-																	paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein);	
+																	paginators = Snap.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein, function(){ paginators.addClass('active-paginator')} );
+																	//paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein, function(){ paginators.addClass('active-paginator')} );
+																	//paginators.addClass('active-paginator');	
 					
 					} else {
 																	gIter[idx] += 1;
 																	// next paginator
-																	paginators = Snap.select("#svg-gallery-controls-" + idx);
-																	paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein);	
+																	paginators = Snap.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein, function(){ paginators.addClass("active-paginator")} );
+																	//paginators.select("#paginators-" + idx + " #paginator-" + gIter[idx] + " g#paginator-radio circle#paginator-selected").animate({ r : 4.5 }, 101, mina.easein, function(){ paginators.addClass("active-paginator")} );
+																	
 					
 																	//console.log("plus gIter: " + idx + " ::" + gIter[idx], jQuery('#gallery-cycler-' + idx + ' img.feat-gallery').length);
 					}

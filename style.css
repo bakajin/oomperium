@@ -619,6 +619,15 @@ a.more-link {
 	overflow : visible;
 }
 
+#svg-vertical-menu {
+	height: 1723px;
+    width: auto;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+
+}
+
 .main-menu-button, .main-menu-sub, .social-menu-button, .gallery-button, .more-cls-1 {
 	cursor: pointer;
 	overflow: visible;

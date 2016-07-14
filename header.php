@@ -96,10 +96,13 @@
 		<svg id="svg-menu">
 			<defs></defs>
 		</svg>
+		<svg id="svg-vertical-menu">
+			<defs></defs>
+		</svg>
 		<script>
 			menuInit("#svg-menu");
 		</script>
-	</div>	
+	</div>
 	</header><!-- #masthead -->
 
 	<div id="content" class="site-content">
